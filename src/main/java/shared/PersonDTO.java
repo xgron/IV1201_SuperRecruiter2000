@@ -9,8 +9,16 @@ public class PersonDTO {
     private String email;
     private String password;
     private String userName;
-    private String ssn;
+    private int ssn;
+    private String userId;
 
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getUserName() {
         return userName;
@@ -28,11 +36,11 @@ public class PersonDTO {
         this.firstName = firstName;
     }
 
-    public String getSsn() {
+    public int getSsn() {
         return ssn;
     }
 
-    public void setSsn(String ssn) {
+    public void setSsn(int ssn) {
         this.ssn = ssn;
     }
 
