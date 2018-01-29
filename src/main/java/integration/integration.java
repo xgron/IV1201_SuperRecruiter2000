@@ -28,11 +28,7 @@ public class integration {
 
     public static void main(String[] args) {
         java.sql.Date from = new java.sql.Date(120, 6, 01);
-        java.sql.Date to = new java.sql.Date(120, 6, 30);
-
-        Availability av = new Availability(12345, from, to);
-        System.out.println(av);
-        callAvailability.createAvailability(av, factory, session);
+        System.out.println(callAvailability.readAvailability(12345, from, factory, session));
 
 
     }
@@ -53,5 +49,14 @@ public class integration {
         Person person = new Person(ssn, name, surname, email, password, role_name, username, hired, registrationdate);
 
         callPerson.createPerson(person, factory, session);
+    }
+
+    public static void makeTestAvailability(){
+        java.sql.Date from = new java.sql.Date(120, 6, 01);
+        java.sql.Date to = new java.sql.Date(120, 6, 30);
+
+        Availability av = new Availability(12345, from, to);
+        System.out.println(av);
+        callAvailability.createAvailability(av, factory, session);
     }
 }
