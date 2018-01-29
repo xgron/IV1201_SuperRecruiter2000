@@ -1,6 +1,7 @@
 package view.entrypoints;
 
 
+import controller.UserController;
 import org.springframework.beans.BeanUtils;
 import shared.PersonDTO;
 import view.response.UserRest;
@@ -22,10 +23,12 @@ public class UsersEntryPoint {
     public UserRest createUser(UserRest requestObject) {
         PersonDTO personDTO = new PersonDTO();
         UserRest returnValue = new UserRest();
-
         BeanUtils.copyProperties(requestObject, personDTO);
 
-        System.out.println(personDTO);
+        UserController userController = new UserController();
+        BeanUtils.copyProperties(requestObject, personDTO);
+        userController.registerUser(personDTO);
+
 
         BeanUtils.copyProperties(requestObject, returnValue);
 
@@ -50,11 +53,12 @@ public class UsersEntryPoint {
                                    @DefaultValue("1000")@QueryParam("limit") int limit) {
         List<UserRest> returnValue = null;
 
+
         return returnValue;
     }
 
 
-    
+
 
 
 }
