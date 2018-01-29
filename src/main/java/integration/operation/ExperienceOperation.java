@@ -1,17 +1,15 @@
 package integration.operation;
 
-import integration.entity.Competence;
+import integration.entity.Experience;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-public class callCompetence {
-    public static void createCompetence(String name, SessionFactory factory, Session session) {
+public class ExperienceOperation {
+    public static void createExperience(Experience exp, SessionFactory factory, Session session){
         try {
             session.beginTransaction();
 
-            Competence comp = new Competence(name);
-
-            session.save(comp);
+            session.save(exp);
 
             session.getTransaction().commit();
 
@@ -20,16 +18,18 @@ public class callCompetence {
         }
     }
 
-    public static Competence readCompetence(String name, SessionFactory factory, Session session){
+    public static Experience readExperience(int ssn, String comp, SessionFactory factory, Session session){
         try {
             session = factory.getCurrentSession();
             session.beginTransaction();
 
-            Competence foundComp = session.get(Competence.class, name);
+            Experience exp = new Experience(ssn, comp);
+
+            Experience foundRole = session.get(Experience.class, exp);
 
             session.getTransaction().commit();
 
-            return foundComp;
+            return foundRole;
         } finally {
             factory.close();
         }

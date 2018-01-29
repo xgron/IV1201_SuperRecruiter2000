@@ -4,7 +4,7 @@ import integration.entity.Person;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-public class callPerson {
+public class PersonOperation {
     public static void createPerson(Person person, SessionFactory factory, Session session){
         try {
             session.beginTransaction();

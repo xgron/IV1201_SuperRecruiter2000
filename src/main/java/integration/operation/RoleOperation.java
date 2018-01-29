@@ -1,15 +1,15 @@
 package integration.operation;
 
-import integration.entity.Availability;
+import integration.entity.Role;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-public class callAvailability {
-    public static void createAvailability(Availability av, SessionFactory factory, Session session){
+public class RoleOperation {
+    public static void createRole(Role role, SessionFactory factory, Session session){
         try {
             session.beginTransaction();
 
-            session.save(av);
+            session.save(role);
 
             session.getTransaction().commit();
 
@@ -18,14 +18,12 @@ public class callAvailability {
         }
     }
 
-    public static Availability readAvailability(int ssn, java.sql.Date startDate, SessionFactory factory, Session session){
+    public static Role readRole(String name, SessionFactory factory, Session session){
         try {
             session = factory.getCurrentSession();
             session.beginTransaction();
 
-            Availability av = new Availability(ssn, startDate);
-
-            Availability foundRole = session.get(Availability.class, av);
+            Role foundRole = session.get(Role.class, name);
 
             session.getTransaction().commit();
 
