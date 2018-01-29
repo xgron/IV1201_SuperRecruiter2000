@@ -20,12 +20,12 @@ public class PersonOperation {
         }
     }
 
-    public static Person readPerson(int ssn, SessionFactory factory, Session session){
+    public static Person readPerson(String userID, SessionFactory factory, Session session){
         try {
             session = factory.getCurrentSession();
             session.beginTransaction();
 
-            Person foundPerson = session.get(Person.class, ssn);
+            Person foundPerson = session.get(Person.class, userID);
 
             session.getTransaction().commit();
 
