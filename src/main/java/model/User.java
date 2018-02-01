@@ -6,6 +6,7 @@ import shared.PersonDTO;
 import java.util.Random;
 
 public class User {
+    /*public static boolean registerUser(PersonDTO person)
 
     DBPortal portal;
     public User(DBPortal portal){
@@ -34,5 +35,5 @@ public class User {
             userid = userid + alphabet.charAt(r.nextInt(alphabet.length()));
         }
         return userid;
-    }
+    }*/
 }
