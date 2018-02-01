@@ -5,23 +5,33 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 public class ExperienceOperation {
-    public static void createExperience(Experience exp, SessionFactory factory, Session session){
+    /**
+     * This method creates an entry to the "experience"-table in the DB.
+     * @param  experience  is of the entity object "Experience" and is the object that will be created in the DB.
+     * @param  factory  is the programs SessionFactory.
+     */
+    public static void createExperience(Experience experience, SessionFactory factory){
         try {
-            session = factory.getCurrentSession();
+            Session session = factory.getCurrentSession();
             session.beginTransaction();
 
-            session.save(exp);
+            session.save(experience);
 
             session.getTransaction().commit();
 
         } finally {
-            factory.close();
         }
     }
 
-    public static Experience readExperience(int ssn, String comp, SessionFactory factory, Session session){
+    /**
+     * This method searches in the DB for an "Experience"-entry with a specific SSN.
+     * @param  ssn  is the key that will be searched for.
+     * @param  factory  is the programs SessionFactory.
+     * @return  Returns the found object. If no object is found, null will be returned.
+     */
+    public static Experience readExperience(int ssn, String comp, SessionFactory factory){
         try {
-            session = factory.getCurrentSession();
+            Session session = factory.getCurrentSession();
             session.beginTransaction();
 
             Experience exp = new Experience(ssn, comp);
@@ -32,7 +42,6 @@ public class ExperienceOperation {
 
             return foundRole;
         } finally {
-            factory.close();
         }
     }
 }
