@@ -21,6 +21,10 @@ public class DBPortal {
 
     private Session session = factory.getCurrentSession();
 
+    /**
+     * This method will register a user to the database
+     * @param  PersonDTO    the object containing all user data to be saved to the database
+     */
     public void registerUser(PersonDTO personDTO){
         int ssn = Integer.parseInt(personDTO.getSsn());
         String name = personDTO.getFirstName();
@@ -38,6 +42,11 @@ public class DBPortal {
         PersonOperation.createPerson(person, factory, session);
     }
 
+    /**
+     * This method checks if the username is taken or not. Will return true if the username is taken, and false if it is free.
+     * @param  username     the username that is checked
+     * @return      the answer to "is username XXX taken?"
+     */
     public Boolean usernameTaken(String username){
         try{
             session = factory.getCurrentSession();
@@ -61,6 +70,11 @@ public class DBPortal {
 
     }
 
+    /**
+     * This method checks if the SSN is taken or not. Will return true if the SSN is taken, and false if it is free.
+     * @param  ssn     the SSN that is checked
+     * @return      the answer to "is SSN XXX taken?"
+     */
     public Boolean ssnTaken(int ssn){
         try{
             session = factory.getCurrentSession();
@@ -82,6 +96,4 @@ public class DBPortal {
         }finally {
         }
     }
-
-    
 }
