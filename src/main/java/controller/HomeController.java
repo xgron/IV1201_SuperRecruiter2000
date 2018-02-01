@@ -1,12 +1,17 @@
 package controller;
 
+import model.Model;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import shared.PersonDTO;
 
 @Controller
 public class HomeController {
-    @GetMapping("/hello")
-    public String handle(Model model) {
-        model.addAttribute("message", "Hello World!");
-        return "index";
+    public model.Model modelObject = new model.Model();
+
+    @RequestMapping("/RegisterUser")
+    public boolean registerUser(PersonDTO person) {
+        boolean check = modelObject.user.registerUser(person);
+        return check;
     }
 }
