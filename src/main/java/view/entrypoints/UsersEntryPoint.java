@@ -1,7 +1,7 @@
 package view.entrypoints;
 
 
-import controller.UserController;
+import controller.HomeController;
 import org.springframework.beans.BeanUtils;
 import shared.PersonDTO;
 import view.response.UserRest;
@@ -24,11 +24,8 @@ public class UsersEntryPoint {
         PersonDTO personDTO = new PersonDTO();
         UserRest returnValue = new UserRest();
         BeanUtils.copyProperties(requestObject, personDTO);
-
-        UserController userController = new UserController();
-        BeanUtils.copyProperties(requestObject, personDTO);
+        HomeController userController = new HomeController();
         userController.registerUser(personDTO);
-
 
         BeanUtils.copyProperties(requestObject, returnValue);
 
@@ -52,9 +49,24 @@ public class UsersEntryPoint {
     public List<UserRest> getUsers(@DefaultValue("0") @QueryParam("start") int start,
                                    @DefaultValue("1000")@QueryParam("limit") int limit) {
         List<UserRest> returnValue = null;
-
-
+       /* List<PersonDTO> users = HomeController.getusers(start, limit);
+        for(PersonDTO personDto: users) {
+            UserRest user = new UserRest();
+            BeanUtils.copyProperties(personDto, user);
+            returnValue.add(user);
+        }
+        */
         return returnValue;
+    }
+
+
+    @GET
+    @Path("/application")
+    @Produces(MediaType.APPLICATION_JSON)
+    public UserRest getApplication() {
+        UserRest user = new UserRest();
+        user.setFirstName("Bob");
+        return user;
     }
 
 
