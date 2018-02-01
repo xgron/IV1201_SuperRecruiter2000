@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 public class RoleOperation {
     public static void createRole(Role role, SessionFactory factory, Session session){
         try {
+            session = factory.getCurrentSession();
             session.beginTransaction();
 
             session.save(role);

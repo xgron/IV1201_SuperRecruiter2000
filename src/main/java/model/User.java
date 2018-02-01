@@ -10,7 +10,7 @@ public class User {
 
     DBPortal portal;
     public User(DBPortal portal){
-    this.portal = portal;
+        this.portal = portal;
     }
     public boolean registerUser(PersonDTO person)
     {

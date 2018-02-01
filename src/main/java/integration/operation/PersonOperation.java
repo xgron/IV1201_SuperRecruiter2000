@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 public class PersonOperation {
     public static void createPerson(Person person, SessionFactory factory, Session session){
         try {
+            session = factory.getCurrentSession();
             session.beginTransaction();
 
             session.save(person);

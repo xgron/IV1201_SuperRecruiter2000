@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 public class AvailabilityOperation {
     public static void createAvailability(Availability av, SessionFactory factory, Session session){
         try {
+            session = factory.getCurrentSession();
             session.beginTransaction();
 
             session.save(av);

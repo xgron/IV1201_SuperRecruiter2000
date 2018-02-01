@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 public class ExperienceOperation {
     public static void createExperience(Experience exp, SessionFactory factory, Session session){
         try {
+            session = factory.getCurrentSession();
             session.beginTransaction();
 
             session.save(exp);
