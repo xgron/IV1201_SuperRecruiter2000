@@ -17,6 +17,24 @@ import java.util.List;
 @Path("/users")
 public class UsersEntryPoint {
 
+
+    /**
+     *   This method is to be called when desiring to create a user
+     *  In case the username is available a corresponding object containing
+     *  the new user's userID will be returned
+     * <p>
+     * In case the username is not availabe an appropriate error message will
+     * be sent
+     *
+     * @param  username  the requested username
+     * @param  password the desired password for the user
+     * @param  email the email of the user
+     * @param surname the surname of the user
+     * @param firstname the first name of the user
+     * @param ssn the user's social security number
+     * @return a Json object with the corresponding userID or an error message
+     */
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
@@ -24,6 +42,7 @@ public class UsersEntryPoint {
         PersonDTO personDTO = new PersonDTO();
         UserRest returnValue = new UserRest();
         BeanUtils.copyProperties(requestObject, personDTO);
+        System.out.println(personDTO);
         HomeController userController = new HomeController();
         userController.registerUser(personDTO);
 
@@ -31,6 +50,17 @@ public class UsersEntryPoint {
 
         return returnValue ;
     }
+
+    /**
+     *  This method will give you all pertinent information regarding
+     *  a user by giving it the id of the user
+     * <p>
+     * In case the username is not in the database an appropriate error message will
+     * be sent
+     *
+     * @param  iD the userId of the desired user
+     * @return a Json object with the corresponding data related to the user
+     */
 
     @GET
     @Path("/{id}")
@@ -43,10 +73,19 @@ public class UsersEntryPoint {
         return returnvalue;
     }
 
+    /**
+     * This method will give you the applicants from a desired
+     * start to a limit
+     * <p>
+     * @param start whih user to start with
+     * @param  limit which user to end on, if no value is given it will default to 1000
+     * @return a Json object with the corresponding data related to the user
+     */
+
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<UserRest> getUsers(@DefaultValue("0") @QueryParam("start") int start,
+    public List<UserRest> getApplicants(@DefaultValue("0") @QueryParam("start") int start,
                                    @DefaultValue("1000")@QueryParam("limit") int limit) {
         List<UserRest> returnValue = null;
        /* List<PersonDTO> users = HomeController.getusers(start, limit);
@@ -60,7 +99,17 @@ public class UsersEntryPoint {
     }
 
 
-    @GET
+    /**
+     * This method will take an application
+     * of a registered user in the system
+     * <p>
+     * @param availability a list containing the dates the user is available
+     * @param competencies a list of competencies the user possesses
+     * @param  limit which user to end on, if no value is given it will default to 1000
+     * @return a Json object with the corresponding data related to the user
+     */
+
+    @POST
     @Path("/application")
     @Produces(MediaType.APPLICATION_JSON)
     public UserRest getApplication() {

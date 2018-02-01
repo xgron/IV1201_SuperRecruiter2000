@@ -8,7 +8,7 @@ public class TESTER_Model {
         PersonDTO pd = new PersonDTO();
         pd.setFirstName("Frodo");
         pd.setSurname("Baggins");
-        pd.setSsn(000000);
+        pd.setSsn("000000");
         pd.setEmail("frodo@bag.end");
         pd.setPassword("lösenord");
         pd.setUserName("frodo");

@@ -16,19 +16,17 @@ import java.util.List;
 
 
 public class DBPortal {
-    private static SessionFactory factory = new Configuration().configure()
-            .addAnnotatedClass(Role.class)
-            .addAnnotatedClass(Person.class)
-            .addAnnotatedClass(Experience.class)
-            .addAnnotatedClass(Competence.class)
-            .addAnnotatedClass(Availability.class)
-            .buildSessionFactory();
+    private Factory factoryObj = new Factory();
+    private SessionFactory factory = factoryObj.getFactory();
 
-    private static Session session = factory.getCurrentSession();
+    private Session session = factory.getCurrentSession();
 
+    /**
+     * This method will register a user to the database
+     * @param  PersonDTO    the object containing all user data to be saved to the database
+     */
     public void registerUser(PersonDTO personDTO){
-        //ALSO INCLUDE KEY AFTER DB IS CHANGED
-        int ssn = personDTO.getSsn();
+        int ssn = Integer.parseInt(personDTO.getSsn());
         String name = personDTO.getFirstName();
         String surname = personDTO.getSurname();
         String email = personDTO.getEmail();
@@ -44,6 +42,11 @@ public class DBPortal {
         PersonOperation.createPerson(person, factory, session);
     }
 
+    /**
+     * This method checks if the username is taken or not. Will return true if the username is taken, and false if it is free.
+     * @param  username     the username that is checked
+     * @return      the answer to "is username XXX taken?"
+     */
     public Boolean usernameTaken(String username){
         try{
             session = factory.getCurrentSession();
@@ -54,14 +57,24 @@ public class DBPortal {
                 c++;
             }
             session.getTransaction().commit();
-            if(c == 0)  return false;
-            else return true;
+            if(c == 0){
+                System.out.println("* username: " + username + " is not taken.");
+                return false;
+            }
+            else{
+                System.out.println("* username: " + username + " is taken.");
+                return true;
+            }
         }finally {
-            System.out.println("usernameTaken DONE.");
         }
 
     }
 
+    /**
+     * This method checks if the SSN is taken or not. Will return true if the SSN is taken, and false if it is free.
+     * @param  ssn     the SSN that is checked
+     * @return      the answer to "is SSN XXX taken?"
+     */
     public Boolean ssnTaken(int ssn){
         try{
             session = factory.getCurrentSession();
@@ -72,11 +85,15 @@ public class DBPortal {
                 c++;
             }
             session.getTransaction().commit();
-            if(c == 0)  return false;
-            else return true;
+            if(c == 0){
+                System.out.println("* SSN: " + ssn + " is not taken.");
+                return false;
+            }
+            else{
+                System.out.println("* SSN: " + ssn + " is taken.");
+                return true;
+            }
         }finally {
-            System.out.println("ssnTaken DONE");
         }
-
     }
 }
