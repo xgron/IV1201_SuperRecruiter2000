@@ -9,7 +9,7 @@ public class PersonDTO {
     private String email;
     private String password;
     private String userName;
-    private int ssn;
+    private String ssn;
     private String userId;
 
     public String getUserId() {
@@ -36,11 +36,11 @@ public class PersonDTO {
         this.firstName = firstName;
     }
 
-    public int getSsn() {
+    public String getSsn() {
         return ssn;
     }
 
-    public void setSsn(int ssn) {
+    public void setSsn(String ssn) {
         this.ssn = ssn;
     }
 

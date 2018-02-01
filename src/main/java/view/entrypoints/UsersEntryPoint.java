@@ -24,6 +24,7 @@ public class UsersEntryPoint {
         PersonDTO personDTO = new PersonDTO();
         UserRest returnValue = new UserRest();
         BeanUtils.copyProperties(requestObject, personDTO);
+        System.out.println(personDTO);
         HomeController userController = new HomeController();
         userController.registerUser(personDTO);
 

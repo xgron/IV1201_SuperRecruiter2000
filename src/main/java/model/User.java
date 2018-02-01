@@ -14,7 +14,7 @@ public class User {
     }
     public boolean registerUser(PersonDTO person)
     {
-        if(portal.ssnTaken(person.getSsn()))
+        if(portal.ssnTaken(Integer.parseInt(person.getSsn())))
             return false;
         else if(portal.usernameTaken(person.getUserName()))
             return false;
