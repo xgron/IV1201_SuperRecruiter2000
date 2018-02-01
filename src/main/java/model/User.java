@@ -1,6 +1,7 @@
 package model;
 
 import integration.DBPortal;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import shared.PersonDTO;
 
 import java.util.Random;
@@ -19,9 +20,15 @@ public class User {
                 return false;
             else
                 {
+                    person.setPassword(BCrypt.hashpw(person.getPassword(), BCrypt.gensalt()))   ;
                     person.setUserId(generateUserID());
                     integration.DBPortal.registerUser(person);
+                    return true;
                 }
+
+    }
+    public boolean loginUser(String Username, String Password){
+        return false;
     }
 
     public String generateUserID(){

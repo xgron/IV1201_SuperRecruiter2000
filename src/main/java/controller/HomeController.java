@@ -1,6 +1,6 @@
 package controller;
 
-import model.Model;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import shared.PersonDTO;
@@ -12,6 +12,11 @@ public class HomeController {
     @RequestMapping("/RegisterUser")
     public boolean registerUser(PersonDTO person) {
         boolean check = modelObject.user.registerUser(person);
+        return check;
+    }
+    @RequestMapping("/LoginUser")
+    public boolean loginUser(PersonDTO person) {
+        boolean check = modelObject.user.loginUser(person);
         return check;
     }
 }
