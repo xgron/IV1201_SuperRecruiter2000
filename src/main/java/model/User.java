@@ -9,29 +9,49 @@ import java.util.Random;
 public class User {
 
     DBPortal portal;
+    /**
+     *  Constructor for the User class.
+     *
+     * @param   portal  a DBPortal object(Database Portal). The model communicates only with DBPortal in the Integrationlayer.
+     */
     public User(DBPortal portal){
         this.portal = portal;
     }
-    public boolean registerUser(PersonDTO person)
+
+    /**
+     *  This method is called from the Control layer when a someone is trying to register a new user.
+     *
+     *  Calls ssnTaken and usernameTaken from DBPortal in the integration layer to check if the
+     *  Social Security Number or the Username already exists. If one of them exists(if ssnTaken or usernameTaken
+     *  returns TRUE), it returns null, which indicates that the registration failed.
+     *
+     *  If none of them exists, it uses BCrypt to encrypt the password of the person, generates a UserID using
+     *  generateUserID(), and calls registerUser from DBPortal, and returns the PersonDTO back to the Controller.
+     *
+     *
+     * @param   person  A PersonDTO(Person Data Transfer Object), which contains all necessary data for a person.
+     * @return  person  A PersonDTO(Person Data Transfer Object), now with encrypted password and a UserID.
+     */
+    public PersonDTO registerUser(PersonDTO person)
     {
         if(portal.ssnTaken(person.getSsn()))
-            return false;
+            return null;
             else if(portal.usernameTaken(person.getUserName()))
-                return false;
+                return null;
             else
                 {
                     person.setPassword(BCrypt.hashpw(person.getPassword(), BCrypt.gensalt()))   ;
                     person.setUserId(generateUserID());
-                    integration.DBPortal.registerUser(person);
-                    return true;
+                    portal.registerUser(person);
+                    return person;
                 }
 
     }
-    public boolean loginUser(String Username, String Password){
+    /*public boolean loginUser(String Username, String Password){
         return false;
-    }
+    }*/
 
-    public String generateUserID(){
+    private String generateUserID(){
 
         Random r = new Random();
 
