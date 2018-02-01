@@ -45,26 +45,38 @@ public class DBPortal {
     }
 
     public Boolean usernameTaken(String username){
-        session.beginTransaction();
-        List<Person> personList = session.createQuery("from Person p where p.username='" + username + "'").getResultList();
-        int c = 0;
-        for(Person tp : personList){
-            c++;
+        try{
+            session = factory.getCurrentSession();
+            session.beginTransaction();
+            List<Person> personList = session.createQuery("from Person p where p.username='" + username + "'").getResultList();
+            int c = 0;
+            for(Person tp : personList){
+                c++;
+            }
+            session.getTransaction().commit();
+            if(c == 0)  return false;
+            else return true;
+        }finally {
+            System.out.println("usernameTaken DONE.");
         }
-        session.getTransaction().commit();
-        if(c == 0)  return false;
-        else return true;
+
     }
 
     public Boolean ssnTaken(int ssn){
-        session.beginTransaction();
-        List<Person> personList = session.createQuery("from Person p where p.ssn='" + ssn + "'").getResultList();
-        int c = 0;
-        for(Person tp : personList){
-            c++;
+        try{
+            session = factory.getCurrentSession();
+            session.beginTransaction();
+            List<Person> personList = session.createQuery("from Person p where p.ssn='" + ssn + "'").getResultList();
+            int c = 0;
+            for(Person tp : personList){
+                c++;
+            }
+            session.getTransaction().commit();
+            if(c == 0)  return false;
+            else return true;
+        }finally {
+            System.out.println("ssnTaken DONE");
         }
-        session.getTransaction().commit();
-        if(c == 0)  return false;
-        else return true;
+
     }
 }

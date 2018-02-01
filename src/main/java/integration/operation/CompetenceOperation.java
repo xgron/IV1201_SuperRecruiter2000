@@ -7,6 +7,7 @@ import org.hibernate.SessionFactory;
 public class CompetenceOperation {
     public static void createCompetence(String name, SessionFactory factory, Session session) {
         try {
+            session = factory.getCurrentSession();
             session.beginTransaction();
 
             Competence comp = new Competence(name);

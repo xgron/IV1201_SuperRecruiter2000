@@ -1,28 +1,33 @@
 package model;
 
 import integration.DBPortal;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import shared.PersonDTO;
 
 import java.util.Random;
 
 public class User {
-    /*public static boolean registerUser(PersonDTO person)
 
     DBPortal portal;
     public User(DBPortal portal){
-    this.portal = portal;
+        this.portal = portal;
     }
     public boolean registerUser(PersonDTO person)
     {
         if(portal.ssnTaken(person.getSsn()))
             return false;
-            else if(portal.usernameTaken(person.getUserName()))
-                return false;
-            else
-                {
-                    person.setUserId(generateUserID());
-                    integration.DBPortal.registerUser(person);
-                }
+        else if(portal.usernameTaken(person.getUserName()))
+            return false;
+        else
+        {
+            person.setPassword(BCrypt.hashpw(person.getPassword(), BCrypt.gensalt()))   ;
+            person.setUserId(generateUserID());
+            portal.registerUser(person);
+            return true;
+        }
+    }
+    public boolean loginUser(String Username, String Password){
+        return true;
     }
 
     public String generateUserID(){
@@ -35,5 +40,5 @@ public class User {
             userid = userid + alphabet.charAt(r.nextInt(alphabet.length()));
         }
         return userid;
-    }*/
+    }
 }
