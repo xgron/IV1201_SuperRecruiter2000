@@ -1,15 +1,21 @@
 package model;
 
+import integration.DBPortal;
 import shared.PersonDTO;
 
 import java.util.Random;
 
 public class User {
+
+    DBPortal portal;
+    public User(DBPortal portal){
+    this.portal = portal;
+    }
     public boolean registerUser(PersonDTO person)
     {
-        if(integration.DBPortal.checkIfSSN(person.getSsn()))
+        if(portal.ssnTaken(person.getSsn()))
             return false;
-            else if(integration.DBPortal.checkIfUsername(person.getUserName()))
+            else if(portal.usernameTaken(person.getUserName()))
                 return false;
             else
                 {
