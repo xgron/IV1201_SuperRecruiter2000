@@ -1,22 +1,31 @@
 package model;
 
+import integration.DBPortal;
+import shared.PersonDTO;
+
 import java.util.Random;
 
 public class User {
     /*public static boolean registerUser(PersonDTO person)
+
+    DBPortal portal;
+    public User(DBPortal portal){
+    this.portal = portal;
+    }
+    public boolean registerUser(PersonDTO person)
     {
-        if(integration.dbPortal.checkIfExists(person.getSSN, "person", "SSN"))
+        if(portal.ssnTaken(person.getSsn()))
             return false;
-            else if(integration.dbPortal.checkIfExists(person.getUsername, "person", "username"))
+            else if(portal.usernameTaken(person.getUserName()))
                 return false;
             else
                 {
-                    person.setID(generateUserID());
-                    integration.dbPortal.createUser(person);
+                    person.setUserId(generateUserID());
+                    integration.DBPortal.registerUser(person);
                 }
     }
 
-    public static String generateUserID(){
+    public String generateUserID(){
 
         Random r = new Random();
 
