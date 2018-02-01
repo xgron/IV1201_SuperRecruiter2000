@@ -3,7 +3,7 @@ package model;
 import java.util.Random;
 
 public class User {
-    public static boolean registerUser(PersonDTO person)
+    /*public static boolean registerUser(PersonDTO person)
     {
         if(integration.dbPortal.checkIfExists(person.getSSN, "person", "SSN"))
             return false;
@@ -11,7 +11,7 @@ public class User {
                 return false;
             else
                 {
-                    person.setID(generateUserID())
+                    person.setID(generateUserID());
                     integration.dbPortal.createUser(person);
                 }
     }
@@ -26,5 +26,5 @@ public class User {
             userid = userid + alphabet.charAt(r.nextInt(alphabet.length()));
         }
         return userid;
-    }
+    }*/
 }
