@@ -16,18 +16,19 @@ public class User {
     {
         if(portal.ssnTaken(Integer.parseInt(person.getSsn())))
             return false;
-        else if(portal.usernameTaken(person.getUserName()))
-            return false;
-        else
-        {
-            person.setPassword(BCrypt.hashpw(person.getPassword(), BCrypt.gensalt()))   ;
-            person.setUserId(generateUserID());
-            portal.registerUser(person);
-            return true;
-        }
+            else if(portal.usernameTaken(person.getUserName()))
+                return false;
+            else
+                {
+                    person.setPassword(BCrypt.hashpw(person.getPassword(), BCrypt.gensalt()))   ;
+                    person.setUserId(generateUserID());
+                    integration.DBPortal.registerUser(person);
+                    return true;
+                }
+
     }
     public boolean loginUser(String Username, String Password){
-        return true;
+        return false;
     }
 
     public String generateUserID(){
