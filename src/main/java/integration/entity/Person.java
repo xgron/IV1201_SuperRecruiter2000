@@ -37,10 +37,13 @@ public class Person {
     @Column(name="registration_date")
     private java.sql.Date registrationdate;
 
+    @Column(name="user_id")
+    private String userID;
+
     public Person() {
     }
 
-    public Person(int ssn, String name, String surname, String email, String password, String role_name, String username, Boolean hired, Date registrationdate) {
+    public Person(int ssn, String name, String surname, String email, String password, String role_name, String username, Boolean hired, Date registrationdate, String userID) {
         this.ssn = ssn;
         this.name = name;
         this.surname = surname;
@@ -50,17 +53,15 @@ public class Person {
         this.username = username;
         this.hired = hired;
         this.registrationdate = registrationdate;
+        this.userID = userID;
     }
 
-    public Person(int ssn, String name, String surname, String email, String password, String role_name, String username, Date registrationdate) {
-        this.ssn = ssn;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.password = password;
-        this.role_name = role_name;
-        this.username = username;
-        this.registrationdate = registrationdate;
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public int getSsn() {
