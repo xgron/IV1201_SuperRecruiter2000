@@ -2,12 +2,16 @@ package view.entrypoints;
 
 
 import controller.HomeController;
+import org.springframework.asm.Type;
 import org.springframework.beans.BeanUtils;
+import shared.ApplicationDTO;
 import shared.PersonDTO;
 import view.response.UserRest;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -58,7 +62,7 @@ public class UsersEntryPoint {
      * In case the username is not in the database an appropriate error message will
      * be sent
      *
-     * @param  iD the userId of the desired user
+     * @param  id the userId of the desired user
      * @return a Json object with the corresponding data related to the user
      */
 
@@ -68,7 +72,7 @@ public class UsersEntryPoint {
     public UserRest getUserProfile(@PathParam("id") String id) {
         UserRest returnvalue =  new UserRest();
 
-
+        returnvalue.setFirstName("Billy bob");
 
         return returnvalue;
     }
@@ -86,8 +90,18 @@ public class UsersEntryPoint {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public List<UserRest> getApplicants(@DefaultValue("0") @QueryParam("start") int start,
-                                   @DefaultValue("1000")@QueryParam("limit") int limit) {
-        List<UserRest> returnValue = null;
+                                                 @DefaultValue("1000")@QueryParam("limit") int limit) {
+
+
+        List<UserRest> returnValue = new ArrayList<UserRest>();
+
+        UserRest user1 = new UserRest();
+        user1.setFirstName("Bobby");
+        returnValue.add(user1);
+        UserRest user2 = new UserRest();
+        user2.setFirstName("Julio");
+        returnValue.add(user2);
+
        /* List<PersonDTO> users = HomeController.getusers(start, limit);
         for(PersonDTO personDto: users) {
             UserRest user = new UserRest();
@@ -110,12 +124,13 @@ public class UsersEntryPoint {
      */
 
     @POST
-    @Path("/application")
+    @Path("/{id}/application")
     @Produces(MediaType.APPLICATION_JSON)
-    public UserRest getApplication() {
-        UserRest user = new UserRest();
-        user.setFirstName("Bob");
-        return user;
+    public UserRest getApplication(@PathParam("id") String id) {
+        ApplicationDTO apd = new ApplicationDTO();
+        apd.setUserID(id);
+        System.out.println(apd.getUserID());
+        return new UserRest();
     }
 
 
