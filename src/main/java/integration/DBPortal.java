@@ -136,7 +136,7 @@ public class DBPortal {
     }
 
     /**
-     * This method enters the entire DateDTO into the availability table in the DB
+     * This method enters the entire ExperienceDTO into the availability table in the DB
      * @param  userID     the current user
      * @param  experience  a list with Experience DTO objects
      */
