@@ -30,7 +30,9 @@ public class TESTER_Integration {
       port.registerUser(person);
       */
 
-      System.out.println(port.ssnTaken(1347));
-      System.out.println(port.usernameTaken("batman"));
+      //System.out.println(port.ssnTaken(1347));
+      //System.out.println(port.usernameTaken("batman"));
+
+      //System.out.println(port.competenceExist("Bingoutropa"));
     }
 }

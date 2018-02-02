@@ -23,7 +23,7 @@ public class DBPortal {
 
     /**
      * This method will register a user to the database
-     * @param  PersonDTO    the object containing all user data to be saved to the database
+     * @param  personDTO    the object containing all user data to be saved to the database
      */
     public void registerUser(PersonDTO personDTO){
         int ssn = Integer.parseInt(personDTO.getSsn());
@@ -39,7 +39,7 @@ public class DBPortal {
 
         Person person = new Person(ssn, name, surname, email, password, role_name, username, hired, registrationdate, userID);
 
-        PersonOperation.createPerson(person, factory, session);
+        PersonOperation.createPerson(person, factory);
     }
 
     /**
@@ -91,6 +91,33 @@ public class DBPortal {
             }
             else{
                 System.out.println("* SSN: " + ssn + " is taken.");
+                return true;
+            }
+        }finally {
+        }
+    }
+
+    /**
+     * This method checks if the competence exist in the DB
+     * @param  competence     the competence that is checked
+     * @return      the answer to "does competence XXX exist in the DB?"
+     */
+    public Boolean competenceExist(String competence){
+        try{
+            session = factory.getCurrentSession();
+            session.beginTransaction();
+            List<Competence> competenceList = session.createQuery("from Competence c where c.name='" + competence + "'").getResultList();
+            int c = 0;
+            for(Competence tc : competenceList){
+                c++;
+            }
+            session.getTransaction().commit();
+            if(c == 0){
+                System.out.println("* Competence: " + competence + " does not exist in DB.");
+                return false;
+            }
+            else{
+                System.out.println("* Competence: " + competence + " does exist in DB.");
                 return true;
             }
         }finally {
