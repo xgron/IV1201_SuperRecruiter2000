@@ -39,7 +39,7 @@ public class DBPortal {
 
         Person person = new Person(ssn, name, surname, email, password, role_name, username, hired, registrationdate, userID);
 
-        PersonOperation.createPerson(person, factory, session);
+        PersonOperation.createPerson(person, factory);
     }
 
     /**

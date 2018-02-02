@@ -35,7 +35,7 @@ public class User {
     public PersonDTO registerUser(PersonDTO person)
     {
         if(portal.ssnTaken(Integer.parseInt(person.getSsn())))
-            return false;
+            return new PersonDTO();
             else if(portal.usernameTaken(person.getUserName()))
                 return null;
             else
