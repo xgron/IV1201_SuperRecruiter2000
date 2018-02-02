@@ -6,7 +6,7 @@ import shared.PersonDTO;
 
 @Controller
 public class HomeController {
-    public model.Model modelObject = new model.Model();
+    public model.Model model = new model.Model();
 
     /**
      *  This method is called from the View layer when a someone is trying to register a new user.
@@ -18,8 +18,12 @@ public class HomeController {
      * @return  user    The Registered User.
      */
     public PersonDTO registerUser(PersonDTO person) {
-        PersonDTO user = modelObject.user.registerUser(person);
+        PersonDTO user = model.user.registerUser(person);
         return user;
+    }
+    public boolean registerApplication(ApplicationDTO application){
+            boolean check = model.application.registerApplication(application);
+        return check;
     }
     /*@RequestMapping("/LoginUser")
     public boolean loginUser(String username, String password) {
