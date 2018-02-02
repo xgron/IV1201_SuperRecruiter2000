@@ -8,6 +8,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import org.hibernate.cfg.Configuration;
+import shared.DateDTO;
+import shared.ExperienceDTO;
 import shared.PersonDTO;
 
 import java.sql.Date;
@@ -122,5 +124,23 @@ public class DBPortal {
             }
         }finally {
         }
+    }
+
+    /**
+     * This method enters the entire DateDTO into the availability table in the DB
+     * @param  userID     the current user
+     * @param  availabilities  a list with DateDTO objects
+     */
+    public void avalabilityListToDB(String userID, List<DateDTO> availabilities){
+
+    }
+
+    /**
+     * This method enters the entire ExperienceDTO into the availability table in the DB
+     * @param  userID     the current user
+     * @param  experience  a list with Experience DTO objects
+     */
+    public void competenceListToDB(String userID, List<ExperienceDTO> experience;){
+
     }
 }
