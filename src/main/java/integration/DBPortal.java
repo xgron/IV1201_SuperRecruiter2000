@@ -3,6 +3,7 @@ package integration;
 
 import integration.entity.*;
 import integration.entity.Person;
+import integration.operation.AvailabilityOperation;
 import integration.operation.PersonOperation;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -73,6 +74,34 @@ public class DBPortal {
     }
 
     /**
+     * This method checks if the userID exist
+     * @param  userID     the username that is checked
+     * @return      whether the userID exists or not.
+     */
+    public Boolean userIDExist(String userID){
+        try{
+            session = factory.getCurrentSession();
+            session.beginTransaction();
+            List<Person> personList = session.createQuery("from Person p where p.userID='" + userID + "'").getResultList();
+            int c = 0;
+            for(Person tp : personList){
+                c++;
+            }
+            session.getTransaction().commit();
+            if(c == 0){
+                System.out.println("* userID: " + userID + " does not exist.");
+                return false;
+            }
+            else{
+                System.out.println("* userID: " + userID + " does exist.");
+                return true;
+            }
+        }finally {
+        }
+
+    }
+
+    /**
      * This method checks if the SSN is taken or not. Will return true if the SSN is taken, and false if it is free.
      * @param  ssn     the SSN that is checked
      * @return      the answer to "is SSN XXX taken?"
@@ -132,15 +161,37 @@ public class DBPortal {
      * @param  availabilities  a list with DateDTO objects
      */
     public void avalabilityListToDB(String userID, List<DateDTO> availabilities){
+        int ssn = searchForUserSSN(userID);
+        for(DateDTO d : availabilities){
+            java.sql.Date fromDate = new java.sql.Date(d.getStart().getTime());
+            java.sql.Date toDate = new java.sql.Date(d.getEnd().getTime());
+            Availability availability = new Availability(ssn,fromDate, toDate);
+            AvailabilityOperation.createAvailability(availability, factory);
+        }
+
 
     }
 
     /**
      * This method enters the entire ExperienceDTO into the availability table in the DB
      * @param  userID     the current user
-     * @param  experience  a list with Experience DTO objects
+     * @param  experiences  a list with Experience DTO objects
      */
-    public void competenceListToDB(String userID, List<ExperienceDTO> experience;){
+    public void competenceListToDB(String userID, List<ExperienceDTO> experiences){
+        int ssn = searchForUserSSN(userID);
+        //for(Experience e : experiences){
+          //TODOO!!!!!
+        //}
 
+    }
+
+    /**
+     * This method searches the DB for the ssn matching the specified userID
+     * @param userID    the user ID
+     * @return      returns the found ssn
+     */
+    public int searchForUserSSN(String userID){
+        Person p = PersonOperation.readPerson(userID, factory);
+        return p.getSsn();
     }
 }

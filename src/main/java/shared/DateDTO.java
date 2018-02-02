@@ -23,4 +23,9 @@ public class DateDTO {
     public void setEnd(Date end) {
         this.end = end;
     }
+
+    public DateDTO(Date start, Date end) {
+        this.start = start;
+        this.end = end;
+    }
 }
