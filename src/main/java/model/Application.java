@@ -31,7 +31,7 @@ public class Application {
      * @return  boolean  false if error, true if successful registration of application
      */
     public boolean registerApplication(ApplicationDTO application){
-        if(!portal.userIDExists(application.getUserID()))
+        if(!portal.userIDExist(application.getUserID()))
             return false;
         for(ExperienceDTO to : application.getExperience()){
             if (!portal.competenceExist(to.getName()))
