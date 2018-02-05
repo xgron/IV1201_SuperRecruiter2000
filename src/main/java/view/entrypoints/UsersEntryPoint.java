@@ -6,6 +6,9 @@ import model.ErrorHandling;
 import org.springframework.asm.Type;
 import org.springframework.beans.BeanUtils;
 import shared.*;
+import view.request.ApplicationRest;
+import view.request.DateRest;
+import view.request.ExperienceRest;
 import view.response.AppRest;
 import view.response.UserRest;
 
@@ -14,6 +17,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -133,17 +137,20 @@ public class UsersEntryPoint {
 
     @POST
     @Path("/{id}/application")
+    @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public ApplicationDTO getApplication (ApplicationDTO requestObject)  {
-        HomeController hc = new HomeController();
-        try{
+    public ApplicationDTO getApplication (ApplicationDTO requestObject, @PathParam("id") String id)  {
+        //HomeController hc = new HomeController();
+       /* try{
             requestObject.setUserID("nxdvzpiugcoqkubaqbdluulqp");
             hc.registerApplication(requestObject);
         }catch (ErrorHandling.RegisterApplicationExeption rae){
             //TO DO
             System.out.println("RU EXCEPTION");
         }
-
+*/
+       requestObject.setUserID(id);
+        System.out.println(requestObject);
 
         return requestObject;
     }
