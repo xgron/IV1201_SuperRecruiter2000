@@ -1,24 +1,28 @@
-package shared;
+package view.request;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement
-public class ExperienceDTO {
+/**
+ * Created by enfet on 2018-02-05.
+ */
+@XmlRootElement(name = "ExperienceRest")
+public class ExperienceRest {
 
     @XmlElement(name = "name")
     private String name;
 
 
     @XmlElement(name = "years" )
-    private double years;
+    private String years;
 
-    public ExperienceDTO(String name, double years) {
+    public ExperienceRest(String name, String years) {
         this.name = name;
         this.years = years;
     }
 
-    public ExperienceDTO(){}
+    public ExperienceRest(){
+    }
 
     public String getName() {
         return name;
@@ -37,11 +41,12 @@ public class ExperienceDTO {
                 '}';
     }
 
-    public double getYears() {
+    public String getYears() {
         return years;
     }
 
-    public void setYears(double years) {
+    public void setYears(String years) {
         this.years = years;
     }
 }
+
