@@ -1,6 +1,7 @@
 package controller;
 
 
+import model.ErrorHandling;
 import org.springframework.stereotype.Controller;
 import shared.ApplicationDTO;
 import shared.PersonDTO;
@@ -18,7 +19,8 @@ public class HomeController {
      * @param   person  A PersonDTO(Person Data Transfer Object), which contains all necessary data for a person.
      * @return  user    The Registered User.
      */
-    public PersonDTO registerUser(PersonDTO person) {
+    public PersonDTO registerUser(PersonDTO person) throws ErrorHandling.RegisterUserExeption {
+
         PersonDTO user = model.user.registerUser(person);
         return user;
     }
@@ -31,7 +33,7 @@ public class HomeController {
      * @param   application  An ApplicationDTO(Person Data Transfer Object), which contains all necessary data for an application.
      * @return  check    boolean, false if error.
      */
-    public boolean registerApplication(ApplicationDTO application){
+    public boolean registerApplication(ApplicationDTO application) throws ErrorHandling.RegisterApplicationExeption {
             boolean check = model.application.registerApplication(application);
         return check;
     }
