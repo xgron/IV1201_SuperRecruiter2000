@@ -1,20 +1,27 @@
-package shared;
+package view.request;
 
+import javax.ws.rs.core.Application;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Created by enfet on 2018-02-05.
+ */
+
+
 @XmlRootElement
-public class ApplicationDTO {
+public class ApplicationRest {
     @XmlElement(name = "availabilities")
-    private List<DateDTO> availabilities;
+    private List<DateRest> availabilities;
     @XmlElement(name = "experiences")
-    private List<ExperienceDTO> experience;
+    private List<ExperienceRest> experience;
     private String userID;
 
-    public ApplicationDTO(){
-        this.availabilities = new ArrayList<DateDTO>();
-        this.experience = new ArrayList<ExperienceDTO>();
+    public ApplicationRest(){
+        this.availabilities = new ArrayList<DateRest>();
+        this.experience = new ArrayList<ExperienceRest>();
     }
 
     @Override
@@ -27,25 +34,19 @@ public class ApplicationDTO {
                 '}';
     }
 
-    public ApplicationDTO(List<DateDTO> availabilities, List<ExperienceDTO> experience, String userID) {
-        this.availabilities = availabilities;
-        this.experience = experience;
-        this.userID = userID;
-    }
-
-    public List<DateDTO> getAvailabilities() {
+    public List<DateRest> getAvailabilities() {
         return availabilities;
     }
 
-    public void setAvailabilities(List<DateDTO> availabilities) {
+    public void setAvailabilities(List<DateRest> availabilities) {
         this.availabilities = availabilities;
     }
 
-    public List<ExperienceDTO> getExperience() {
+    public List<ExperienceRest> getExperience() {
         return experience;
     }
 
-    public void setExperience(List<ExperienceDTO> experience) {
+    public void setExperience(List<ExperienceRest> experience) {
         this.experience = experience;
     }
 

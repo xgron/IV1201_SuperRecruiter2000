@@ -1,16 +1,16 @@
-package shared;
-
-import com.sun.org.apache.xerces.internal.impl.dtd.XMLElementDecl;
+package view.request;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.Date;
 
-@XmlRootElement
-public class DateDTO {
+/**
+ * Created by enfet on 2018-02-05.
+ */
+@XmlRootElement(name = "daterest")
+public class DateRest {
     @XmlElement(name = "start")
     private String start;
-    @XmlElement(name = "end")
+    @XmlElement(name = "end" )
     private String end;
 
     public String getStart() {
@@ -37,9 +37,12 @@ public class DateDTO {
                 '}';
     }
 
-    public DateDTO(String start, String end) {
+    public DateRest(String start, String end) {
         this.start = start;
         this.end = end;
     }
-    public DateDTO() {}
+
+    public DateRest() {
+    }
 }
+
