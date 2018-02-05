@@ -15,6 +15,7 @@ import shared.ExperienceDTO;
 import shared.PersonDTO;
 
 import java.sql.Date;
+
 import java.util.Calendar;
 import java.util.List;
 
@@ -164,13 +165,18 @@ public class DBPortal {
     public void avalabilityListToDB(String userID, List<DateDTO> availabilities){
         int ssn = searchForUserSSN(userID);
         for(DateDTO d : availabilities){
-            java.sql.Date fromDate = new java.sql.Date(d.getStart().getTime());
-            java.sql.Date toDate = new java.sql.Date(d.getEnd().getTime());
-            Availability availability = new Availability(ssn,fromDate, toDate);
+            Availability availability = new Availability(ssn,stringToSQLDate(d.getStart()), stringToSQLDate(d.getEnd()));
             AvailabilityOperation.createAvailability(availability, factory);
         }
+    }
 
-
+    private static java.sql.Date stringToSQLDate(String dateString){
+        String[] tempStrArr = dateString.split("-");
+        int year = Integer.parseInt(tempStrArr[0]) - 1900;
+        int month = Integer.parseInt(tempStrArr[1]) - 1;
+        int day = Integer.parseInt(tempStrArr[2]);
+        java.sql.Date date = new java.sql.Date(year, month, day);
+        return date;
     }
 
     /**

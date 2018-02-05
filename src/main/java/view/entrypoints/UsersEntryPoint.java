@@ -2,12 +2,14 @@ package view.entrypoints;
 
 
 import controller.HomeController;
+import model.ErrorHandling;
 import org.springframework.asm.Type;
 import org.springframework.beans.BeanUtils;
-import shared.ApplicationDTO;
-import shared.PersonDTO;
+import shared.*;
+import view.response.AppRest;
 import view.response.UserRest;
 
+import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -48,7 +50,13 @@ public class UsersEntryPoint {
         BeanUtils.copyProperties(requestObject, personDTO);
         System.out.println(personDTO);
         HomeController userController = new HomeController();
-        userController.registerUser(personDTO);
+        try{
+            userController.registerUser(personDTO);
+        }catch (ErrorHandling.RegisterUserExeption rue){
+            //TO DO
+            System.out.println("USER REGISTER EXCEPTION.");
+        }
+
 
         BeanUtils.copyProperties(requestObject, returnValue);
 
@@ -126,11 +134,18 @@ public class UsersEntryPoint {
     @POST
     @Path("/{id}/application")
     @Produces(MediaType.APPLICATION_JSON)
-    public UserRest getApplication(@PathParam("id") String id) {
-        ApplicationDTO apd = new ApplicationDTO();
-        apd.setUserID(id);
-        System.out.println(apd.getUserID());
-        return new UserRest();
+    public ApplicationDTO getApplication (ApplicationDTO requestObject)  {
+        HomeController hc = new HomeController();
+        try{
+            requestObject.setUserID("nxdvzpiugcoqkubaqbdluulqp");
+            hc.registerApplication(requestObject);
+        }catch (ErrorHandling.RegisterApplicationExeption rae){
+            //TO DO
+            System.out.println("RU EXCEPTION");
+        }
+
+
+        return requestObject;
     }
 
 
