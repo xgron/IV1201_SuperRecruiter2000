@@ -27,6 +27,12 @@ public class ApplicationDTO {
                 '}';
     }
 
+    public ApplicationDTO(List<DateDTO> availabilities, List<ExperienceDTO> experience, String userID) {
+        this.availabilities = availabilities;
+        this.experience = experience;
+        this.userID = userID;
+    }
+
     public List<DateDTO> getAvailabilities() {
         return availabilities;
     }
