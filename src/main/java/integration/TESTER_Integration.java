@@ -39,13 +39,15 @@ public class TESTER_Integration {
 
       //System.out.println(port.competenceExist("Bingoutropa"));
 
-
+      /*
       String userID = "nxdvzpiugcoqkubaqbdluulqp";
 
       ExperienceDTO e1 = new ExperienceDTO("Poppare", 4.51);
       ExperienceDTO e2 = new ExperienceDTO("Spöke", 5.79);
       List<ExperienceDTO> list = Arrays.asList(e1, e2);
       port.competenceListToDB(userID, list);
+      */
+
       /*
       try{
 
