@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 
 import org.hibernate.cfg.Configuration;
 import shared.DateDTO;
+import shared.ExperienceDTO;
 import shared.PersonDTO;
 
 import java.sql.Date;
@@ -38,8 +39,16 @@ public class TESTER_Integration {
 
       //System.out.println(port.competenceExist("Bingoutropa"));
 
-      String userID = "ionvkcjcnkyzgbfhtqlgpjqak";
+
+      String userID = "nxdvzpiugcoqkubaqbdluulqp";
+
+      ExperienceDTO e1 = new ExperienceDTO("Poppare", 4.51);
+      ExperienceDTO e2 = new ExperienceDTO("Spöke", 5.79);
+      List<ExperienceDTO> list = Arrays.asList(e1, e2);
+      port.competenceListToDB(userID, list);
+      /*
       try{
+
           SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
           Date d1 = new java.sql.Date(sdf.parse("21/12/2012").getTime());
           Date d2 = new java.sql.Date(sdf.parse("21/12/2013").getTime());
@@ -56,6 +65,7 @@ public class TESTER_Integration {
       }catch (Exception e){
           e.printStackTrace();
       }
+      */
 
     }
 }
