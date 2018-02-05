@@ -38,8 +38,8 @@ public class Application {
                     throw new ErrorHandling.RegisterApplicationExeption("This competence does not exist!");
         }
         for (DateDTO to : application.getAvailabilities()){
-            for (DateDTO to1 : application.getAvailabilities()){
-                if(to1.equals(to))
+            for (DateDTO to1 : application.getAvailabilities().subList(1,application.getAvailabilities().size())){
+                if(to1.getStart().equals(to.getStart()))
                     throw new ErrorHandling.RegisterApplicationExeption("Invalid Availabilities!");
             }
         }
