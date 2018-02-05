@@ -30,17 +30,17 @@ public class Application {
      * @param   application  An ApplicationDTO(Person Data Transfer Object), which contains all necessary data for an application.
      * @return  boolean  false if error, true if successful registration of application
      */
-    public boolean registerApplication(ApplicationDTO application){
+    public boolean registerApplication(ApplicationDTO application) throws ErrorHandling.RegisterApplicationExeption{
         if(!portal.userIDExist(application.getUserID()))
-            return false;
+            throw new ErrorHandling.RegisterApplicationExeption("Invalid UserID!");
         for(ExperienceDTO to : application.getExperience()){
             if (!portal.competenceExist(to.getName()))
-                    return false;
+                    throw new ErrorHandling.RegisterApplicationExeption("This competence does not exist!");
         }
         for (DateDTO to : application.getAvailabilities()){
             for (DateDTO to1 : application.getAvailabilities()){
                 if(to1.equals(to))
-                    return false;
+                    throw new ErrorHandling.RegisterApplicationExeption("Invalid Availabilities!");
             }
         }
         portal.competenceListToDB(application.getUserID(),application.getExperience());
