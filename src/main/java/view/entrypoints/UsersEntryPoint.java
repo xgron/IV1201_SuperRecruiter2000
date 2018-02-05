@@ -2,6 +2,7 @@ package view.entrypoints;
 
 
 import controller.HomeController;
+import model.ErrorHandling;
 import org.springframework.asm.Type;
 import org.springframework.beans.BeanUtils;
 import shared.*;
@@ -49,7 +50,13 @@ public class UsersEntryPoint {
         BeanUtils.copyProperties(requestObject, personDTO);
         System.out.println(personDTO);
         HomeController userController = new HomeController();
-        userController.registerUser(personDTO);
+        try{
+            userController.registerUser(personDTO);
+        }catch (ErrorHandling.RegisterUserExeption rue){
+            //TO DO
+            System.out.println("USER REGISTER EXCEPTION.");
+        }
+
 
         BeanUtils.copyProperties(requestObject, returnValue);
 
@@ -128,9 +135,15 @@ public class UsersEntryPoint {
     @Path("/{id}/application")
     @Produces(MediaType.APPLICATION_JSON)
     public ApplicationDTO getApplication (ApplicationDTO requestObject)  {
+        HomeController hc = new HomeController();
+        try{
+            requestObject.setUserID("nxdvzpiugcoqkubaqbdluulqp");
+            hc.registerApplication(requestObject);
+        }catch (ErrorHandling.RegisterApplicationExeption rae){
+            //TO DO
+            System.out.println("RU EXCEPTION");
+        }
 
-
-        System.out.println(requestObject.getExperience().get(0).getYears());
 
         return requestObject;
     }
