@@ -35,7 +35,7 @@ public class User {
     public PersonDTO registerUser(PersonDTO person)
     {
         if(portal.ssnTaken(Integer.parseInt(person.getSsn())))
-            return new PersonDTO();
+            return null;
             else if(portal.usernameTaken(person.getUserName()))
                 return null;
             else
@@ -55,7 +55,7 @@ public class User {
 
         Random r = new Random();
 
-        String alphabet = "abcdefghijklmnopqrstuvxyz";
+        String alphabet = "abcdefghijklmnopqrstuvwxyz";
         String userid = "";
         for (int i = 0; i < 25; i++) {
             userid = userid + alphabet.charAt(r.nextInt(alphabet.length()));
