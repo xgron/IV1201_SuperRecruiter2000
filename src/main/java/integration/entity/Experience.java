@@ -18,7 +18,7 @@ public class Experience implements Serializable{
     private String competenceName;
 
     @Column
-    private float years;
+    private double years;
 
     public Experience() {
     }
@@ -28,7 +28,7 @@ public class Experience implements Serializable{
         this.competenceName = competenceName;
     }
 
-    public Experience(int personSSN, String competenceName, float years) {
+    public Experience(int personSSN, String competenceName, double years) {
         this.personSSN = personSSN;
         this.competenceName = competenceName;
         this.years = years;
@@ -50,7 +50,7 @@ public class Experience implements Serializable{
         this.competenceName = competenceName;
     }
 
-    public float getYears() {
+    public double getYears() {
         return years;
     }
 

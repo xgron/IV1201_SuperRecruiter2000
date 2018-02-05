@@ -4,6 +4,7 @@ package integration;
 import integration.entity.*;
 import integration.entity.Person;
 import integration.operation.AvailabilityOperation;
+import integration.operation.ExperienceOperation;
 import integration.operation.PersonOperation;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -156,7 +157,7 @@ public class DBPortal {
     }
 
     /**
-     * This method enters the entire DateDTO into the availability table in the DB
+     * This method enters the entire DateDTO-list into the availability table in the DB
      * @param  userID     the current user
      * @param  availabilities  a list with DateDTO objects
      */
@@ -173,16 +174,22 @@ public class DBPortal {
     }
 
     /**
-     * This method enters the entire ExperienceDTO into the availability table in the DB
+     * This method enters the entire ExperienceDTO-list into the availability table in the DB
      * @param  userID     the current user
      * @param  experiences  a list with Experience DTO objects
      */
     public void competenceListToDB(String userID, List<ExperienceDTO> experiences){
         int ssn = searchForUserSSN(userID);
-        //for(Experience e : experiences){
-          //TODOO!!!!!
-        //}
+        for(ExperienceDTO eDTO : experiences){
+            Experience experience = new Experience(ssn, eDTO.getName(), round(eDTO.getYears(), 1));
+            ExperienceOperation.createExperience(experience, factory);
+        }
 
+    }
+
+    private static double round (double value, int precision) {
+        int scale = (int) Math.pow(10, precision);
+        return (double) Math.round(value * scale) / scale;
     }
 
     /**

@@ -4,7 +4,12 @@ public class ExperienceDTO {
 
     private String name;
 
-    private float years;
+    private double years;
+
+    public ExperienceDTO(String name, double years) {
+        this.name = name;
+        this.years = years;
+    }
 
     public String getName() {
         return name;
@@ -14,7 +19,7 @@ public class ExperienceDTO {
         this.name = name;
     }
 
-    public float getYears() {
+    public double getYears() {
         return years;
     }
 
