@@ -9,8 +9,14 @@ public class ExperienceDTO {
     @XmlElement(name = "name")
     private String name;
 
+
     @XmlElement(name = "years" )
-    private float years;
+    private double years;
+
+    public ExperienceDTO(String name, double years) {
+        this.name = name;
+        this.years = years;
+    }
 
     public String getName() {
         return name;
@@ -20,6 +26,7 @@ public class ExperienceDTO {
         this.name = name;
     }
 
+
     @Override
     public String toString() {
         return "ExperienceDTO{" +
@@ -28,11 +35,11 @@ public class ExperienceDTO {
                 '}';
     }
 
-    public float getYears() {
+    public double getYears() {
         return years;
     }
 
-    public void setYears(float years) {
+    public void setYears(double years) {
         this.years = years;
     }
 }

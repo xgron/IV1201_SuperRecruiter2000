@@ -9,7 +9,6 @@ import java.sql.Date;
 @Entity
 @Table(name="person")
 public class Person {
-    @Id
     @Column
     private int ssn;
 
@@ -37,6 +36,7 @@ public class Person {
     @Column(name="registration_date")
     private java.sql.Date registrationdate;
 
+    @Id
     @Column(name="user_id")
     private String userID;
 

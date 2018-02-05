@@ -3,7 +3,6 @@ package model;
 import integration.DBPortal;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import shared.PersonDTO;
-
 import java.util.Random;
 
 public class User {
@@ -32,19 +31,19 @@ public class User {
      * @param   person  A PersonDTO(Person Data Transfer Object), which contains all necessary data for a person.
      * @return  person  A PersonDTO(Person Data Transfer Object), now with encrypted password and a UserID.
      */
-    public PersonDTO registerUser(PersonDTO person)
+    public PersonDTO registerUser (PersonDTO person)throws ErrorHandling.RegisterUserExeption
     {
-        if(portal.ssnTaken(Integer.parseInt(person.getSsn())))
-            return new PersonDTO();
-            else if(portal.usernameTaken(person.getUserName()))
-                return null;
-            else
-                {
-                    person.setPassword(BCrypt.hashpw(person.getPassword(), BCrypt.gensalt()))   ;
-                    person.setUserId(generateUserID());
-                    portal.registerUser(person);
-                    return person;
-                }
+        if(portal.ssnTaken(Integer.parseInt(person.getSsn()))) {
+            throw new ErrorHandling.RegisterUserExeption("SSN already exists");
+        }else if(portal.usernameTaken(person.getUserName())) {
+            throw new ErrorHandling.RegisterUserExeption("Username already exists");
+        }else
+            {
+                person.setPassword(BCrypt.hashpw(person.getPassword(), BCrypt.gensalt()))   ;
+                person.setUserId(generateUserID());
+                portal.registerUser(person);
+                return person;
+            }
 
     }
     /*public boolean loginUser(String Username, String Password){
@@ -55,7 +54,7 @@ public class User {
 
         Random r = new Random();
 
-        String alphabet = "abcdefghijklmnopqrstuvxyz";
+        String alphabet = "abcdefghijklmnopqrstuvwxyz";
         String userid = "";
         for (int i = 0; i < 25; i++) {
             userid = userid + alphabet.charAt(r.nextInt(alphabet.length()));

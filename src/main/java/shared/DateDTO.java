@@ -35,5 +35,9 @@ public class DateDTO {
                 "start=" + start +
                 ", end=" + end +
                 '}';
+
+    public DateDTO(Date start, Date end) {
+        this.start = start;
+        this.end = end;
     }
 }
