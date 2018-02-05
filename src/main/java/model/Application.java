@@ -37,8 +37,10 @@ public class Application {
             if (!portal.competenceExist(to.getName()))
                     throw new ErrorHandling.RegisterApplicationExeption("This competence does not exist!");
         }
+        int i = 1;
         for (DateDTO to : application.getAvailabilities()){
-            for (DateDTO to1 : application.getAvailabilities().subList(1,application.getAvailabilities().size())){
+            i++;
+            for (DateDTO to1 : application.getAvailabilities().subList(i,application.getAvailabilities().size())){
                 if(to1.getStart().equals(to.getStart()))
                     throw new ErrorHandling.RegisterApplicationExeption("Invalid Availabilities!");
             }
