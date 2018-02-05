@@ -14,6 +14,6 @@ public class TESTER_Controller {
         pd.setPassword("lösenord");
         pd.setUserName("sam");
 
-        hc.registerUser(pd);
+        //hc.registerUser(pd);
     }
 }

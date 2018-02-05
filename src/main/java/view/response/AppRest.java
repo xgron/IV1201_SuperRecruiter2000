@@ -1,30 +1,25 @@
-package shared;
+package view.response;
 
-import javax.xml.bind.annotation.XmlElement;
+import shared.DateDTO;
+import shared.ExperienceDTO;
+
 import javax.xml.bind.annotation.XmlRootElement;
 import java.util.ArrayList;
 import java.util.List;
+
+/**
+ * Created by enfet on 2018-02-02.
+ */
+
 @XmlRootElement
-public class ApplicationDTO {
-    @XmlElement(name = "availabilities")
+public class AppRest {
     private List<DateDTO> availabilities;
-    @XmlElement(name = "experiences")
     private List<ExperienceDTO> experience;
     private String userID;
 
-    public ApplicationDTO(){
+    public AppRest(){
         this.availabilities = new ArrayList<DateDTO>();
         this.experience = new ArrayList<ExperienceDTO>();
-    }
-
-    @Override
-    public String
-    toString() {
-        return "ApplicationDTO{" +
-                "availabilities=" + availabilities +
-                ", experience=" + experience +
-                ", userID='" + userID + '\'' +
-                '}';
     }
 
     public List<DateDTO> getAvailabilities() {

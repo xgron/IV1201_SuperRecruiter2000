@@ -12,6 +12,6 @@ public class TESTER_Model {
         pd.setEmail("frodo@bag.end");
         pd.setPassword("lösenord");
         pd.setUserName("frodo");
-        System.out.println(model.user.registerUser(pd));
+        //System.out.println(model.user.registerUser(pd));
     }
 }
