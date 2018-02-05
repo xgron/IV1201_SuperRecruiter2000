@@ -4,10 +4,11 @@ package view.entrypoints;
 import controller.HomeController;
 import org.springframework.asm.Type;
 import org.springframework.beans.BeanUtils;
-import shared.ApplicationDTO;
-import shared.PersonDTO;
+import shared.*;
+import view.response.AppRest;
 import view.response.UserRest;
 
+import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -126,11 +127,12 @@ public class UsersEntryPoint {
     @POST
     @Path("/{id}/application")
     @Produces(MediaType.APPLICATION_JSON)
-    public UserRest getApplication(@PathParam("id") String id) {
-        ApplicationDTO apd = new ApplicationDTO();
-        apd.setUserID(id);
-        System.out.println(apd.getUserID());
-        return new UserRest();
+    public ApplicationDTO getApplication (ApplicationDTO requestObject)  {
+
+
+        System.out.println(requestObject.getExperience().get(0).getYears());
+
+        return requestObject;
     }
 
 
