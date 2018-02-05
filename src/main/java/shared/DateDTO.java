@@ -35,8 +35,9 @@ public class DateDTO {
                 "start=" + start +
                 ", end=" + end +
                 '}';
+    }
 
-    public DateDTO(Date start, Date end) {
+    public DateDTO(String start, String end) {
         this.start = start;
         this.end = end;
     }
