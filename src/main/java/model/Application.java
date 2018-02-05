@@ -18,17 +18,17 @@ public class Application {
     /**
      *  This method is called from the Control layer when a someone is trying to register a new application.
      *
-     * It returns a boolean, false if there was an error with the application. True if it was successfully sent to the integration layer.
+     * It returns a boolean, an Exception if there was an error with the application. True if it was successfully sent to the integration layer.
      *
-     * It returns false if the userID does not exist, using userIDExists(String UserID).
-     * It returns false if An experience has a competence that does not exist, using competenceExist(String competence)
-     * It returns false if two availabilities contain the same starting date.
+     * It returns an Exception if the userID does not exist, using userIDExists(String UserID).
+     * It returns an Exception if An experience has a competence that does not exist, using competenceExist(String competence)
+     * It returns an Exception if two availabilities contain the same starting date.
      *
      * if none of the above occur, it sends the Experience list and the Availability list (along with the userID) to
      * the integration layer, and then returns true.
      *
      * @param   application  An ApplicationDTO(Person Data Transfer Object), which contains all necessary data for an application.
-     * @return  boolean  false if error, true if successful registration of application
+     * @return  boolean  Exception if error, true if successful registration of application
      */
     public boolean registerApplication(ApplicationDTO application) throws ErrorHandling.RegisterApplicationExeption{
         if(!portal.userIDExist(application.getUserID()))

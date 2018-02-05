@@ -22,7 +22,7 @@ public class User {
      *
      *  Calls ssnTaken and usernameTaken from DBPortal in the integration layer to check if the
      *  Social Security Number or the Username already exists. If one of them exists(if ssnTaken or usernameTaken
-     *  returns TRUE), it returns null, which indicates that the registration failed.
+     *  returns TRUE), it returns a exception, which describes that the registration failed.
      *
      *  If none of them exists, it uses BCrypt to encrypt the password of the person, generates a UserID using
      *  generateUserID(), and calls registerUser from DBPortal, and returns the PersonDTO back to the Controller.
