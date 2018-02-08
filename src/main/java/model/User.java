@@ -1,8 +1,16 @@
 package model;
 
 import integration.DBPortal;
+import integration.entity.Availability;
+import integration.entity.Competence;
+import integration.entity.Experience;
+import integration.entity.Person;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import shared.DateDTO;
+import shared.ExperienceDTO;
 import shared.PersonDTO;
+
+import java.util.List;
 import java.util.Random;
 
 public class User {
@@ -33,9 +41,9 @@ public class User {
      */
     public PersonDTO registerUser (PersonDTO person)throws ErrorHandling.RegisterUserExeption
     {
-        if(portal.ssnTaken(Integer.parseInt(person.getSsn()))) {
+        if(ssnTaken(Integer.parseInt(person.getSsn()))) {
             throw new ErrorHandling.RegisterUserExeption("SSN already exists");
-        }else if(portal.usernameTaken(person.getUserName())) {
+        }else if(usernameTaken(person.getUserName())) {
             throw new ErrorHandling.RegisterUserExeption("Username already exists");
         }else
             {
@@ -60,5 +68,35 @@ public class User {
             userid = userid + alphabet.charAt(r.nextInt(alphabet.length()));
         }
         return userid;
+    }
+
+    /**
+     * This method checks if the username is taken or not. Will return true if the username is taken, and false if it is free.
+     * @param  username     the username that is checked
+     * @return      the answer to "is username XXX taken?"
+     */
+    public Boolean usernameTaken(String username){
+        try{
+            List<Person> personList = portal.getPersonWithUsername(username);
+            return !personList.isEmpty();
+        } catch(Exception e){
+
+        }
+        return null;
+    }
+
+    /**
+     * This method checks if the SSN is taken or not. Will return true if the SSN is taken, and false if it is free.
+     * @param  ssn     the SSN that is checked
+     * @return      the answer to "is SSN XXX taken?"
+     */
+    public Boolean ssnTaken(int ssn){
+        try {
+            List<Person> personList = portal.getPersonWithSSN(ssn);
+            return !personList.isEmpty();
+        }catch (Exception e){
+
+        }
+        return null;
     }
 }
