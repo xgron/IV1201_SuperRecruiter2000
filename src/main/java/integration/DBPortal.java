@@ -9,7 +9,6 @@ import integration.operation.PersonOperation;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
-import org.hibernate.cfg.Configuration;
 import shared.DateDTO;
 import shared.ExperienceDTO;
 import shared.PersonDTO;
@@ -187,13 +186,13 @@ public class DBPortal {
     public void competenceListToDB(String userID, List<ExperienceDTO> experiences){
         int ssn = searchForUserSSN(userID);
         for(ExperienceDTO eDTO : experiences){
-            Experience experience = new Experience(ssn, eDTO.getName(), round(eDTO.getYears(), 1));
+            Experience experience = new Experience(ssn, eDTO.getName(), roundToOneDecimal(eDTO.getYears(), 1));
             ExperienceOperation.createExperience(experience, factory);
         }
 
     }
 
-    private static double round (double value, int precision) {
+    private static double roundToOneDecimal(double value, int precision) {
         int scale = (int) Math.pow(10, precision);
         return (double) Math.round(value * scale) / scale;
     }

@@ -143,7 +143,8 @@ public class UsersEntryPoint {
        HomeController hc = new HomeController();
         requestObject.setUserID(id);
        try{
-            hc.registerApplication(requestObject);
+
+           hc.registerApplication(requestObject);
         }catch (ErrorHandling.RegisterApplicationExeption rae){
             //TO DO
             System.out.println("RU EXCEPTION");
