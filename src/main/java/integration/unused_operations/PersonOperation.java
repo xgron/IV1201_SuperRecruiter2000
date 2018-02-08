@@ -1,4 +1,4 @@
-package integration.operation;
+package integration.unused_operations;
 
 import integration.entity.Person;
 import org.hibernate.Session;
@@ -25,24 +25,5 @@ public class PersonOperation {
         }
     }
 
-    /**
-     * This method searches in the DB for a "Person"-entry with a specific SSN.
-     * @param  userID  is the users ID in the database. This is what will be searched for.
-     * * @param  factory  is the programs SessionFactory.
-     * @return  Returns the found object. If no object is found, null will be returned.
-     */
-    public static Person readPerson(String userID, SessionFactory factory){
-        try {
-            Session session = factory.getCurrentSession();
-            session.beginTransaction();
 
-            Person foundPerson = session.get(Person.class, userID);
-
-            session.getTransaction().commit();
-
-            return foundPerson;
-
-        } finally {
-        }
-    }
 }
