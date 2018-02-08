@@ -6,13 +6,13 @@ import java.sql.Date;
 
 @Entity
 @Table(name="availability")
-public class Availability implements Serializable{
-
-    @OneToOne
-    @JoinColumn(name="person_ssn")
-    private Person person;
+public class Availability{
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private int id;
+
     @Column(name="start_date")
     private java.sql.Date startDate;
 
@@ -22,23 +22,17 @@ public class Availability implements Serializable{
     public Availability() {
     }
 
-    public Availability(Person person, Date startDate) {
-        this.person = person;
-        this.startDate = startDate;
-    }
-
-    public Availability(Person person, Date startDate, Date endDate) {
-        this.person = person;
+    public Availability(Date startDate, Date endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public Person getPerson() {
-        return person;
+    public int getId() {
+        return id;
     }
 
-    public void setPerson(Person person) {
-        this.person = person;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Date getStartDate() {
@@ -60,7 +54,7 @@ public class Availability implements Serializable{
     @Override
     public String toString() {
         return "Availability{" +
-                "person=" + person +
+                "id=" + id +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 '}';

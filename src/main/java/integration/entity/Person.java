@@ -1,16 +1,15 @@
 package integration.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
 @Table(name="person")
 public class Person {
-    @Column
-    private int ssn;
+
+    @Id
+    @Column(name = "user_id")
+    private String userID;
 
     @Column
     private String name;
@@ -19,13 +18,13 @@ public class Person {
     private String surname;
 
     @Column
+    private int ssn;
+
+    @Column
     private String email;
 
     @Column
     private String password;
-
-    @Column
-    private String role_name;
 
     @Column
     private String username;
@@ -33,121 +32,49 @@ public class Person {
     @Column
     private Boolean hired;
 
-    @Column(name="registration_date")
+    @Column(name = "registration_date")
     private java.sql.Date registrationdate;
 
-    @Id
-    @Column(name="user_id")
-    private String userID;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="Availability_id")
+    private Availability availability;
+
+    @OneToMany
+    @JoinColumn(name="Role_name")
+    private Role role;
+
+    public Person(String userID, String name, String surname, int ssn, String email, String password, String username, Boolean hired, Date registrationdate, Availability availability, Role role) {
+        this.userID = userID;
+        this.name = name;
+        this.surname = surname;
+        this.ssn = ssn;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.hired = hired;
+        this.registrationdate = registrationdate;
+        this.availability = availability;
+        this.role = role;
+    }
 
     public Person() {
-    }
-
-    public Person(int ssn, String name, String surname, String email, String password, String role_name, String username, Boolean hired, Date registrationdate, String userID) {
-        this.ssn = ssn;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.password = password;
-        this.role_name = role_name;
-        this.username = username;
-        this.hired = hired;
-        this.registrationdate = registrationdate;
-        this.userID = userID;
-    }
-
-    public String getUserID() {
-        return userID;
-    }
-
-    public void setUserID(String userID) {
-        this.userID = userID;
-    }
-
-    public int getSsn() {
-        return ssn;
-    }
-
-    public void setSsn(int ssn) {
-        this.ssn = ssn;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSurname() {
-        return surname;
-    }
-
-    public void setSurname(String surname) {
-        this.surname = surname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole_name() {
-        return role_name;
-    }
-
-    public void setRole_name(String role_name) {
-        this.role_name = role_name;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Boolean getHired() {
-        return hired;
-    }
-
-    public void setHired(Boolean hired) {
-        this.hired = hired;
-    }
-
-    public Date getRegistrationdate() {
-        return registrationdate;
-    }
-
-    public void setRegistrationdate(Date registrationdate) {
-        this.registrationdate = registrationdate;
     }
 
     @Override
     public String toString() {
         return "Person{" +
-                "ssn=" + ssn +
+                "userID='" + userID + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
+                ", ssn=" + ssn +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
-                ", role_name='" + role_name + '\'' +
                 ", username='" + username + '\'' +
                 ", hired=" + hired +
                 ", registrationdate=" + registrationdate +
+                ", availability=" + availability +
+                ", role=" + role +
                 '}';
     }
 }
+
