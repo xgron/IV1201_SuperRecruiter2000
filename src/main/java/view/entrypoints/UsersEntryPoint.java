@@ -140,16 +140,17 @@ public class UsersEntryPoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public ApplicationDTO getApplication (ApplicationDTO requestObject, @PathParam("id") String id)  {
-        //HomeController hc = new HomeController();
-       /* try{
-            requestObject.setUserID("nxdvzpiugcoqkubaqbdluulqp");
-            hc.registerApplication(requestObject);
+       HomeController hc = new HomeController();
+        requestObject.setUserID(id);
+       try{
+
+           hc.registerApplication(requestObject);
         }catch (ErrorHandling.RegisterApplicationExeption rae){
             //TO DO
             System.out.println("RU EXCEPTION");
         }
-*/
-       requestObject.setUserID(id);
+
+
         System.out.println(requestObject);
 
         return requestObject;
