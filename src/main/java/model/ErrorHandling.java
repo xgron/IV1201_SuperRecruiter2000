@@ -12,7 +12,7 @@ public class ErrorHandling {
          */
         public RegisterUserExeption(String message) {
             super(message);
-            System.out.println("ERROR! The following exception occured: " + message);
+            //System.out.println("ERROR! The following exception occured: " + message);
         }
     }
     public static class RegisterApplicationExeption extends Exception {
@@ -26,7 +26,7 @@ public class ErrorHandling {
          */
         public RegisterApplicationExeption(String message) {
             super(message);
-            System.out.println("ERROR! The following exception occured: " + message);
+            //System.out.println("ERROR! The following exception occured: " + message);
         }
     }
 }
