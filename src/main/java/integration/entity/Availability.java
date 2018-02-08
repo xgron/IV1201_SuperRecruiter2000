@@ -1,18 +1,16 @@
 package integration.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
 @Table(name="availability")
 public class Availability implements Serializable{
-    @Id
-    @Column(name="person_ssn")
-    private int personSSN;
+
+    @OneToOne
+    @JoinColumn(name="person_ssn")
+    private Person person;
 
     @Id
     @Column(name="start_date")
@@ -24,23 +22,23 @@ public class Availability implements Serializable{
     public Availability() {
     }
 
-    public Availability(int personSSN, Date startDate) {
-        this.personSSN = personSSN;
+    public Availability(Person person, Date startDate) {
+        this.person = person;
         this.startDate = startDate;
     }
 
-    public Availability(int personSSN, Date startDate, Date endDate) {
-        this.personSSN = personSSN;
+    public Availability(Person person, Date startDate, Date endDate) {
+        this.person = person;
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public int getPersonSSN() {
-        return personSSN;
+    public Person getPerson() {
+        return person;
     }
 
-    public void setPersonSSN(int personSSN) {
-        this.personSSN = personSSN;
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     public Date getStartDate() {
@@ -62,7 +60,7 @@ public class Availability implements Serializable{
     @Override
     public String toString() {
         return "Availability{" +
-                "personSSN=" + personSSN +
+                "person=" + person +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 '}';
