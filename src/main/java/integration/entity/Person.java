@@ -1,7 +1,12 @@
 package integration.entity;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="person")
@@ -35,15 +40,19 @@ public class Person {
     @Column(name = "registration_date")
     private java.sql.Date registrationdate;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name="Availability_id")
-    private Availability availability;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy="person")
+    private List<Experience> experiences;
 
-    @OneToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy="person")
+    private List<Availability> availabilities;
+
+    @OneToOne
     @JoinColumn(name="Role_name")
     private Role role;
 
-    public Person(String userID, String name, String surname, int ssn, String email, String password, String username, Boolean hired, Date registrationdate, Availability availability, Role role) {
+    public Person(String userID, String name, String surname, int ssn, String email, String password, String username, Boolean hired, Date registrationdate, List<Availability> availabilities, Role role) {
         this.userID = userID;
         this.name = name;
         this.surname = surname;
@@ -53,11 +62,27 @@ public class Person {
         this.username = username;
         this.hired = hired;
         this.registrationdate = registrationdate;
-        this.availability = availability;
+        this.availabilities = availabilities;
         this.role = role;
     }
 
     public Person() {
+    }
+
+    public void addAvailability(Availability availability){
+        if(availabilities == null){
+            availabilities = new ArrayList();
+        }
+        availabilities.add(availability);
+        availability.setPerson(this);
+    }
+
+    public void addExperience(Experience experience){
+        if(experiences == null){
+            experiences = new ArrayList();
+        }
+        experiences.add(experience);
+        experience.setPerson(this);
     }
 
     @Override
@@ -72,8 +97,9 @@ public class Person {
                 ", username='" + username + '\'' +
                 ", hired=" + hired +
                 ", registrationdate=" + registrationdate +
-                ", availability=" + availability +
+                ", availabilities=" + availabilities +
                 ", role=" + role +
+                ", experiences=" + experiences +
                 '}';
     }
 }

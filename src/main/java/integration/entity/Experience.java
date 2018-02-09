@@ -26,10 +26,9 @@ public class Experience {
     public Experience() {
     }
 
-    public Experience(double years, Competence competence, Person person) {
+    public Experience(double years, Competence competence) {
         this.years = years;
         this.competence = competence;
-        this.person = person;
     }
 
     public int getId() {
@@ -54,6 +53,14 @@ public class Experience {
 
     public void setCompetence(Competence competence) {
         this.competence = competence;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     @Override

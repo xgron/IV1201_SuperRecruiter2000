@@ -1,7 +1,6 @@
 package integration.entity;
 
 import javax.persistence.*;
-import java.io.Serializable;
 import java.sql.Date;
 
 @Entity
@@ -18,6 +17,10 @@ public class Availability{
 
     @Column(name="end_date")
     private java.sql.Date endDate;
+
+    @ManyToOne
+    @JoinColumn(name="Person_user_id")
+    private Person person;
 
     public Availability() {
     }
@@ -49,6 +52,14 @@ public class Availability{
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     @Override
