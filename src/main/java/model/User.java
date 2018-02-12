@@ -94,6 +94,7 @@ public class User {
             return personDTO;
         }
     }
+
     /**
      *  This method is called from the Control layer when a someone is trying to log in(authentication).
      *
@@ -125,36 +126,6 @@ public class User {
             userid = userid + alphabet.charAt(r.nextInt(alphabet.length()));
         }
         return userid;
-    }
-
-    /**
-     * This method checks if the username is taken or not. Will return true if the username is taken, and false if it is free.
-     * @param  username     the username that is checked
-     * @return      the answer to "is username XXX taken?"
-     */
-    public Boolean usernameTaken(String username){
-        try{
-            List<Person> personList = portal.getPersonWithUsername(username);
-            return !personList.isEmpty();
-        } catch(Exception e){
-
-        }
-        return null;
-    }
-
-    /**
-     * This method checks if the SSN is taken or not. Will return true if the SSN is taken, and false if it is free.
-     * @param  ssn     the SSN that is checked
-     * @return      the answer to "is SSN XXX taken?"
-     */
-    public Boolean ssnTaken(int ssn){
-        try {
-            List<Person> personList = portal.getPersonWithSSN(ssn);
-            return !personList.isEmpty();
-        }catch (Exception e){
-
-        }
-        return null;
     }
 
     public String getUserID(String username){
