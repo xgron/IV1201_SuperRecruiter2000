@@ -89,6 +89,7 @@ public class User {
             );
 
             portal.savePerson(person);
+            TransactionSynchronizationManager.clear();
             return personDTO;
         }
     }
