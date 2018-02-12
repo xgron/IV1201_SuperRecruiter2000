@@ -7,6 +7,8 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import shared.PersonDTO;
+import shared.PublicApplicationDTO;
+
 import java.sql.Date;
 import java.util.Calendar;
 import javax.transaction.Transactional;
@@ -42,7 +44,7 @@ public class User {
      * @param   personDTO  A PersonDTO(Person Data Transfer Object), which contains all necessary data for a person.
      * @return  personDTO  A PersonDTO(Person Data Transfer Object), now with encrypted password and a UserID.
      */
-    public PersonDTO registerUser (PersonDTO personDTO)throws ErrorHandling.RegisterUserException {
+     public PersonDTO registerUser (PersonDTO personDTO)throws ErrorHandling.RegisterUserException {
         if (portal.getPersonWithSSN(Integer.parseInt(personDTO.getSsn())).isEmpty()) {
             throw new ErrorHandling.RegisterUserException("SSN already exists");
         } else if (portal.getPersonWithUsername(personDTO.getUserName()).isEmpty()) {
@@ -56,8 +58,12 @@ public class User {
             TransactionSynchronizationManager.setActualTransactionActive(true);
 
             personDTO.setPassword(BCrypt.hashpw(personDTO.getPassword(), BCrypt.gensalt()));
+
+            // FOR TESTING BELOW IS REPLACED WITH "ABCDEFGHIJKLM"
             personDTO.setUserId(generateUserID());
 
+            //portal.registerUser(person);
+            // REPLACED BY:
             int ssn = Integer.parseInt(personDTO.getSsn());
             String name = personDTO.getFirstName();
             String surname = personDTO.getSurname();
@@ -120,4 +126,40 @@ public class User {
         }
         return userid;
     }
+
+    /**
+     * This method checks if the username is taken or not. Will return true if the username is taken, and false if it is free.
+     * @param  username     the username that is checked
+     * @return      the answer to "is username XXX taken?"
+     */
+    public Boolean usernameTaken(String username){
+        try{
+            List<Person> personList = portal.getPersonWithUsername(username);
+            return !personList.isEmpty();
+        } catch(Exception e){
+
+        }
+        return null;
+    }
+
+    /**
+     * This method checks if the SSN is taken or not. Will return true if the SSN is taken, and false if it is free.
+     * @param  ssn     the SSN that is checked
+     * @return      the answer to "is SSN XXX taken?"
+     */
+    public Boolean ssnTaken(int ssn){
+        try {
+            List<Person> personList = portal.getPersonWithSSN(ssn);
+            return !personList.isEmpty();
+        }catch (Exception e){
+
+        }
+        return null;
+    }
+
+    public String getUserID(String username){
+
+        return portal.getPersonWithUsername(username).get(0).getUserID();
+    }
 }
+

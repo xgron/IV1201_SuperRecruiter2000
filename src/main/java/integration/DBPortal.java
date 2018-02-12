@@ -48,6 +48,15 @@ public class DBPortal {
     }
 
     //JAVADOC TO DO
+    public List<Person> getPersonWithRole(String role){
+        session = factory.getCurrentSession();
+        session.beginTransaction();
+        List<Person> personList = session.createQuery("from Person p where p.role='" + role + "'").getResultList();
+        session.getTransaction().commit();
+        return personList;
+    }
+
+    //JAVADOC TO DO
     public List<Person> getPersonWithUserID(String userID){
         session = factory.getCurrentSession();
         session.beginTransaction();
