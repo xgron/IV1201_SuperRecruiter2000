@@ -2,25 +2,27 @@ package model;
 
 import integration.DBPortal;
 import integration.entity.*;
+import integration.entity.Person;
 import org.springframework.security.crypto.bcrypt.BCrypt;
-import shared.DateDTO;
-import shared.ExperienceDTO;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import shared.PersonDTO;
-
 import java.sql.Date;
 import java.util.Calendar;
+import javax.transaction.Transactional;
+
 import java.util.List;
 import java.util.Random;
 
+
 public class User {
 
-    DBPortal portal;
+    private DBPortal portal;
     /**
      *  Constructor for the User class.
      *
      * @param   portal  a DBPortal object(Database Portal). The model communicates only with DBPortal in the Integrationlayer.
      */
-    public User(DBPortal portal){
+    User(DBPortal portal){
         this.portal = portal;
     }
 
@@ -82,6 +84,31 @@ public class User {
 
                 portal.savePerson(person);
                 return personDTO;
+    @Transactional
+    public PersonDTO registerUser (PersonDTO person)throws ErrorHandling.RegisterUserException
+    {
+
+        if(ssnTaken(Integer.parseInt(person.getSsn()))) {
+            TransactionSynchronizationManager.clear();
+            throw new ErrorHandling.RegisterUserException("SSN already exists");
+        }else if(usernameTaken(person.getUserName())) {
+            TransactionSynchronizationManager.clear();
+            throw new ErrorHandling.RegisterUserException("Username already exists");
+        }else
+            {
+                if(TransactionSynchronizationManager.isActualTransactionActive())
+                    if (TransactionSynchronizationManager.getCurrentTransactionName().equals(person.getUserId()))
+                        throw new ErrorHandling.RegisterUserException("Username already exists");
+
+                TransactionSynchronizationManager.initSynchronization();
+                TransactionSynchronizationManager.setCurrentTransactionName(person.getUserId());
+                TransactionSynchronizationManager.setActualTransactionActive(true);
+
+                person.setPassword(BCrypt.hashpw(person.getPassword(), BCrypt.gensalt()))   ;
+                person.setUserId(generateUserID());
+                portal.registerUser(person);
+                TransactionSynchronizationManager.clear();
+                return person;
             }
 
     }
@@ -106,7 +133,7 @@ public class User {
      * @param  username     the username that is checked
      * @return      the answer to "is username XXX taken?"
      */
-    public Boolean usernameTaken(String username){
+    private Boolean usernameTaken(String username){
         try{
             List<Person> personList = portal.getPersonWithUsername(username);
             return !personList.isEmpty();
@@ -121,7 +148,7 @@ public class User {
      * @param  ssn     the SSN that is checked
      * @return      the answer to "is SSN XXX taken?"
      */
-    public Boolean ssnTaken(int ssn){
+    private Boolean ssnTaken(int ssn){
         try {
             List<Person> personList = portal.getPersonWithSSN(ssn);
             return !personList.isEmpty();
