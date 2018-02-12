@@ -1,15 +1,14 @@
 package model;
 
 import integration.DBPortal;
-import integration.entity.Availability;
-import integration.entity.Competence;
-import integration.entity.Experience;
-import integration.entity.Person;
+import integration.entity.*;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import shared.DateDTO;
 import shared.ExperienceDTO;
 import shared.PersonDTO;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -36,21 +35,53 @@ public class User {
      *  generateUserID(), and calls registerUser from DBPortal, and returns the PersonDTO back to the Controller.
      *
      *
-     * @param   person  A PersonDTO(Person Data Transfer Object), which contains all necessary data for a person.
-     * @return  person  A PersonDTO(Person Data Transfer Object), now with encrypted password and a UserID.
+     * @param   personDTO  A PersonDTO(Person Data Transfer Object), which contains all necessary data for a person.
+     * @return  personDTO  A PersonDTO(Person Data Transfer Object), now with encrypted password and a UserID.
      */
-    public PersonDTO registerUser (PersonDTO person)throws ErrorHandling.RegisterUserExeption
+    public PersonDTO registerUser (PersonDTO personDTO)throws ErrorHandling.RegisterUserExeption
     {
-        if(ssnTaken(Integer.parseInt(person.getSsn()))) {
+        if(ssnTaken(Integer.parseInt(personDTO.getSsn()))) {
             throw new ErrorHandling.RegisterUserExeption("SSN already exists");
-        }else if(usernameTaken(person.getUserName())) {
+        }else if(usernameTaken(personDTO.getUserName())) {
             throw new ErrorHandling.RegisterUserExeption("Username already exists");
         }else
             {
-                person.setPassword(BCrypt.hashpw(person.getPassword(), BCrypt.gensalt()))   ;
-                person.setUserId(generateUserID());
-                portal.registerUser(person);
-                return person;
+                personDTO.setPassword(BCrypt.hashpw(personDTO.getPassword(), BCrypt.gensalt()))   ;
+
+                // FOR TESTING BELOW IS REPLACED WITH "ABCDEFGHIJKLM"
+                //personDTO.setUserId(generateUserID());
+                personDTO.setUserId("ABCDEFGHIJKLM");
+
+                //portal.registerUser(person);
+                // REPLACED BY:
+                int ssn = Integer.parseInt(personDTO.getSsn());
+                String name = personDTO.getFirstName();
+                String surname = personDTO.getSurname();
+                String email = personDTO.getEmail();
+                String password = personDTO.getPassword();
+                String username = personDTO.getUserName();
+                Boolean hired = null;
+                Date registrationdate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+                String userID = personDTO.getUserId();
+                Role role = new Role("applicant");
+
+                Person person = new Person(
+                        userID,
+                        name,
+                        surname,
+                        ssn,
+                        email,
+                        password,
+                        username,
+                        hired,
+                        registrationdate,
+                        null,
+                        role
+                );
+                //portal.createPerson(person);
+
+                portal.savePerson(person);
+                return personDTO;
             }
 
     }

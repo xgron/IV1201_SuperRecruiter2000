@@ -1,46 +1,41 @@
 package integration.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.io.Serializable;
+import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
 @Table(name="availability")
-public class Availability implements Serializable{
-    @Id
-    @Column(name="person_ssn")
-    private int personSSN;
+public class Availability{
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private int id;
+
     @Column(name="start_date")
     private java.sql.Date startDate;
 
     @Column(name="end_date")
     private java.sql.Date endDate;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name="Person_user_id")
+    private Person person;
+
     public Availability() {
     }
 
-    public Availability(int personSSN, Date startDate) {
-        this.personSSN = personSSN;
-        this.startDate = startDate;
-    }
-
-    public Availability(int personSSN, Date startDate, Date endDate) {
-        this.personSSN = personSSN;
+    public Availability(Date startDate, Date endDate) {
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
-    public int getPersonSSN() {
-        return personSSN;
+    public int getId() {
+        return id;
     }
 
-    public void setPersonSSN(int personSSN) {
-        this.personSSN = personSSN;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Date getStartDate() {
@@ -59,10 +54,18 @@ public class Availability implements Serializable{
         this.endDate = endDate;
     }
 
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
+    }
+
     @Override
     public String toString() {
         return "Availability{" +
-                "personSSN=" + personSSN +
+                "id=" + id +
                 ", startDate=" + startDate +
                 ", endDate=" + endDate +
                 '}';

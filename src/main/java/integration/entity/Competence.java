@@ -8,8 +8,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name="competence")
 public class Competence {
+
     @Id
-    @Column
+    @Column(name="name")
     private String name;
 
     public Competence() {

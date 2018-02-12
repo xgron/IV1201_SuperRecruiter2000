@@ -52,7 +52,7 @@ public class Application {
             i++;
         }
         competenceListToDB(application.getUserID(),application.getExperience());
-        avalabilityListToDB(application.getUserID(), application.getAvailabilities());
+        availabilityListToDB(application.getUserID(), application.getAvailabilities());
         return true;
     }
 
@@ -63,12 +63,16 @@ public class Application {
      * @param  experiences  a list with Experience DTO objects
      */
     public void competenceListToDB(String userID, List<ExperienceDTO> experiences){
-        int ssn = searchForUserSSN(userID);
+        Person person = portal.getPersonWithUserID(userID).get(0);
         for(ExperienceDTO eDTO : experiences){
-            Experience experience = new Experience(ssn, eDTO.getName(), roundToOneDecimal(eDTO.getYears(), 1));
+            Competence competence = new Competence(eDTO.getName());
+            Experience experience = new Experience(roundToOneDecimal(eDTO.getYears(), 1),
+                                                    competence);
+            person.addExperience(experience);
             portal.createExperience(experience);
         }
-
+        System.out.println("*** ExperienceListToDB:" + person);
+        portal.updatePerson(person);
     }
 
     /**
@@ -76,12 +80,16 @@ public class Application {
      * @param  userID     the current user
      * @param  availabilities  a list with DateDTO objects
      */
-    public void avalabilityListToDB(String userID, List<DateDTO> availabilities){
-        int ssn = searchForUserSSN(userID);
+    public void availabilityListToDB(String userID, List<DateDTO> availabilities){
+        Person person = portal.getPersonWithUserID(userID).get(0);
         for(DateDTO d : availabilities){
-            Availability availability = new Availability(ssn,stringToSQLDate(d.getStart()), stringToSQLDate(d.getEnd()));
-            portal.createAvailability(availability);
+            Availability availability = new Availability(stringToSQLDate(d.getStart()),
+                                                         stringToSQLDate(d.getEnd()));
+           person.addAvailability(availability);
+           portal.createAvailability(availability);
         }
+        System.out.println("*** AvailabilityListToDB:" + person);
+        portal.updatePerson(person);
     }
 
     /**
@@ -97,16 +105,6 @@ public class Application {
 
         }
         return null;
-    }
-
-    /**
-     * This method searches the DB for the ssn matching the specified userID
-     * @param userID    the user ID
-     * @return      returns the found ssn
-     */
-    public int searchForUserSSN(String userID){
-        Person p = portal.readPerson(userID);
-        return p.getSsn();
     }
 
     private static java.sql.Date stringToSQLDate(String dateString){

@@ -1,16 +1,20 @@
 package integration.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
+import javax.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="person")
 public class Person {
-    @Column
-    private int ssn;
+
+    @Id
+    @Column(name = "user_id")
+    private String userID;
 
     @Column
     private String name;
@@ -19,13 +23,13 @@ public class Person {
     private String surname;
 
     @Column
+    private int ssn;
+
+    @Column
     private String email;
 
     @Column
     private String password;
-
-    @Column
-    private String role_name;
 
     @Column
     private String username;
@@ -33,27 +37,70 @@ public class Person {
     @Column
     private Boolean hired;
 
-    @Column(name="registration_date")
+    @Column(name = "registration_date")
     private java.sql.Date registrationdate;
 
-    @Id
-    @Column(name="user_id")
-    private String userID;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy="person")
+    private List<Experience> experiences;
+
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy="person", cascade = CascadeType.ALL)
+    private List<Availability> availabilities;
+
+    @OneToOne
+    @JoinColumn(name="Role_name")
+    private Role role;
+
+    public Person(String userID, String name, String surname, int ssn, String email, String password, String username, Boolean hired, Date registrationdate, List<Availability> availabilities, Role role) {
+        this.userID = userID;
+        this.name = name;
+        this.surname = surname;
+        this.ssn = ssn;
+        this.email = email;
+        this.password = password;
+        this.username = username;
+        this.hired = hired;
+        this.registrationdate = registrationdate;
+        this.availabilities = availabilities;
+        this.role = role;
+    }
 
     public Person() {
     }
 
-    public Person(int ssn, String name, String surname, String email, String password, String role_name, String username, Boolean hired, Date registrationdate, String userID) {
-        this.ssn = ssn;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.password = password;
-        this.role_name = role_name;
-        this.username = username;
-        this.hired = hired;
-        this.registrationdate = registrationdate;
-        this.userID = userID;
+    public void addAvailability(Availability availability){
+        if(availabilities == null){
+            availabilities = new ArrayList();
+        }
+        availabilities.add(availability);
+        availability.setPerson(this);
+    }
+
+    public void addExperience(Experience experience){
+        if(experiences == null){
+            experiences = new ArrayList();
+        }
+        experiences.add(experience);
+        experience.setPerson(this);
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "userID='" + userID + '\'' +
+                ", name='" + name + '\'' +
+                ", surname='" + surname + '\'' +
+                ", ssn=" + ssn +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", username='" + username + '\'' +
+                ", hired=" + hired +
+                ", registrationdate=" + registrationdate +
+                ", availabilities=" + availabilities +
+                ", role=" + role +
+                ", experiences=" + experiences +
+                '}';
     }
 
     public String getUserID() {
@@ -62,14 +109,6 @@ public class Person {
 
     public void setUserID(String userID) {
         this.userID = userID;
-    }
-
-    public int getSsn() {
-        return ssn;
-    }
-
-    public void setSsn(int ssn) {
-        this.ssn = ssn;
     }
 
     public String getName() {
@@ -88,6 +127,14 @@ public class Person {
         this.surname = surname;
     }
 
+    public int getSsn() {
+        return ssn;
+    }
+
+    public void setSsn(int ssn) {
+        this.ssn = ssn;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -102,14 +149,6 @@ public class Person {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getRole_name() {
-        return role_name;
-    }
-
-    public void setRole_name(String role_name) {
-        this.role_name = role_name;
     }
 
     public String getUsername() {
@@ -136,18 +175,28 @@ public class Person {
         this.registrationdate = registrationdate;
     }
 
-    @Override
-    public String toString() {
-        return "Person{" +
-                "ssn=" + ssn +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", role_name='" + role_name + '\'' +
-                ", username='" + username + '\'' +
-                ", hired=" + hired +
-                ", registrationdate=" + registrationdate +
-                '}';
+    public List<Experience> getExperiences() {
+        return experiences;
+    }
+
+    public void setExperiences(List<Experience> experiences) {
+        this.experiences = experiences;
+    }
+
+    public List<Availability> getAvailabilities() {
+        return availabilities;
+    }
+
+    public void setAvailabilities(List<Availability> availabilities) {
+        this.availabilities = availabilities;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
+
