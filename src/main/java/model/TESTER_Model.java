@@ -3,11 +3,8 @@ package model;
 import shared.ApplicationDTO;
 import shared.DateDTO;
 import shared.ExperienceDTO;
-import shared.PersonDTO;
 
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 public class TESTER_Model {
@@ -29,7 +26,7 @@ public class TESTER_Model {
         System.out.println("Object created: " + application);
         try {
             model.application.registerApplication(application);
-        } catch (ErrorHandling.RegisterApplicationExeption rue) {
+        } catch (ErrorHandling.RegisterApplicationException rue) {
             //TO DO
             System.out.print("Application failed to register. Cause: ");
             System.out.println(rue.getMessage());

@@ -31,7 +31,7 @@ public class TESTER_View {
         System.out.println("Object created: " + application);
         try{
             hc.registerApplication(application);
-        }catch(ErrorHandling.RegisterApplicationExeption rue){
+        }catch(ErrorHandling.RegisterApplicationException rue){
             //TO DO
             System.out.println("Application failed to register.");
         }

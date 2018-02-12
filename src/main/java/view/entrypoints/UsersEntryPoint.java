@@ -3,21 +3,13 @@ package view.entrypoints;
 
 import controller.HomeController;
 import model.ErrorHandling;
-import org.springframework.asm.Type;
 import org.springframework.beans.BeanUtils;
 import shared.*;
-import view.request.ApplicationRest;
-import view.request.DateRest;
-import view.request.ExperienceRest;
-import view.response.AppRest;
 import view.response.UserRest;
 
-import javax.json.JsonObject;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -56,7 +48,7 @@ public class UsersEntryPoint {
         HomeController userController = new HomeController();
         try{
             userController.registerUser(personDTO);
-        }catch (ErrorHandling.RegisterUserExeption rue){
+        }catch (ErrorHandling.RegisterUserException rue){
             //TO DO
             System.out.println("USER REGISTER EXCEPTION.");
         }
@@ -145,7 +137,7 @@ public class UsersEntryPoint {
        try{
 
            hc.registerApplication(requestObject);
-        }catch (ErrorHandling.RegisterApplicationExeption rae){
+        }catch (ErrorHandling.RegisterApplicationException rae){
             //TO DO
             System.out.println("RU EXCEPTION");
         }
