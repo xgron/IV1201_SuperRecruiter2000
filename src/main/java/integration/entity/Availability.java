@@ -18,7 +18,7 @@ public class Availability{
     @Column(name="end_date")
     private java.sql.Date endDate;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name="Person_user_id")
     private Person person;
 

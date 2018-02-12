@@ -69,8 +69,10 @@ public class Application {
             Experience experience = new Experience(roundToOneDecimal(eDTO.getYears(), 1),
                                                     competence);
             person.addExperience(experience);
+            portal.createExperience(experience);
         }
-        portal.savePerson(person);
+        System.out.println("*** ExperienceListToDB:" + person);
+        portal.updatePerson(person);
     }
 
     /**
@@ -84,8 +86,10 @@ public class Application {
             Availability availability = new Availability(stringToSQLDate(d.getStart()),
                                                          stringToSQLDate(d.getEnd()));
            person.addAvailability(availability);
+           portal.createAvailability(availability);
         }
-        portal.savePerson(person);
+        System.out.println("*** AvailabilityListToDB:" + person);
+        portal.updatePerson(person);
     }
 
     /**

@@ -45,7 +45,7 @@ public class Person {
     private List<Experience> experiences;
 
     @LazyCollection(LazyCollectionOption.FALSE)
-    @OneToMany(mappedBy="person")
+    @OneToMany(mappedBy="person", cascade = CascadeType.ALL)
     private List<Availability> availabilities;
 
     @OneToOne
@@ -101,6 +101,102 @@ public class Person {
                 ", role=" + role +
                 ", experiences=" + experiences +
                 '}';
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getSurname() {
+        return surname;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public int getSsn() {
+        return ssn;
+    }
+
+    public void setSsn(int ssn) {
+        this.ssn = ssn;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Boolean getHired() {
+        return hired;
+    }
+
+    public void setHired(Boolean hired) {
+        this.hired = hired;
+    }
+
+    public Date getRegistrationdate() {
+        return registrationdate;
+    }
+
+    public void setRegistrationdate(Date registrationdate) {
+        this.registrationdate = registrationdate;
+    }
+
+    public List<Experience> getExperiences() {
+        return experiences;
+    }
+
+    public void setExperiences(List<Experience> experiences) {
+        this.experiences = experiences;
+    }
+
+    public List<Availability> getAvailabilities() {
+        return availabilities;
+    }
+
+    public void setAvailabilities(List<Availability> availabilities) {
+        this.availabilities = availabilities;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
 

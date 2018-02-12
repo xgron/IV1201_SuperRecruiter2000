@@ -31,6 +31,14 @@ public class DBPortal {
     }
 
     //JAVADOC TO DO
+    public void updatePerson(Person person){
+        session = factory.getCurrentSession();
+        session.beginTransaction();
+        session.update(person);
+        session.getTransaction().commit();
+    }
+
+    //JAVADOC TO DO
     public List<Person> getPersonWithUsername(String username){
         session = factory.getCurrentSession();
         session.beginTransaction();

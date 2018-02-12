@@ -40,6 +40,7 @@ public class TESTER_View {
         ExperienceDTO e1 = new ExperienceDTO("Ljustekniker", 4.51);
         ExperienceDTO e2 = new ExperienceDTO("Ljudtekniker", 5.79);
         List<ExperienceDTO> experiences = Arrays.asList(e1, e2);
+        System.out.println("Object created: " + experiences);
         System.out.println("done.");
 
         System.out.print("*** Creating DateDTO in view...");
@@ -47,9 +48,10 @@ public class TESTER_View {
         DateDTO d2 = new DateDTO("2011-01-10", "2011-02-11");
         DateDTO d3 = new DateDTO("2012-01-10", "2012-02-11");
         List<DateDTO> dates = Arrays.asList(d1, d2, d3);
+        System.out.println("Object created: " + dates);
         System.out.println("done.");
 
-        System.out.print("*** Creating ApplicationDTO in view using ExperienceDTO and DateDTO...");
+        System.out.println("*** Creating ApplicationDTO in view using ExperienceDTO and DateDTO...");
         ApplicationDTO application = new ApplicationDTO(dates, experiences, userID);
         System.out.println("Object created: " + application);
         try{
