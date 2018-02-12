@@ -8,7 +8,9 @@ import integration.entity.Person;
 import shared.ApplicationDTO;
 import shared.DateDTO;
 import shared.ExperienceDTO;
+import shared.PublicApplicationDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Application {
@@ -71,6 +73,7 @@ public class Application {
             person.addExperience(experience);
             portal.createExperience(experience);
         }
+        //FOR TESTING PURPOSES:
         System.out.println("*** ExperienceListToDB:" + person);
         portal.updatePerson(person);
     }
@@ -88,6 +91,7 @@ public class Application {
            person.addAvailability(availability);
            portal.createAvailability(availability);
         }
+        //FOR TESTING PURPOSES:
         System.out.println("*** AvailabilityListToDB:" + person);
         portal.updatePerson(person);
     }
@@ -136,5 +140,26 @@ public class Application {
         }
         return null;
 
+    }
+
+    //JAVADOC TO DO
+    public List<PublicApplicationDTO> getApplicants(){
+        List<PublicApplicationDTO> applicationList = new ArrayList<PublicApplicationDTO>();
+        List<Person> personList = portal.getPersonWithRole("applicant");
+        for(Person p : personList){
+            PublicApplicationDTO tempPA = new PublicApplicationDTO(
+                    p.getUserID(),
+                    p.getName(),
+                    p.getSurname(),
+                    p.getSsn(),
+                    p.getEmail(),
+                    false,
+                    p.getRegistrationdate(),
+                    p.getExperiences(),
+                    p.getAvailabilities()
+            );
+            applicationList.add(tempPA);
+        }
+        return applicationList;
     }
 }

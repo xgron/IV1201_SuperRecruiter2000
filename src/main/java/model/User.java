@@ -6,6 +6,7 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import shared.DateDTO;
 import shared.ExperienceDTO;
 import shared.PersonDTO;
+import shared.PublicApplicationDTO;
 
 import java.sql.Date;
 import java.util.Calendar;
@@ -49,8 +50,7 @@ public class User {
                 personDTO.setPassword(BCrypt.hashpw(personDTO.getPassword(), BCrypt.gensalt()))   ;
 
                 // FOR TESTING BELOW IS REPLACED WITH "ABCDEFGHIJKLM"
-                //personDTO.setUserId(generateUserID());
-                personDTO.setUserId("ABCDEFGHIJKLM");
+                personDTO.setUserId(generateUserID());
 
                 //portal.registerUser(person);
                 // REPLACED BY:
@@ -78,7 +78,6 @@ public class User {
                         null,
                         role
                 );
-                //portal.createPerson(person);
 
                 portal.savePerson(person);
                 return personDTO;
@@ -129,5 +128,10 @@ public class User {
 
         }
         return null;
+    }
+
+    public String getUserID(String username){
+
+        return portal.getPersonWithUsername(username).get(0).getUserID();
     }
 }

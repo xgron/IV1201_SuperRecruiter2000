@@ -5,6 +5,9 @@ import model.ErrorHandling;
 import org.springframework.stereotype.Controller;
 import shared.ApplicationDTO;
 import shared.PersonDTO;
+import shared.PublicApplicationDTO;
+
+import java.util.List;
 
 @Controller
 public class HomeController {
@@ -42,4 +45,14 @@ public class HomeController {
         boolean check = modelObject.user.loginUser(username, password);
         return check;
     }*/
+
+    //JAVADOC TO DO
+    public String getUserID(String username){
+        return model.user.getUserID(username);
+    }
+
+    //JAVADOC TO DO
+    public List<PublicApplicationDTO> getApplicants(){
+        return model.application.getApplicants();
+    }
 }
