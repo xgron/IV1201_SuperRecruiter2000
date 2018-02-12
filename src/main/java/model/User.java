@@ -140,7 +140,6 @@ public class User {
     }
 
     public String getUserID(String username){
-
         return portal.getPersonWithUsername(username).get(0).getUserID();
     }
 }
