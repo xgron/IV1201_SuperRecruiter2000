@@ -1,5 +1,6 @@
 package model;
 
+import integration.entity.Person;
 import shared.ApplicationDTO;
 import shared.DateDTO;
 import shared.ExperienceDTO;

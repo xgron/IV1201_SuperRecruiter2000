@@ -1,69 +1,74 @@
 package integration.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import java.io.Serializable;
+import javax.persistence.*;
 
 @Entity
 @Table(name="experience")
-public class Experience implements Serializable{
-    @Id
-    @Column(name="person_ssn")
-    private int personSSN;
+public class Experience {
 
     @Id
-    @Column(name="competence_name")
-    private String competenceName;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
+    private int id;
 
     @Column
     private double years;
 
+    @OneToOne
+    @JoinColumn(name="Competence_Name")
+    private Competence competence;
+
+    @ManyToOne
+    @JoinColumn(name="Person_user_id")
+    private Person person;
+
+
     public Experience() {
     }
 
-    public Experience(int personSSN, String competenceName) {
-        this.personSSN = personSSN;
-        this.competenceName = competenceName;
-    }
-
-    public Experience(int personSSN, String competenceName, double years) {
-        this.personSSN = personSSN;
-        this.competenceName = competenceName;
+    public Experience(double years, Competence competence) {
         this.years = years;
+        this.competence = competence;
     }
 
-    public int getPersonSSN() {
-        return personSSN;
+    public int getId() {
+        return id;
     }
 
-    public void setPersonSSN(int personSSN) {
-        this.personSSN = personSSN;
-    }
-
-    public String getCompetenceName() {
-        return competenceName;
-    }
-
-    public void setCompetenceName(String competenceName) {
-        this.competenceName = competenceName;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public double getYears() {
         return years;
     }
 
-    public void setYears(float years) {
+    public void setYears(double years) {
         this.years = years;
+    }
+
+    public Competence getCompetence() {
+        return competence;
+    }
+
+    public void setCompetence(Competence competence) {
+        this.competence = competence;
+    }
+
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     @Override
     public String toString() {
         return "Experience{" +
-                "personSSN=" + personSSN +
-                ", competenceName='" + competenceName + '\'' +
+                "id=" + id +
                 ", years=" + years +
+                ", competence=" + competence +
                 '}';
     }
 }
