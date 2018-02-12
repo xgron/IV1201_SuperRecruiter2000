@@ -37,9 +37,8 @@ public class HomeController {
             boolean check = model.application.registerApplication(application);
         return check;
     }
-    /*@RequestMapping("/LoginUser")
-    public boolean loginUser(String username, String password) {
-        boolean check = modelObject.user.loginUser(username, password);
-        return check;
-    }*/
+    public PersonDTO AuthenticateUser(LoginDTO loginDTO) throws ErrorHandling.AuthenticateUserException{
+        PersonDTO authenticatedUser = model.user.authenticateUser(loginDTO);
+        return authenticatedUser;
+    }
 }

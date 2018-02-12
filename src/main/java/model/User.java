@@ -3,6 +3,7 @@ package model;
 import integration.DBPortal;
 import integration.entity.*;
 import integration.entity.Person;
+import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 import shared.PersonDTO;
@@ -29,12 +30,13 @@ public class User {
     /**
      *  This method is called from the Control layer when a someone is trying to register a new user.
      *
-     *  Calls ssnTaken and usernameTaken from DBPortal in the integration layer to check if the
-     *  Social Security Number or the Username already exists. If one of them exists(if ssnTaken or usernameTaken
-     *  returns TRUE), it returns a exception, which describes that the registration failed.
+     *  Checks if someone with the username or SSN already exists in the DB, and if several people are trying to register
+     *  at the same time with the same parameters (transaction error). If any of this occurs, it throws an exception.
      *
-     *  If none of them exists, it uses BCrypt to encrypt the password of the person, generates a UserID using
-     *  generateUserID(), and calls registerUser from DBPortal, and returns the PersonDTO back to the Controller.
+     *  Otherwise, it uses BCrypt to encrypt the password of the person, generates a UserID using
+     *  generateUserID(), and then uses all the parameters from the PersonDTO to create a Person object,
+     *  which is manageable by the integration layer. It then saves the person to the database, clears the transaction
+     *  and returns PersonDTO to the view.
      *
      *
      * @param   personDTO  A PersonDTO(Person Data Transfer Object), which contains all necessary data for a person.
@@ -46,9 +48,8 @@ public class User {
         } else if (portal.getPersonWithUsername(personDTO.getUserName()).isEmpty()) {
             throw new ErrorHandling.RegisterUserException("Username already exists");
         } else if (TransactionSynchronizationManager.isActualTransactionActive() && TransactionSynchronizationManager.getResource(personDTO).equals(personDTO))
-            throw new ErrorHandling.RegisterUserException("Username already exists");
+            throw new ErrorHandling.RegisterUserException("Registration Error! Please try again.");
         else {
-
             TransactionSynchronizationManager.initSynchronization();
             TransactionSynchronizationManager.bindResource(personDTO, personDTO);
             TransactionSynchronizationManager.setCurrentTransactionName(personDTO.getUserName());
@@ -87,11 +88,28 @@ public class User {
             return personDTO;
         }
     }
-    /*public boolean loginUser(String Username, String Password){
-        return false;
-    }*/
+    /**
+     *  This method is called from the Control layer when a someone is trying to log in(authentication).
+     *
+     * It checks if the username exists, and then is the username and password is matching.
+     *
+     * @param   loginDTO  A LoginDTO(Login Data Transfer Object), which contains a username and password.
+     * @return  personDTO  A PersonDTO(Person Data Transfer Object), now with encrypted password and a UserID.
+     */
+    public PersonDTO authenticateUser(LoginDTO loginDTO) throws ErrorHandling.AuthenticateUserException{
+        List<Person> personList = portal.getPersonWithUsername(loginDTO.getUserName());
+        if(personList.isEmpty())
+            throw new ErrorHandling.AuthenticateUserException("Invalid username!");
+        else if(BCrypt.checkpw(loginDTO.getPassword(), personList.get(0).getPassword())) {
+                PersonDTO authenticatedUser = new PersonDTO();
+                BeanUtils.copyProperties(personList.get(0), authenticatedUser);
+            return authenticatedUser;
+        }
+        else
+            throw new ErrorHandling.AuthenticateUserException("Invalid password!");
+    }
 
-    private String generateUserID(){
+    private static String generateUserID(){
 
         Random r = new Random();
 
