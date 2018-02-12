@@ -6,6 +6,7 @@ import integration.entity.Person;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
+import shared.LoginDTO;
 import shared.PersonDTO;
 import shared.PublicApplicationDTO;
 
@@ -104,7 +105,7 @@ public class User {
      * @return  personDTO  A PersonDTO(Person Data Transfer Object), now with encrypted password and a UserID.
      */
     public PersonDTO authenticateUser(LoginDTO loginDTO) throws ErrorHandling.AuthenticateUserException{
-        List<Person> personList = portal.getPersonWithUsername(loginDTO.getUserName());
+        List<Person> personList = portal.getPersonWithUsername(loginDTO.getUsername());
         if(personList.isEmpty())
             throw new ErrorHandling.AuthenticateUserException("Invalid username!");
         else if(BCrypt.checkpw(loginDTO.getPassword(), personList.get(0).getPassword())) {

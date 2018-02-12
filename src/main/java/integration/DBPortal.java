@@ -14,7 +14,10 @@ public class DBPortal {
     private SessionFactory factory = factoryObj.getFactory();
     Session session = factory.getCurrentSession();
 
-    //JAVADOC TO DO
+    /**
+     * This method will create an object of Experience in the database.
+     * @param experience is an object of Experience
+     */
     public void createExperience(Experience experience){
         session = factory.getCurrentSession();
         session.beginTransaction();

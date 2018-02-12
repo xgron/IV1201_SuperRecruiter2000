@@ -3,11 +3,11 @@ package shared;
 /**
  * Created by enfet on 2018-02-12.
  */
-public class LogInDTO {
+public class LoginDTO {
     private String username;
     private String password;
 
-    public LogInDTO(String username, String password) {
+    public LoginDTO(String username, String password) {
         this.username = username;
         this.password = password;
     }
