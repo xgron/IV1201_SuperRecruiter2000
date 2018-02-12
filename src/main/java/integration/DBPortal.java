@@ -18,14 +18,17 @@ public class DBPortal {
      * This method will create an object of Experience in the database.
      * @param experience is an object of Experience
      */
-    public void createExperience(Experience experience){
+    public void saveExperience(Experience experience){
         session = factory.getCurrentSession();
         session.beginTransaction();
         session.save(experience);
         session.getTransaction().commit();
     }
 
-    //JAVADOC TO DO
+    /**
+     * This method will create an object of Person in the database.
+     * @param person is a Person object
+     */
     public void savePerson(Person person){
         session = factory.getCurrentSession();
         session.beginTransaction();
@@ -33,7 +36,10 @@ public class DBPortal {
         session.getTransaction().commit();
     }
 
-    //JAVADOC TO DO
+    /**
+     * This method will update a Person object in the DB if changes has been made.
+     * @param person is a Person object
+     */
     public void updatePerson(Person person){
         session = factory.getCurrentSession();
         session.beginTransaction();
@@ -41,7 +47,11 @@ public class DBPortal {
         session.getTransaction().commit();
     }
 
-    //JAVADOC TO DO
+    /**
+     * This method searches for a person in the DB with a specific username
+     * @param username is the username that is being searched for.
+     * @return A list with persons found. Username will be unique, meaning the list will be at most one entry long.
+     */
     public List<Person> getPersonWithUsername(String username){
         session = factory.getCurrentSession();
         session.beginTransaction();
@@ -50,7 +60,11 @@ public class DBPortal {
         return personList;
     }
 
-    //JAVADOC TO DO
+    /**
+     * This method will search for all persons having a specific role.
+     * @param role is the specific role searched for.
+     * @return A list of found persons.
+     */
     public List<Person> getPersonWithRole(String role){
         session = factory.getCurrentSession();
         session.beginTransaction();
@@ -59,7 +73,11 @@ public class DBPortal {
         return personList;
     }
 
-    //JAVADOC TO DO
+    /**
+     * This method searches for a person in the DB with a specific user ID
+     * @param userID is the user ID that is being searched for.
+     * @return A list with persons found. User ID will be unique, meaning the list will be at most one entry long.
+     */
     public List<Person> getPersonWithUserID(String userID){
         session = factory.getCurrentSession();
         session.beginTransaction();
@@ -68,7 +86,11 @@ public class DBPortal {
         return personList;
     }
 
-    //JAVADOC TO DO
+    /**
+     * This method searches for a person in the DB with a specific ssn
+     * @param ssn is the ssn that is being searched for.
+     * @return A list with persons found. Ssn will be unique, meaning the list will be at most one entry long.
+     */
     public List<Person> getPersonWithSSN(int ssn){
         session = factory.getCurrentSession();
         session.beginTransaction();
@@ -77,7 +99,11 @@ public class DBPortal {
         return personList;
     }
 
-    //JAVADOC TO DO
+    /**
+     * This method will return a list of competences matching the string. Is used for checking if the competence exist or not.
+     * @param competence is the competence being searched for
+     * @return
+     */
     public List<Competence> getCompetence(String competence){
         session = factory.getCurrentSession();
         session.beginTransaction();
@@ -86,12 +112,16 @@ public class DBPortal {
         return competenceList;
     }
 
-    //JAVADOC TO DO
-    public void createPerson(Person person){
-        Session session = factory.getCurrentSession();
+    /**
+     * This method will return all possible competences.
+     * @return All possible competences.
+     */
+    public List<Competence> getAllCompetences(){
+        session = factory.getCurrentSession();
         session.beginTransaction();
-        session.save(person);
+        List<Competence> competenceList = session.createQuery("from Competence").getResultList();
         session.getTransaction().commit();
+        return competenceList;
     }
 
     /**

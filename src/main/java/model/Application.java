@@ -71,7 +71,7 @@ public class Application {
             Experience experience = new Experience(roundToOneDecimal(eDTO.getYears(), 1),
                                                     competence);
             person.addExperience(experience);
-            portal.createExperience(experience);
+            portal.saveExperience(experience);
         }
         //FOR TESTING PURPOSES:
         System.out.println("*** ExperienceListToDB:" + person);

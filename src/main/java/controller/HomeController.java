@@ -4,6 +4,7 @@ package controller;
 import model.ErrorHandling;
 import org.springframework.stereotype.Controller;
 import shared.ApplicationDTO;
+import shared.LoginDTO;
 import shared.PersonDTO;
 import shared.PublicApplicationDTO;
 
@@ -47,8 +48,10 @@ public class HomeController {
     }
 
     //JAVADOC TO DO
-    public List<PublicApplicationDTO> getApplicants(){
+    public List<PublicApplicationDTO> getApplicants() {
         return model.application.getApplicants();
+    }
+
 
     public PersonDTO AuthenticateUser(LoginDTO loginDTO) throws ErrorHandling.AuthenticateUserException{
         PersonDTO authenticatedUser = model.user.authenticateUser(loginDTO);

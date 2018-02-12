@@ -46,9 +46,9 @@ public class User {
      * @return  personDTO  A PersonDTO(Person Data Transfer Object), now with encrypted password and a UserID.
      */
      public PersonDTO registerUser (PersonDTO personDTO)throws ErrorHandling.RegisterUserException {
-        if (portal.getPersonWithSSN(Integer.parseInt(personDTO.getSsn())).isEmpty()) {
+        if (!portal.getPersonWithSSN(Integer.parseInt(personDTO.getSsn())).isEmpty()) {
             throw new ErrorHandling.RegisterUserException("SSN already exists");
-        } else if (portal.getPersonWithUsername(personDTO.getUserName()).isEmpty()) {
+        } else if (!portal.getPersonWithUsername(personDTO.getUserName()).isEmpty()) {
             throw new ErrorHandling.RegisterUserException("Username already exists");
         } else if (TransactionSynchronizationManager.isActualTransactionActive() && TransactionSynchronizationManager.getResource(personDTO).equals(personDTO))
             throw new ErrorHandling.RegisterUserException("Registration Error! Please try again.");
