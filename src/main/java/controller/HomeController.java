@@ -40,11 +40,6 @@ public class HomeController {
             boolean check = model.application.registerApplication(application);
         return check;
     }
-    /*@RequestMapping("/LoginUser")
-    public boolean loginUser(String username, String password) {
-        boolean check = modelObject.user.loginUser(username, password);
-        return check;
-    }*/
 
     //JAVADOC TO DO
     public String getUserID(String username){
@@ -54,5 +49,9 @@ public class HomeController {
     //JAVADOC TO DO
     public List<PublicApplicationDTO> getApplicants(){
         return model.application.getApplicants();
+
+    public PersonDTO AuthenticateUser(LoginDTO loginDTO) throws ErrorHandling.AuthenticateUserException{
+        PersonDTO authenticatedUser = model.user.authenticateUser(loginDTO);
+        return authenticatedUser;
     }
 }
