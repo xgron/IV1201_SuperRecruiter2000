@@ -60,6 +60,11 @@ public class TESTER_View {
             System.out.println("done.");
         }catch(ErrorHandling.RegisterApplicationExeption rue){
             System.out.println("failed. " + rue.getMessage());
+
+        }catch(ErrorHandling.RegisterApplicationException rue){
+            //TO DO
+            System.out.println("Application failed to register.");
+
         }
         // END OF PERSON 1 --------------------------------------
 

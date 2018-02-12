@@ -22,7 +22,7 @@ public class HomeController {
      * @param   person  A PersonDTO(Person Data Transfer Object), which contains all necessary data for a person.
      * @return  user    The Registered User.
      */
-    public PersonDTO registerUser(PersonDTO person) throws ErrorHandling.RegisterUserExeption {
+    public PersonDTO registerUser(PersonDTO person) throws ErrorHandling.RegisterUserException {
 
         PersonDTO user = model.user.registerUser(person);
         return user;
@@ -36,7 +36,7 @@ public class HomeController {
      * @param   application  An ApplicationDTO(Person Data Transfer Object), which contains all necessary data for an application.
      * @return  check    boolean, false if error.
      */
-    public boolean registerApplication(ApplicationDTO application) throws ErrorHandling.RegisterApplicationExeption {
+    public boolean registerApplication(ApplicationDTO application) throws ErrorHandling.RegisterApplicationException {
             boolean check = model.application.registerApplication(application);
         return check;
     }

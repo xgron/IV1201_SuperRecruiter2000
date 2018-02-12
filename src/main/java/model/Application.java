@@ -38,18 +38,18 @@ public class Application {
      * @param   application  An ApplicationDTO(Person Data Transfer Object), which contains all necessary data for an application.
      * @return  boolean  Exception if error, true if successful registration of application
      */
-    public boolean registerApplication(ApplicationDTO application) throws ErrorHandling.RegisterApplicationExeption{
+    public boolean registerApplication(ApplicationDTO application) throws ErrorHandling.RegisterApplicationException {
         if(!userIDExist(application.getUserID()))
-            throw new ErrorHandling.RegisterApplicationExeption("Invalid UserID!");
+            throw new ErrorHandling.RegisterApplicationException("Invalid UserID!");
         for(ExperienceDTO to : application.getExperience()){
             if (!competenceExist(to.getName()))
-                    throw new ErrorHandling.RegisterApplicationExeption("This competence does not exist!");
+                    throw new ErrorHandling.RegisterApplicationException("This competence does not exist!");
         }
         int i = 1;
         for (DateDTO to : application.getAvailabilities()){
             for (DateDTO to1 : application.getAvailabilities().subList(i,application.getAvailabilities().size())){
                 if(to1.getStart().equals(to.getStart()))
-                    throw new ErrorHandling.RegisterApplicationExeption("Invalid Availabilities!");
+                    throw new ErrorHandling.RegisterApplicationException("Invalid Availabilities!");
             }
             i++;
         }
