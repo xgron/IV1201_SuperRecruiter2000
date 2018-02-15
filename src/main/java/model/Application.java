@@ -163,6 +163,21 @@ public class Application {
                 hired = "Accepted";
             }
 
+            List<ExperienceDTO> experienceDTOList = new ArrayList<ExperienceDTO>();
+            for(Experience experience : p.getExperiences()){
+                ExperienceDTO experienceDTO = new ExperienceDTO(experience.getCompetence().getName(),
+                        experience.getYears());
+                experienceDTOList.add(experienceDTO);
+            }
+
+            List<DateDTO> availabilities = new ArrayList<DateDTO>();
+            for(Availability availability : p.getAvailabilities()){
+                DateDTO dateDTO = new DateDTO(availability.getStartDate().toString(),
+                        availability.getEndDate().toString());
+                availabilities.add(dateDTO);
+            }
+
+
             PublicApplicationDTO tempPA = new PublicApplicationDTO(
                     p.getUserID(),
                     p.getName(),
@@ -171,8 +186,8 @@ public class Application {
                     p.getEmail(),
                     hired,
                     p.getRegistrationdate(),
-                    p.getExperiences(),
-                    p.getAvailabilities()
+                    experienceDTOList,
+                    availabilities
             );
             applicationList.add(tempPA);
         }

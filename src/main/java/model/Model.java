@@ -26,7 +26,7 @@ public class Model {
             fh = new FileHandler(logPath
                     + format.format(Calendar.getInstance().getTime()) + ".log");
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Log could not be written to file...");
         }
 
         fh.setFormatter(new SimpleFormatter());
