@@ -24,7 +24,6 @@ public class User {
     private final static Logger LOG = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     private DBPortal portal;
-    final static Logger logr = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     /**
      *  Constructor for the User class.
      *
@@ -32,10 +31,6 @@ public class User {
      */
     User(DBPortal portal){
         this.portal = portal;
-        LogManager.getLogManager().reset();
-        logr.setLevel(Level.ALL);
-        ConsoleHandler ch = new ConsoleHandler();
-        logr.addHandler(ch);
     }
 
     /**

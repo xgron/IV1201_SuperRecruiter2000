@@ -1,8 +1,10 @@
 package model;
 
 
-public class ErrorHandling {
+import java.util.logging.Logger;
 
+public class ErrorHandling {
+    private final static Logger logr = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     public static class RegisterUserException extends Exception {
         /**
          *  This method is called from the model layer when an error occurs and an exception is thrown.
@@ -14,7 +16,7 @@ public class ErrorHandling {
          */
         public RegisterUserException(String message) {
             super(message);
-            User.logr.info("Error! Exception thrown: " + message);
+            logr.info("Error! Exception thrown: " + message);
         }
     }
     public static class RegisterApplicationException extends Exception {
@@ -28,7 +30,7 @@ public class ErrorHandling {
          */
         public RegisterApplicationException(String message) {
             super(message);
-            Application.logr.info("Error! Exception thrown: " + message);
+            logr.info("Error! Exception thrown: " + message);
 
         }
     }
@@ -43,7 +45,7 @@ public class ErrorHandling {
          */
         public AuthenticateUserException(String message) {
             super(message);
-            User.logr.info("Error! Exception thrown: " + message);
+            logr.info("Error! Exception thrown: " + message);
         }
     }
 }

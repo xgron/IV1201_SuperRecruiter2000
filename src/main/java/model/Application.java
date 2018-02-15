@@ -29,18 +29,6 @@ public class Application {
         this.portal = portal;
 
 
-        //logging
-        SimpleDateFormat format = new SimpleDateFormat("M-d_HHmmss");
-        try {
-            fh = new FileHandler("C:\\Users\\jm\\Documents\\GitHub\\IV1201_SuperRecruiter2000\log"
-                    + format.format(Calendar.getInstance().getTime()) + ".log");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        fh.setFormatter(new SimpleFormatter());
-        LOG.addHandler(fh);
-
     }
 
     /**
