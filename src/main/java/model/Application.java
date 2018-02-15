@@ -12,8 +12,11 @@ import shared.PublicApplicationDTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.*;
 
 public class Application {
+    private final static Logger LOG = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+
     DBPortal portal;
 
     /**
@@ -55,6 +58,7 @@ public class Application {
         }
         competenceListToDB(application.getUserID(),application.getExperience());
         availabilityListToDB(application.getUserID(), application.getAvailabilities());
+        LOG.log(Level.INFO, "The application for user " + portal.getPersonWithUserID(application.getUserID()).get(0).getName() + " " + portal.getPersonWithUserID(application.getUserID()).get(0).getSurname() + " was updated.");
         return true;
     }
 
@@ -73,9 +77,8 @@ public class Application {
             person.addExperience(experience);
             portal.saveExperience(experience);
         }
-        //FOR TESTING PURPOSES:
-        System.out.println("*** ExperienceListToDB:" + person);
         portal.updatePerson(person);
+        LOG.log(Level.INFO, "The list of competences for user " + person.getName() + " " + person.getSurname() + " was updated.");
     }
 
     /**
@@ -91,9 +94,8 @@ public class Application {
            person.addAvailability(availability);
            portal.createAvailability(availability);
         }
-        //FOR TESTING PURPOSES:
-        System.out.println("*** AvailabilityListToDB:" + person);
         portal.updatePerson(person);
+        LOG.log(Level.INFO, "The list of availabilities for user " + person.getName() + " " + person.getSurname() + " was updated.");
     }
 
     /**
@@ -169,6 +171,7 @@ public class Application {
             );
             applicationList.add(tempPA);
         }
+        LOG.log(Level.INFO, "All applicants fetched.");
         return applicationList;
     }
 }
