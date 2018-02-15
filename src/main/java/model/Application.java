@@ -10,16 +10,16 @@ import shared.DateDTO;
 import shared.ExperienceDTO;
 import shared.PublicApplicationDTO;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.*;
 
 public class Application {
     private final static Logger LOG = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-    private FileHandler fh = null;
 
     DBPortal portal;
-    final static Logger logr = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     /**
      *  Constructor for the Application class.
      *
@@ -27,11 +27,6 @@ public class Application {
      */
     public Application(DBPortal portal){
         this.portal = portal;
-
-        LogManager.getLogManager().reset();
-        logr.setLevel(Level.ALL);
-        ConsoleHandler ch = new ConsoleHandler();
-        logr.addHandler(ch);
 
 
         //logging
