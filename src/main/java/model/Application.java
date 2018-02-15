@@ -10,13 +10,14 @@ import shared.DateDTO;
 import shared.ExperienceDTO;
 import shared.PublicApplicationDTO;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.*;
 
 public class Application {
     private final static Logger LOG = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-    private FileHandler fh = null;
 
     DBPortal portal;
 
@@ -27,19 +28,6 @@ public class Application {
      */
     public Application(DBPortal portal){
         this.portal = portal;
-
-        //logging
-        SimpleDateFormat format = new SimpleDateFormat("M-d_HHmmss");
-        try {
-            fh = new FileHandler("C:\\Users\\jm\\Documents\\GitHub\\IV1201_SuperRecruiter2000\log"
-                    + format.format(Calendar.getInstance().getTime()) + ".log");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        fh.setFormatter(new SimpleFormatter());
-        LOG.addHandler(fh);
-
     }
 
     /**
