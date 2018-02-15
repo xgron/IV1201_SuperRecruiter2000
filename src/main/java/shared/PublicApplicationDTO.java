@@ -12,7 +12,7 @@ public class PublicApplicationDTO {
     private String surname;
     private int ssn;
     private String email;
-    private boolean hired;
+    private String hired;
     private java.sql.Date registrationdate;
     private List<Experience> experiences;
     private List<Availability> availabilities;
@@ -20,7 +20,7 @@ public class PublicApplicationDTO {
     public PublicApplicationDTO() {
     }
 
-    public PublicApplicationDTO(String userID, String name, String surname, int ssn, String email, boolean hired, Date registrationdate, List<Experience> experiences, List<Availability> availabilities) {
+    public PublicApplicationDTO(String userID, String name, String surname, int ssn, String email, String hired, Date registrationdate, List<Experience> experiences, List<Availability> availabilities) {
         this.userID = userID;
         this.name = name;
         this.surname = surname;
@@ -72,11 +72,11 @@ public class PublicApplicationDTO {
         this.email = email;
     }
 
-    public boolean isHired() {
+    public String getHired() {
         return hired;
     }
 
-    public void setHired(boolean hired) {
+    public void setHired(String hired) {
         this.hired = hired;
     }
 
@@ -107,15 +107,15 @@ public class PublicApplicationDTO {
     @Override
     public String toString() {
         return "PublicApplicationDTO{" +
-                "userID='" + userID + '\'' +
+                "\nuserID='" + userID + '\'' +
                 ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", ssn=" + ssn +
                 ", email='" + email + '\'' +
                 ", hired=" + hired +
                 ", registrationdate=" + registrationdate +
-                ", experiences=" + experiences +
-                ", availabilities=" + availabilities +
+                ", \n    experiences=" + experiences +
+                ", \n    availabilities=" + availabilities +
                 '}';
     }
 }

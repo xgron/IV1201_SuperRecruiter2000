@@ -147,13 +147,22 @@ public class Application {
         List<PublicApplicationDTO> applicationList = new ArrayList<PublicApplicationDTO>();
         List<Person> personList = portal.getPersonWithRole("applicant");
         for(Person p : personList){
+            String hired;
+            if(p.getHired() == null){
+                hired = "Under consideration";
+            }else if(p.getHired() == false){
+                hired = "Declined";
+            }else{
+                hired = "Accepted";
+            }
+
             PublicApplicationDTO tempPA = new PublicApplicationDTO(
                     p.getUserID(),
                     p.getName(),
                     p.getSurname(),
                     p.getSsn(),
                     p.getEmail(),
-                    false,
+                    hired,
                     p.getRegistrationdate(),
                     p.getExperiences(),
                     p.getAvailabilities()

@@ -4,10 +4,13 @@ import integration.entity.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import shared.PersonDTO;
+import shared.PublicApplicationDTO;
 
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
+
+import java.util.logging.*;
 
 public class DBPortal {
     private Factory factoryObj = new Factory();
