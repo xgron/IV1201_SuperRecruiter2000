@@ -31,7 +31,7 @@ public class TESTER_View {
         try{
             hc.registerUser(personDTO);
             System.out.println("done.");
-        }catch(ErrorHandling.RegisterUserExeption userExeption){
+        }catch(ErrorHandling.RegisterUserException userExeption){
             System.out.println("failed. " + userExeption.getMessage());
         }
 
@@ -58,13 +58,8 @@ public class TESTER_View {
         try{
             hc.registerApplication(application);
             System.out.println("done.");
-        }catch(ErrorHandling.RegisterApplicationExeption rue){
-            System.out.println("failed. " + rue.getMessage());
-
         }catch(ErrorHandling.RegisterApplicationException rue){
-            //TO DO
-            System.out.println("Application failed to register.");
-
+            System.out.println("failed. " + rue.getMessage());
         }
         // END OF PERSON 1 --------------------------------------
 
@@ -83,7 +78,7 @@ public class TESTER_View {
         try{
             hc.registerUser(personDTO);
             System.out.println("done.");
-        }catch(ErrorHandling.RegisterUserExeption userExeption){
+        }catch(ErrorHandling.RegisterUserException userExeption){
             System.out.println("failed. " + userExeption.getMessage());
         }
 
@@ -110,7 +105,7 @@ public class TESTER_View {
         try{
             hc.registerApplication(application);
             System.out.println("done.");
-        }catch(ErrorHandling.RegisterApplicationExeption rue){
+        }catch(ErrorHandling.RegisterApplicationException rue){
             System.out.println("failed. " + rue.getMessage());
         }
         // END OF PERSON 2 --------------------------------------
@@ -130,7 +125,7 @@ public class TESTER_View {
         try{
             hc.registerUser(personDTO);
             System.out.println("done.");
-        }catch(ErrorHandling.RegisterUserExeption userExeption){
+        }catch(ErrorHandling.RegisterUserException userExeption){
             System.out.println("failed. " + userExeption.getMessage());
         }
 
@@ -157,7 +152,7 @@ public class TESTER_View {
         try{
             hc.registerApplication(application);
             System.out.println("done.");
-        }catch(ErrorHandling.RegisterApplicationExeption rue){
+        }catch(ErrorHandling.RegisterApplicationException rue){
             System.out.println("failed. " + rue.getMessage());
         }
         // END OF PERSON 3 --------------------------------------

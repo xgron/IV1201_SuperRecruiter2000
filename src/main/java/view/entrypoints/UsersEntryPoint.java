@@ -4,6 +4,7 @@ package view.entrypoints;
 import controller.HomeController;
 import model.ErrorHandling;
 import org.springframework.beans.BeanUtils;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import shared.*;
 import view.response.UserRest;
 
@@ -16,6 +17,8 @@ import java.util.List;
  * Created by enfet on 2018-01-29.
  */
 
+
+@CrossOrigin(origins ="http://localhost:4200")
 @Path("/users")
 public class UsersEntryPoint {
 
@@ -92,6 +95,7 @@ public class UsersEntryPoint {
 
 
     @GET
+    @CrossOrigin
     @Produces(MediaType.APPLICATION_JSON)
     public List<UserRest> getApplicants(@DefaultValue("0") @QueryParam("start") int start,
                                                  @DefaultValue("1000")@QueryParam("limit") int limit) {
@@ -147,6 +151,8 @@ public class UsersEntryPoint {
 
         return requestObject;
     }
+
+
 
 
 

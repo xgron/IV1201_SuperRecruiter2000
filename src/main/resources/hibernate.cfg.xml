@@ -15,7 +15,7 @@
         <property name="hibernate.current_session_context_class">thread</property>
 
         <!-- for dev. -->
-        <property name = "show_sql">true</property>
+        <property name = "show_sql">false</property>
 
 
     </session-factory>
