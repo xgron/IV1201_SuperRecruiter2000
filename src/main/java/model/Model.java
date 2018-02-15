@@ -2,6 +2,7 @@ package model;
 
 import integration.DBPortal;
 
+
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.logging.FileHandler;
@@ -12,6 +13,7 @@ public class Model {
     public DBPortal portal = new DBPortal();
     public User user = new User(portal);
     public Application application = new Application(portal);
+
 
     private final static Logger LOG = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     private FileHandler fh = null;

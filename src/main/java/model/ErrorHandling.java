@@ -1,6 +1,8 @@
 package model;
 
+
 public class ErrorHandling {
+
     public static class RegisterUserException extends Exception {
         /**
          *  This method is called from the model layer when an error occurs and an exception is thrown.
@@ -12,7 +14,7 @@ public class ErrorHandling {
          */
         public RegisterUserException(String message) {
             super(message);
-            //System.out.println("ERROR! The following exception occured: " + message);
+            User.logr.info("Error! Exception thrown: " + message);
         }
     }
     public static class RegisterApplicationException extends Exception {
@@ -26,7 +28,8 @@ public class ErrorHandling {
          */
         public RegisterApplicationException(String message) {
             super(message);
-            //System.out.println("ERROR! The following exception occured: " + message);
+            Application.logr.info("Error! Exception thrown: " + message);
+
         }
     }
     public static class AuthenticateUserException extends Exception {
@@ -40,7 +43,7 @@ public class ErrorHandling {
          */
         public AuthenticateUserException(String message) {
             super(message);
-            //System.out.println("ERROR! The following exception occured: " + message);
+            User.logr.info("Error! Exception thrown: " + message);
         }
     }
 }
