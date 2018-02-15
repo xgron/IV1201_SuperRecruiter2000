@@ -16,7 +16,7 @@ public class ErrorHandling {
          */
         public RegisterUserException(String message) {
             super(message);
-            logr.info("Error! Exception thrown: " + message);
+            logr.info("Exception thrown: " + message);
         }
     }
     public static class RegisterApplicationException extends Exception {
@@ -30,7 +30,7 @@ public class ErrorHandling {
          */
         public RegisterApplicationException(String message) {
             super(message);
-            logr.info("Error! Exception thrown: " + message);
+            logr.info("Exception thrown: " + message);
 
         }
     }
@@ -45,7 +45,7 @@ public class ErrorHandling {
          */
         public AuthenticateUserException(String message) {
             super(message);
-            logr.info("Error! Exception thrown: " + message);
+            logr.info("Exception thrown: " + message);
         }
     }
 }
