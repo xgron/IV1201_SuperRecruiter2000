@@ -18,7 +18,7 @@ public class Model {
 
     public Model() {
         //logging
-        String logPath = "C:/Users/jm/Documents/GitHub/IV1201_SuperRecruiter2000/logs/";
+        String logPath = "./logs/";
         SimpleDateFormat format = new SimpleDateFormat("M-d_HHmmss");
         try {
             fh = new FileHandler(logPath
