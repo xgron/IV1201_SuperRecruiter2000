@@ -16,6 +16,7 @@ import java.util.logging.*;
 
 public class Application {
     private final static Logger LOG = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private FileHandler fh = null;
 
     DBPortal portal;
 
@@ -24,7 +25,22 @@ public class Application {
      *
      * @param   portal  a DBPortal object(Database Portal). The model communicates only with DBPortal in the Integration layer.
      */
-    public Application(DBPortal portal){this.portal = portal;}
+    public Application(DBPortal portal){
+        this.portal = portal;
+
+        //logging
+        SimpleDateFormat format = new SimpleDateFormat("M-d_HHmmss");
+        try {
+            fh = new FileHandler("C:\\Users\\jm\\Documents\\GitHub\\IV1201_SuperRecruiter2000\log"
+                    + format.format(Calendar.getInstance().getTime()) + ".log");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        fh.setFormatter(new SimpleFormatter());
+        LOG.addHandler(fh);
+
+    }
 
     /**
      *  This method is called from the Control layer when a someone is trying to register a new application.
