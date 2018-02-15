@@ -12,12 +12,12 @@ import shared.PublicApplicationDTO;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
+import java.util.logging.*;
 
 public class Application {
+    private final static Logger LOG = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+    private FileHandler fh = null;
+
     DBPortal portal;
     final static Logger logr = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     /**
@@ -27,10 +27,25 @@ public class Application {
      */
     public Application(DBPortal portal){
         this.portal = portal;
+
         LogManager.getLogManager().reset();
         logr.setLevel(Level.ALL);
         ConsoleHandler ch = new ConsoleHandler();
         logr.addHandler(ch);
+
+
+        //logging
+        SimpleDateFormat format = new SimpleDateFormat("M-d_HHmmss");
+        try {
+            fh = new FileHandler("C:\\Users\\jm\\Documents\\GitHub\\IV1201_SuperRecruiter2000\log"
+                    + format.format(Calendar.getInstance().getTime()) + ".log");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        fh.setFormatter(new SimpleFormatter());
+        LOG.addHandler(fh);
+
     }
 
     /**
@@ -65,6 +80,7 @@ public class Application {
         }
         competenceListToDB(application.getUserID(),application.getExperience());
         availabilityListToDB(application.getUserID(), application.getAvailabilities());
+        LOG.log(Level.INFO, "The application for user " + portal.getPersonWithUserID(application.getUserID()).get(0).getName() + " " + portal.getPersonWithUserID(application.getUserID()).get(0).getSurname() + " was updated.");
         return true;
     }
 
@@ -83,9 +99,8 @@ public class Application {
             person.addExperience(experience);
             portal.saveExperience(experience);
         }
-        //FOR TESTING PURPOSES:
-        System.out.println("*** ExperienceListToDB:" + person);
         portal.updatePerson(person);
+        LOG.log(Level.INFO, "The list of competences for user " + person.getName() + " " + person.getSurname() + " was updated.");
     }
 
     /**
@@ -101,9 +116,8 @@ public class Application {
            person.addAvailability(availability);
            portal.createAvailability(availability);
         }
-        //FOR TESTING PURPOSES:
-        System.out.println("*** AvailabilityListToDB:" + person);
         portal.updatePerson(person);
+        LOG.log(Level.INFO, "The list of availabilities for user " + person.getName() + " " + person.getSurname() + " was updated.");
     }
 
     /**
@@ -179,6 +193,7 @@ public class Application {
             );
             applicationList.add(tempPA);
         }
+        LOG.log(Level.INFO, "All applicants fetched.");
         return applicationList;
     }
 }

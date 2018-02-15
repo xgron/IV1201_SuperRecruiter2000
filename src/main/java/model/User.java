@@ -16,13 +16,12 @@ import javax.transaction.Transactional;
 
 import java.util.List;
 import java.util.Random;
-import java.util.logging.ConsoleHandler;
-import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
+import java.util.logging.*;
+
 
 
 public class User {
+    private final static Logger LOG = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     private DBPortal portal;
     final static Logger logr = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
@@ -100,6 +99,7 @@ public class User {
             );
 
             portal.savePerson(person);
+            LOG.log(Level.INFO, "User " + name + " " + surname + " registered.");
             TransactionSynchronizationManager.clear();
             return personDTO;
         }
@@ -120,6 +120,7 @@ public class User {
         else if(BCrypt.checkpw(loginDTO.getPassword(), personList.get(0).getPassword())) {
                 PersonDTO authenticatedUser = new PersonDTO();
                 BeanUtils.copyProperties(personList.get(0), authenticatedUser);
+            LOG.log(Level.INFO, "User " + authenticatedUser.getFirstName() + " " + authenticatedUser.getSurname() + " authenticated.");
             return authenticatedUser;
         }
         else

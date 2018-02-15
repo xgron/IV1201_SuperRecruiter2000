@@ -18,7 +18,7 @@ import java.util.List;
  */
 
 
-@CrossOrigin(origins ="http://localhost:4200")
+
 @Path("/users")
 public class UsersEntryPoint {
 
@@ -95,7 +95,6 @@ public class UsersEntryPoint {
 
 
     @GET
-    @CrossOrigin
     @Produces(MediaType.APPLICATION_JSON)
     public List<UserRest> getApplicants(@DefaultValue("0") @QueryParam("start") int start,
                                                  @DefaultValue("1000")@QueryParam("limit") int limit) {
