@@ -12,16 +12,26 @@ import shared.PublicApplicationDTO;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 public class Application {
     DBPortal portal;
-
+    final static Logger logr = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     /**
      *  Constructor for the Application class.
      *
      * @param   portal  a DBPortal object(Database Portal). The model communicates only with DBPortal in the Integration layer.
      */
-    public Application(DBPortal portal){this.portal = portal;}
+    public Application(DBPortal portal){
+        this.portal = portal;
+        LogManager.getLogManager().reset();
+        logr.setLevel(Level.ALL);
+        ConsoleHandler ch = new ConsoleHandler();
+        logr.addHandler(ch);
+    }
 
     /**
      *  This method is called from the Control layer when a someone is trying to register a new application.

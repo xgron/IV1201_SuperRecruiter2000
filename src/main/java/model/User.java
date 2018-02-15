@@ -16,11 +16,16 @@ import javax.transaction.Transactional;
 
 import java.util.List;
 import java.util.Random;
+import java.util.logging.ConsoleHandler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 
 public class User {
 
     private DBPortal portal;
+    final static Logger logr = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
     /**
      *  Constructor for the User class.
      *
@@ -28,6 +33,10 @@ public class User {
      */
     User(DBPortal portal){
         this.portal = portal;
+        LogManager.getLogManager().reset();
+        logr.setLevel(Level.ALL);
+        ConsoleHandler ch = new ConsoleHandler();
+        logr.addHandler(ch);
     }
 
     /**
