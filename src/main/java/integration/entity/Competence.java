@@ -13,6 +13,9 @@ public class Competence {
     @Column(name="name")
     private String name;
 
+    @Column(name="name_sv")
+    private String nameSv;
+
     public Competence() {
     }
 
@@ -28,10 +31,19 @@ public class Competence {
         this.name = name;
     }
 
+    public String getNameSv() {
+        return nameSv;
+    }
+
+    public void setNameSv(String nameSv) {
+        this.nameSv = nameSv;
+    }
+
     @Override
     public String toString() {
         return "Competence{" +
                 "name='" + name + '\'' +
+                ", nameSv='" + nameSv + '\'' +
                 '}';
     }
 }
