@@ -33,8 +33,8 @@ public class TESTER_View {
         }
 
         String userID = hc.getUserID("thehulk");
-        ExperienceDTO e1 = new ExperienceDTO("Ljustekniker", 4.51);
-        ExperienceDTO e2 = new ExperienceDTO("Ljudtekniker", 5.79);
+        ExperienceDTO e1 = new ExperienceDTO("Sound tech", 4.51);
+        ExperienceDTO e2 = new ExperienceDTO("Light tech", 5.79);
         List<ExperienceDTO> experiences = Arrays.asList(e1, e2);
 
         DateDTO d1 = new DateDTO("2010-01-10", "2010-02-11");
@@ -66,8 +66,8 @@ public class TESTER_View {
         }
 
         userID = hc.getUserID("ironman");
-        e1 = new ExperienceDTO("Bingoutropare", 2);
-        e2 = new ExperienceDTO("Poppare", 15);
+        e1 = new ExperienceDTO("Sausage BBQ", 2);
+        e2 = new ExperienceDTO("Popper", 15);
         experiences = Arrays.asList(e1, e2);
 
         d1 = new DateDTO("2009-01-10", "2011-02-11");
@@ -99,8 +99,8 @@ public class TESTER_View {
         }
 
         userID = hc.getUserID("thor");
-        e1 = new ExperienceDTO("Karuselldrift", 2);
-        e2 = new ExperienceDTO("Ljustekniker", 15);
+        e1 = new ExperienceDTO("Sugarguy", 2);
+        e2 = new ExperienceDTO("Ghost", 15);
         experiences = Arrays.asList(e1, e2);
 
         d1 = new DateDTO("2005-01-10", "2010-02-11");
