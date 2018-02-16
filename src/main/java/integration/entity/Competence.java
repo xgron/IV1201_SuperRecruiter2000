@@ -1,5 +1,7 @@
 package integration.entity;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,9 +13,11 @@ public class Competence {
 
     @Id
     @Column(name="name")
+    @NotEmpty
     private String name;
 
     @Column(name="name_sv")
+    @NotEmpty
     private String nameSv;
 
     public Competence() {

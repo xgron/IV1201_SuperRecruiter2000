@@ -37,9 +37,9 @@ public class TESTER_View {
         ExperienceDTO e2 = new ExperienceDTO("Light tech", 5.79);
         List<ExperienceDTO> experiences = Arrays.asList(e1, e2);
 
-        DateDTO d1 = new DateDTO("2010-01-10", "2010-02-11");
-        DateDTO d2 = new DateDTO("2011-01-10", "2011-02-11");
-        DateDTO d3 = new DateDTO("2012-01-10", "2012-02-11");
+        DateDTO d1 = new DateDTO("2020-01-10", "2020-02-11");
+        DateDTO d2 = new DateDTO("2021-01-10", "2021-02-11");
+        DateDTO d3 = new DateDTO("2022-01-10", "2022-02-11");
         List<DateDTO> dates = Arrays.asList(d1, d2, d3);
 
         ApplicationDTO application = new ApplicationDTO(dates, experiences, userID);
@@ -70,9 +70,9 @@ public class TESTER_View {
         e2 = new ExperienceDTO("Popper", 15);
         experiences = Arrays.asList(e1, e2);
 
-        d1 = new DateDTO("2009-01-10", "2011-02-11");
-        d2 = new DateDTO("2012-01-10", "2013-02-11");
-        d3 = new DateDTO("2015-01-10", "2016-02-11");
+        d1 = new DateDTO("2019-01-10", "2021-02-11");
+        d2 = new DateDTO("2022-01-10", "2023-02-11");
+        d3 = new DateDTO("2025-01-10", "2026-02-11");
         dates = Arrays.asList(d1, d2, d3);
 
         application = new ApplicationDTO(dates, experiences, userID);
@@ -99,13 +99,13 @@ public class TESTER_View {
         }
 
         userID = hc.getUserID("thor");
-        e1 = new ExperienceDTO("Sugarguy", 2);
+        e1 = new ExperienceDTO("Cotton candy maker", 2);
         e2 = new ExperienceDTO("Ghost", 15);
         experiences = Arrays.asList(e1, e2);
 
-        d1 = new DateDTO("2005-01-10", "2010-02-11");
-        d2 = new DateDTO("2013-01-10", "2015-02-11");
-        d3 = new DateDTO("2020-01-10", "2022-02-11");
+        d1 = new DateDTO("2025-01-10", "2030-02-11");
+        d2 = new DateDTO("2043-01-10", "2045-02-11");
+        d3 = new DateDTO("2050-01-10", "2052-02-11");
         dates = Arrays.asList(d1, d2, d3);
 
         application = new ApplicationDTO(dates, experiences, userID);

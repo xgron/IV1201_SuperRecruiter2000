@@ -129,7 +129,7 @@ VALUES ("Sausage BBQ", "Korvgrillning");
 INSERT INTO competence (name, name_sv)
 VALUES ("Carousel technician", "Karuselldrift");
 INSERT INTO competence (name, name_sv)
-VALUES ("Sugarguy", "Sockervaddande");
+VALUES ("Cotton candy maker", "Sockervaddande");
 INSERT INTO competence (name, name_sv)
 VALUES ("Popper", "Poppare");
 INSERT INTO competence (name, name_sv)
