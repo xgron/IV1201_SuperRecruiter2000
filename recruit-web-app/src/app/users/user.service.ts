@@ -15,4 +15,8 @@ export class UserService {
             }
         );
       }
+
+      registerUser(user: string) {
+         return this.http.post("http://localhost:8080/api/users", user);
+      }
 }

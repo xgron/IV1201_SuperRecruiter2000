@@ -45,23 +45,22 @@ public class UsersEntryPoint {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public UserRest createUser(UserRest requestObject) {
+    public PersonDTO createUser(UserRest requestObject) {
         PersonDTO personDTO = new PersonDTO();
-        UserRest returnValue = new UserRest();
+        System.out.println(requestObject);
         BeanUtils.copyProperties(requestObject, personDTO);
         System.out.println(personDTO);
         HomeController userController = new HomeController();
+        PersonDTO returnvalue = new PersonDTO();
         try{
-            userController.registerUser(personDTO);
+            returnvalue = userController.registerUser(personDTO);
         }catch (ErrorHandling.RegisterUserException rue){
             //TO DO
             System.out.println("USER REGISTER EXCEPTION.");
         }
 
 
-        BeanUtils.copyProperties(requestObject, returnValue);
-
-        return returnValue ;
+        return returnvalue ;
     }
 
     /**
@@ -138,11 +137,5 @@ public class UsersEntryPoint {
 
         return requestObject;
     }
-
-
-
-
-
-
 
 }

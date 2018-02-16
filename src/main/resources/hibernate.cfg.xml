@@ -11,7 +11,7 @@
         <property name = "hibernate.connection.password">password</property>
         <property name = "hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
 
-        <property name = "connection.pool_size">1</property>
+        <property name = "connection.pool_size">3</property>
         <property name="hibernate.current_session_context_class">thread</property>
 
         <!-- for dev. -->
