@@ -19,6 +19,8 @@ import java.util.logging.*;
 public class Application {
     private final static Logger LOG = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
+    private boolean swedish = false;
+
     DBPortal portal;
     /**
      *  Constructor for the Application class.
@@ -156,16 +158,34 @@ public class Application {
         for(Person p : personList){
             String hired;
             if(p.getHired() == null){
-                hired = "Under consideration";
+                if(swedish){
+                    hired = "Under övervägande";
+                }else{
+                    hired = "Under consideration";
+                }
             }else if(p.getHired() == false){
-                hired = "Declined";
+                if(swedish){
+                    hired = "Avböjd";
+                }else{
+                    hired = "Declined";
+                }
             }else{
-                hired = "Accepted";
+                if(swedish){
+                    hired = "Accepterad";
+                }else{
+                    hired = "Accepted";
+                }
             }
 
             List<ExperienceDTO> experienceDTOList = new ArrayList<ExperienceDTO>();
             for(Experience experience : p.getExperiences()){
-                ExperienceDTO experienceDTO = new ExperienceDTO(experience.getCompetence().getName(),
+                String competenceName;
+                if(swedish){
+                    competenceName = experience.getCompetence().getNameSv();
+                }else {
+                    competenceName = experience.getCompetence().getName();
+                }
+                ExperienceDTO experienceDTO = new ExperienceDTO(competenceName,
                         experience.getYears());
                 experienceDTOList.add(experienceDTO);
             }
@@ -176,7 +196,6 @@ public class Application {
                         availability.getEndDate().toString());
                 availabilities.add(dateDTO);
             }
-
 
             PublicApplicationDTO tempPA = new PublicApplicationDTO(
                     p.getUserID(),

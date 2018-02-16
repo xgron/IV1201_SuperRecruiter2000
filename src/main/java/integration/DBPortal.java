@@ -15,7 +15,6 @@ import java.util.logging.*;
 public class DBPortal {
     private final static Logger LOG = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
-
     private Factory factoryObj = new Factory();
     private SessionFactory factory = factoryObj.getFactory();
     Session session = factory.getCurrentSession();
