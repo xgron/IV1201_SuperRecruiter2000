@@ -11,6 +11,7 @@ import { FooterComponent } from './footer/footer.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { RegisteruserComponent } from './registeruser/registeruser.component';
 import { FormsModule } from '@angular/forms';
+import { AppRoutingModule } from './app-routing.module';
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { FormsModule } from '@angular/forms';
   imports: [
     BrowserModule,
     HttpModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
   providers: [UserService],
   bootstrap: [AppComponent]
