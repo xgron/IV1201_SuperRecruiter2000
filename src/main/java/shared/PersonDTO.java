@@ -11,6 +11,7 @@ public class PersonDTO {
     private String userName;
     private String ssn;
     private String userId;
+    private String role;
 
     public String getUserId() {
         return userId;
@@ -69,6 +70,14 @@ public class PersonDTO {
         this.password = password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
         return "PersonDTO{" +
@@ -78,6 +87,7 @@ public class PersonDTO {
                 ", password='" + password + '\'' +
                 ", userName='" + userName + '\'' +
                 ", ssn='" + ssn + '\'' +
+                ", role='" + role + '\'' +
                 '}';
     }
 }

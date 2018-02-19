@@ -48,19 +48,19 @@ public class User {
      * @param   personDTO  A PersonDTO(Person Data Transfer Object), which contains all necessary data for a person.
      * @return  personDTO  A PersonDTO(Person Data Transfer Object), now with encrypted password and a UserID.
      */
+    @Transactional
      public PersonDTO registerUser (PersonDTO personDTO)throws ErrorHandling.RegisterUserException {
          try {
              if (!portal.getPersonWithSSN(Integer.parseInt(personDTO.getSsn())).isEmpty()) {
                  throw new ErrorHandling.RegisterUserException("SSN already exists");
              } else if (!portal.getPersonWithUsername(personDTO.getUserName()).isEmpty()) {
                  throw new ErrorHandling.RegisterUserException("Username already exists");
-             } else if (TransactionSynchronizationManager.isActualTransactionActive() && TransactionSynchronizationManager.getResource(personDTO).equals(personDTO))
-                 throw new ErrorHandling.RegisterUserException("Registration Error! Please try again.");
+             }/* else if (TransactionSynchronizationManager.isActualTransactionActive() && TransactionSynchronizationManager.getCurrentTransactionName()==personDTO.getUserName())
+                 throw new ErrorHandling.RegisterUserException("Registration Error! Please try again.");*/
              else {
-                 TransactionSynchronizationManager.initSynchronization();
-                 TransactionSynchronizationManager.bindResource(personDTO, personDTO);
+                /* TransactionSynchronizationManager.initSynchronization();
                  TransactionSynchronizationManager.setCurrentTransactionName(personDTO.getUserName());
-                 TransactionSynchronizationManager.setActualTransactionActive(true);
+                 TransactionSynchronizationManager.setActualTransactionActive(true);*/
 
                  personDTO.setPassword(BCrypt.hashpw(personDTO.getPassword(), BCrypt.gensalt()));
 
@@ -96,7 +96,7 @@ public class User {
 
                  portal.savePerson(person);
                  LOG.log(Level.INFO, "User " + name + " " + surname + " registered.");
-                 TransactionSynchronizationManager.clear();
+                 //TransactionSynchronizationManager.clear();
                  return personDTO;
              }
          }catch (Exception e) {
