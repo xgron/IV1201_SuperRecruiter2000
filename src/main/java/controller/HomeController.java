@@ -49,6 +49,9 @@ public class HomeController {
     }
 
     //JAVADOC TO DO
+    public String getRole(String userID) { return model.user.getRole(userID); }
+
+    //JAVADOC TO DO
     public List<PublicApplicationDTO> getApplicants() {
         return model.application.getApplicants();
     }
