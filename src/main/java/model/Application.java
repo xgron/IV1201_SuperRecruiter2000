@@ -76,6 +76,14 @@ public class Application {
         return false;
     }
 
+    /**
+     * This method will set the status of a specific application to true or false.
+     * @param applicantID the userID of the applicant
+     * @param evaluation true or false, if the user is accepted or not
+     * @param recruiterID the userID of the recruiter
+     * @return returns true if the evaluation was successful
+     * @throws ErrorHandling.EvaluateApplicationException
+     */
     public boolean evaluateApplication(String applicantID, boolean evaluation, String recruiterID) throws ErrorHandling.EvaluateApplicationException {
         try{
             List<Person> person = portal.getPersonWithUserID(applicantID);

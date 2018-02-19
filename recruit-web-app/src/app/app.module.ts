@@ -12,6 +12,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { RegisteruserComponent } from './registeruser/registeruser.component';
 import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { AppRoutingModule } from './app-routing.module';
     HeaderComponent,
     FooterComponent,
     HomepageComponent,
-    RegisteruserComponent
+    RegisteruserComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
