@@ -1,6 +1,7 @@
 package integration.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.Future;
 import java.sql.Date;
 
 @Entity
@@ -13,9 +14,11 @@ public class Availability{
     private int id;
 
     @Column(name="start_date")
+    @Future
     private java.sql.Date startDate;
 
     @Column(name="end_date")
+    @Future
     private java.sql.Date endDate;
 
     @ManyToOne(cascade = CascadeType.ALL)

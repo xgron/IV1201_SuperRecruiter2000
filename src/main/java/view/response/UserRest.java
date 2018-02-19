@@ -64,4 +64,16 @@ public class UserRest {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    @Override
+    public String toString() {
+        return "UserRest{" +
+                "firstName='" + firstName + '\'' +
+                ", surname='" + surname + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", userName='" + userName + '\'' +
+                ", ssn='" + ssn + '\'' +
+                '}';
+    }
 }

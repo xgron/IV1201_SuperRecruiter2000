@@ -6,6 +6,8 @@ import model.ErrorHandling;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import shared.*;
+import view.ConversionService;
+import view.response.AppRest;
 import view.response.UserRest;
 
 import javax.ws.rs.*;
@@ -43,23 +45,22 @@ public class UsersEntryPoint {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public UserRest createUser(UserRest requestObject) {
+    public PersonDTO createUser(UserRest requestObject) {
         PersonDTO personDTO = new PersonDTO();
-        UserRest returnValue = new UserRest();
+        System.out.println(requestObject);
         BeanUtils.copyProperties(requestObject, personDTO);
         System.out.println(personDTO);
         HomeController userController = new HomeController();
+        PersonDTO returnvalue = new PersonDTO();
         try{
-            userController.registerUser(personDTO);
+            returnvalue = userController.registerUser(personDTO);
         }catch (ErrorHandling.RegisterUserException rue){
             //TO DO
             System.out.println("USER REGISTER EXCEPTION.");
         }
 
 
-        BeanUtils.copyProperties(requestObject, returnValue);
-
-        return returnValue ;
+        return returnvalue ;
     }
 
     /**
@@ -96,26 +97,12 @@ public class UsersEntryPoint {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<UserRest> getApplicants(@DefaultValue("0") @QueryParam("start") int start,
+    public List<AppRest> getApplicants(@DefaultValue("0") @QueryParam("start") int start,
                                                  @DefaultValue("1000")@QueryParam("limit") int limit) {
-
-
-        List<UserRest> returnValue = new ArrayList<UserRest>();
-
-        UserRest user1 = new UserRest();
-        user1.setFirstName("Bobby");
-        returnValue.add(user1);
-        UserRest user2 = new UserRest();
-        user2.setFirstName("Julio");
-        returnValue.add(user2);
-
-       /* List<PersonDTO> users = HomeController.getusers(start, limit);
-        for(PersonDTO personDto: users) {
-            UserRest user = new UserRest();
-            BeanUtils.copyProperties(personDto, user);
-            returnValue.add(user);
-        }
-        */
+        HomeController hc = new HomeController();
+        List<PublicApplicationDTO> paDTO = hc.getApplicants();
+        ConversionService cconversion = new ConversionService();
+        List<AppRest> returnValue = cconversion.convertApplication(paDTO);
         return returnValue;
     }
 
@@ -150,11 +137,5 @@ public class UsersEntryPoint {
 
         return requestObject;
     }
-
-
-
-
-
-
 
 }

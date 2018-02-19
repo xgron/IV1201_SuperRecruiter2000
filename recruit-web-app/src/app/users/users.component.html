@@ -1,3 +1,19 @@
-<p>
-  users works!
-</p>
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <hr>
+      <div class="media" *ngFor="let user of users">
+      <ul class="list-group">
+        <div class="row">
+        <li class="list-group-item">{{ user.name }} {{user.surname}} </li>
+        <li class="list-group-item">{{ user.hired }} {{user.registrationdate}} </li>
+        <ul *ngFor="let exp of user.experience">
+        <li>{{ exp.name }} :  {{exp.years }} years</li>
+          </ul> 
+          <button type="button" class="btn btn-primary">Primary</button> 
+      </div>
+      <hr>
+      </ul>
+    </div>
+  </div>
+</div>
