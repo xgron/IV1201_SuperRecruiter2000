@@ -79,13 +79,12 @@ public class Application {
                 throw new ErrorHandling.EvaluateApplicationException("Invalid UserID!");
             else if(portal.getPersonWithUserID(recruiterID).get(0).getRole().getName()!="recruiter")
                 throw new ErrorHandling.EvaluateApplicationException("Unauthorized request!");
-            else if(TransactionSynchronizationManager.isActualTransactionActive() && TransactionSynchronizationManager.getResource(person.get(0)).equals(person.get(0)))
+            else if(TransactionSynchronizationManager.isActualTransactionActive() && TransactionSynchronizationManager.getCurrentTransactionName()==applicantID)
                 throw new ErrorHandling.EvaluateApplicationException("This application is currently being evaluated by someone else!");
             else{
                 Person applicant = person.get(0);
 
                 TransactionSynchronizationManager.initSynchronization();
-                TransactionSynchronizationManager.bindResource(applicant, applicant);
                 TransactionSynchronizationManager.setCurrentTransactionName(applicant.getUserID());
                 TransactionSynchronizationManager.setActualTransactionActive(true);
 

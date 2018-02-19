@@ -54,11 +54,10 @@ public class User {
                  throw new ErrorHandling.RegisterUserException("SSN already exists");
              } else if (!portal.getPersonWithUsername(personDTO.getUserName()).isEmpty()) {
                  throw new ErrorHandling.RegisterUserException("Username already exists");
-             } else if (TransactionSynchronizationManager.isActualTransactionActive() && TransactionSynchronizationManager.getResource(personDTO).equals(personDTO))
+             } else if (TransactionSynchronizationManager.isActualTransactionActive() && TransactionSynchronizationManager.getCurrentTransactionName()==personDTO.getUserName())
                  throw new ErrorHandling.RegisterUserException("Registration Error! Please try again.");
              else {
                  TransactionSynchronizationManager.initSynchronization();
-                 TransactionSynchronizationManager.bindResource(personDTO, personDTO);
                  TransactionSynchronizationManager.setCurrentTransactionName(personDTO.getUserName());
                  TransactionSynchronizationManager.setActualTransactionActive(true);
 
