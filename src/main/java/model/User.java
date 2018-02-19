@@ -49,55 +49,60 @@ public class User {
      * @return  personDTO  A PersonDTO(Person Data Transfer Object), now with encrypted password and a UserID.
      */
      public PersonDTO registerUser (PersonDTO personDTO)throws ErrorHandling.RegisterUserException {
-        if (!portal.getPersonWithSSN(Integer.parseInt(personDTO.getSsn())).isEmpty()) {
-            throw new ErrorHandling.RegisterUserException("SSN already exists");
-        } else if (!portal.getPersonWithUsername(personDTO.getUserName()).isEmpty()) {
-            throw new ErrorHandling.RegisterUserException("Username already exists");
-        } else if (TransactionSynchronizationManager.isActualTransactionActive() && TransactionSynchronizationManager.getResource(personDTO).equals(personDTO))
-            throw new ErrorHandling.RegisterUserException("Registration Error! Please try again.");
-        else {
-            TransactionSynchronizationManager.initSynchronization();
-            TransactionSynchronizationManager.bindResource(personDTO, personDTO);
-            TransactionSynchronizationManager.setCurrentTransactionName(personDTO.getUserName());
-            TransactionSynchronizationManager.setActualTransactionActive(true);
+         try {
+             if (!portal.getPersonWithSSN(Integer.parseInt(personDTO.getSsn())).isEmpty()) {
+                 throw new ErrorHandling.RegisterUserException("SSN already exists");
+             } else if (!portal.getPersonWithUsername(personDTO.getUserName()).isEmpty()) {
+                 throw new ErrorHandling.RegisterUserException("Username already exists");
+             } else if (TransactionSynchronizationManager.isActualTransactionActive() && TransactionSynchronizationManager.getResource(personDTO).equals(personDTO))
+                 throw new ErrorHandling.RegisterUserException("Registration Error! Please try again.");
+             else {
+                 TransactionSynchronizationManager.initSynchronization();
+                 TransactionSynchronizationManager.bindResource(personDTO, personDTO);
+                 TransactionSynchronizationManager.setCurrentTransactionName(personDTO.getUserName());
+                 TransactionSynchronizationManager.setActualTransactionActive(true);
 
-            personDTO.setPassword(BCrypt.hashpw(personDTO.getPassword(), BCrypt.gensalt()));
+                 personDTO.setPassword(BCrypt.hashpw(personDTO.getPassword(), BCrypt.gensalt()));
 
-            // FOR TESTING BELOW IS REPLACED WITH "ABCDEFGHIJKLM"
-            personDTO.setUserId(generateUserID());
+                 // FOR TESTING BELOW IS REPLACED WITH "ABCDEFGHIJKLM"
+                 personDTO.setUserId(generateUserID());
 
-            //portal.registerUser(person);
-            // REPLACED BY:
-            int ssn = Integer.parseInt(personDTO.getSsn());
-            String name = personDTO.getFirstName();
-            String surname = personDTO.getSurname();
-            String email = personDTO.getEmail();
-            String password = personDTO.getPassword();
-            String username = personDTO.getUserName();
-            Boolean hired = null;
-            Date registrationdate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
-            String userID = personDTO.getUserId();
-            Role role = new Role("applicant");
+                 //portal.registerUser(person);
+                 // REPLACED BY:
+                 int ssn = Integer.parseInt(personDTO.getSsn());
+                 String name = personDTO.getFirstName();
+                 String surname = personDTO.getSurname();
+                 String email = personDTO.getEmail();
+                 String password = personDTO.getPassword();
+                 String username = personDTO.getUserName();
+                 Boolean hired = null;
+                 Date registrationdate = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+                 String userID = personDTO.getUserId();
+                 Role role = new Role("applicant");
 
-            Person person = new Person(
-                    userID,
-                    name,
-                    surname,
-                    ssn,
-                    email,
-                    password,
-                    username,
-                    hired,
-                    registrationdate,
-                    null,
-                    role
-            );
+                 Person person = new Person(
+                         userID,
+                         name,
+                         surname,
+                         ssn,
+                         email,
+                         password,
+                         username,
+                         hired,
+                         registrationdate,
+                         null,
+                         role
+                 );
 
-            portal.savePerson(person);
-            LOG.log(Level.INFO, "User " + name + " " + surname + " registered.");
-            TransactionSynchronizationManager.clear();
-            return personDTO;
-        }
+                 portal.savePerson(person);
+                 LOG.log(Level.INFO, "User " + name + " " + surname + " registered.");
+                 TransactionSynchronizationManager.clear();
+                 return personDTO;
+             }
+         }catch (Exception e) {
+             LOG.info("Exception in integration layer: " + e);
+         }
+        return null;
     }
 
     /**
@@ -108,18 +113,22 @@ public class User {
      * @param   loginDTO  A LoginDTO(Login Data Transfer Object), which contains a username and password.
      * @return  personDTO  A PersonDTO(Person Data Transfer Object), now with encrypted password and a UserID.
      */
-    public PersonDTO authenticateUser(LoginDTO loginDTO) throws ErrorHandling.AuthenticateUserException{
-        List<Person> personList = portal.getPersonWithUsername(loginDTO.getUsername());
-        if(personList.isEmpty())
-            throw new ErrorHandling.AuthenticateUserException("Invalid username!");
-        else if(BCrypt.checkpw(loginDTO.getPassword(), personList.get(0).getPassword())) {
+    public PersonDTO authenticateUser(LoginDTO loginDTO) throws ErrorHandling.AuthenticateUserException {
+        try {
+            List<Person> personList = portal.getPersonWithUsername(loginDTO.getUsername());
+            if (personList.isEmpty())
+                throw new ErrorHandling.AuthenticateUserException("Invalid username!");
+            else if (BCrypt.checkpw(loginDTO.getPassword(), personList.get(0).getPassword())) {
                 PersonDTO authenticatedUser = new PersonDTO();
                 BeanUtils.copyProperties(personList.get(0), authenticatedUser);
-            LOG.log(Level.INFO, "User " + authenticatedUser.getFirstName() + " " + authenticatedUser.getSurname() + " authenticated.");
-            return authenticatedUser;
+                LOG.log(Level.INFO, "User " + authenticatedUser.getFirstName() + " " + authenticatedUser.getSurname() + " authenticated.");
+                return authenticatedUser;
+            } else
+                throw new ErrorHandling.AuthenticateUserException("Invalid password!");
+        }catch (Exception e) {
+            LOG.info("Exception in integration layer: " + e);
         }
-        else
-            throw new ErrorHandling.AuthenticateUserException("Invalid password!");
+        return null;
     }
 
     private static String generateUserID(){
@@ -132,10 +141,16 @@ public class User {
             userid = userid + alphabet.charAt(r.nextInt(alphabet.length()));
         }
         return userid;
+
     }
 
     public String getUserID(String username){
+        try{
         return portal.getPersonWithUsername(username).get(0).getUserID();
+        }catch (Exception e) {
+            LOG.info("Exception in integration layer: " + e);
+        }
+        return null;
     }
 }
 

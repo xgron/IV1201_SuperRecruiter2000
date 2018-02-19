@@ -34,6 +34,20 @@ public class ErrorHandling {
 
         }
     }
+    public static class EvaluateApplicationException extends Exception {
+        /**
+         *  This method is called from the model layer when an error occurs and an exception is thrown.
+         *  This is for AuthenticateUser exceptions only.
+         *
+         *  It returns an error message, but also prints to the console
+         *
+         * @param   message     The error message for the specific error
+         */
+        public EvaluateApplicationException(String message) {
+            super(message);
+            logr.info("Exception thrown: " + message);
+        }
+    }
     public static class AuthenticateUserException extends Exception {
         /**
          *  This method is called from the model layer when an error occurs and an exception is thrown.

@@ -5,6 +5,7 @@ import integration.entity.Availability;
 import integration.entity.Competence;
 import integration.entity.Experience;
 import integration.entity.Person;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import shared.ApplicationDTO;
 import shared.DateDTO;
 import shared.ExperienceDTO;
@@ -29,9 +30,7 @@ public class Application {
      */
     public Application(DBPortal portal){
         this.portal = portal;
-
-
-    }
+        }
 
     /**
      *  This method is called from the Control layer when a someone is trying to register a new application.
@@ -49,33 +48,67 @@ public class Application {
      * @return  boolean  Exception if error, true if successful registration of application
      */
     public boolean registerApplication(ApplicationDTO application) throws ErrorHandling.RegisterApplicationException {
-        if(!userIDExist(application.getUserID()))
-            throw new ErrorHandling.RegisterApplicationException("Invalid UserID!");
-        for(ExperienceDTO to : application.getExperience()){
-            if (!competenceExist(to.getName()))
-                    throw new ErrorHandling.RegisterApplicationException("This competence does not exist!");
-        }
-        int i = 1;
-        for (DateDTO to : application.getAvailabilities()){
-            for (DateDTO to1 : application.getAvailabilities().subList(i,application.getAvailabilities().size())){
-                if(to1.getStart().equals(to.getStart()))
-                    throw new ErrorHandling.RegisterApplicationException("Invalid Availabilities!");
+        try{
+            if(!userIDExist(application.getUserID()))
+                throw new ErrorHandling.RegisterApplicationException("Invalid UserID!");
+            for(ExperienceDTO to : application.getExperience()){
+                if (!competenceExist(to.getName()))
+                        throw new ErrorHandling.RegisterApplicationException("This competence does not exist!");
             }
-            i++;
+            int i = 1;
+            for (DateDTO to : application.getAvailabilities()){
+                for (DateDTO to1 : application.getAvailabilities().subList(i,application.getAvailabilities().size())){
+                    if(to1.getStart().equals(to.getStart()))
+                        throw new ErrorHandling.RegisterApplicationException("Invalid Availabilities!");
+                }
+                i++;
+            }
+            competenceListToDB(application.getUserID(),application.getExperience());
+            availabilityListToDB(application.getUserID(), application.getAvailabilities());
+            LOG.log(Level.INFO, "The application for user " + portal.getPersonWithUserID(application.getUserID()).get(0).getName() + " " + portal.getPersonWithUserID(application.getUserID()).get(0).getSurname() + " was updated.");
+            return true;
+
+        }catch (Exception e) {
+            LOG.info("Exception in integration layer: " + e);
         }
-        competenceListToDB(application.getUserID(),application.getExperience());
-        availabilityListToDB(application.getUserID(), application.getAvailabilities());
-        LOG.log(Level.INFO, "The application for user " + portal.getPersonWithUserID(application.getUserID()).get(0).getName() + " " + portal.getPersonWithUserID(application.getUserID()).get(0).getSurname() + " was updated.");
-        return true;
+        return false;
     }
 
+    public boolean evaluateApplication(String applicantID, boolean evaluation, String recruiterID) throws ErrorHandling.EvaluateApplicationException {
+        try{
+            List<Person> person = portal.getPersonWithUserID(applicantID);
+            if(applicantID.length() != 25 || recruiterID.length() != 25 || person.isEmpty() || portal.getPersonWithUserID(recruiterID).isEmpty())
+                throw new ErrorHandling.EvaluateApplicationException("Invalid UserID!");
+            else if(portal.getPersonWithUserID(recruiterID).get(0).getRole().getName()!="recruiter")
+                throw new ErrorHandling.EvaluateApplicationException("Unauthorized request!");
+            else if(TransactionSynchronizationManager.isActualTransactionActive() && TransactionSynchronizationManager.getResource(person.get(0)).equals(person.get(0)))
+                throw new ErrorHandling.EvaluateApplicationException("This application is currently being evaluated by someone else!");
+            else{
+                Person applicant = person.get(0);
 
+                TransactionSynchronizationManager.initSynchronization();
+                TransactionSynchronizationManager.bindResource(applicant, applicant);
+                TransactionSynchronizationManager.setCurrentTransactionName(applicant.getUserID());
+                TransactionSynchronizationManager.setActualTransactionActive(true);
+
+                applicant.setHired(evaluation);
+                portal.updatePerson(applicant);
+                LOG.info("The application for user " + applicant.getName() + " " + applicant.getSurname() + " was evaluated by: " + portal.getPersonWithUserID(recruiterID).get(0).getName() + " " + portal.getPersonWithUserID(recruiterID).get(0).getSurname());
+                TransactionSynchronizationManager.clear();
+                return true;
+                }
+        }catch (Exception e) {
+            LOG.info("Exception in integration layer: " + e);
+        }
+        return false;
+    }
     /**
      * This method enters the entire ExperienceDTO-list into the availability table in the DB
      * @param  userID     the current user
      * @param  experiences  a list with Experience DTO objects
      */
     public void competenceListToDB(String userID, List<ExperienceDTO> experiences){
+        try{
         Person person = portal.getPersonWithUserID(userID).get(0);
         for(ExperienceDTO eDTO : experiences){
             Competence competence = new Competence(eDTO.getName());
@@ -86,6 +119,9 @@ public class Application {
         }
         portal.updatePerson(person);
         LOG.log(Level.INFO, "The list of competences for user " + person.getName() + " " + person.getSurname() + " was updated.");
+        }catch (Exception e) {
+            LOG.info("Exception in integration layer: " + e);
+        }
     }
 
     /**
@@ -94,6 +130,7 @@ public class Application {
      * @param  availabilities  a list with DateDTO objects
      */
     public void availabilityListToDB(String userID, List<DateDTO> availabilities){
+        try{
         Person person = portal.getPersonWithUserID(userID).get(0);
         for(DateDTO d : availabilities){
             Availability availability = new Availability(stringToSQLDate(d.getStart()),
@@ -102,7 +139,11 @@ public class Application {
            portal.createAvailability(availability);
         }
         portal.updatePerson(person);
+
         LOG.log(Level.INFO, "The list of availabilities for user " + person.getName() + " " + person.getSurname() + " was updated.");
+        }catch (Exception e) {
+            LOG.info("Exception in integration layer: " + e);
+        }
     }
 
     /**
@@ -114,8 +155,8 @@ public class Application {
         try{
             List<Competence> competenceList = portal.getCompetence(competence);
             return !competenceList.isEmpty();
-        }catch (Exception e){
-
+        }catch (Exception e) {
+            LOG.info("Exception in integration layer: " + e);
         }
         return null;
     }
@@ -144,8 +185,8 @@ public class Application {
             List<Person> personList = portal.getPersonWithUserID(userID);
             return !personList.isEmpty();
 
-        } catch(Exception e){
-
+        }catch (Exception e) {
+            LOG.info("Exception in integration layer: " + e);
         }
         return null;
 
@@ -153,6 +194,7 @@ public class Application {
 
     //JAVADOC TO DO
     public List<PublicApplicationDTO> getApplicants(){
+        try{
         List<PublicApplicationDTO> applicationList = new ArrayList<PublicApplicationDTO>();
         List<Person> personList = portal.getPersonWithRole("applicant");
         for(Person p : personList){
@@ -212,5 +254,10 @@ public class Application {
         }
         LOG.log(Level.INFO, "All applicants fetched.");
         return applicationList;
+
+        }catch (Exception e) {
+            LOG.info("Exception in integration layer: " + e);
+        }
+        return null;
     }
 }
