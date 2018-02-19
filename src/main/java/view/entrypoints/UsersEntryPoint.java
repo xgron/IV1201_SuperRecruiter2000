@@ -6,6 +6,7 @@ import model.ErrorHandling;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import shared.*;
+import sun.rmi.runtime.Log;
 import view.ConversionService;
 import view.response.AppRest;
 import view.response.UserRest;
@@ -22,7 +23,7 @@ import java.util.List;
 
 
 @Path("/users")
-public class UsersEntryPoint {
+public class    UsersEntryPoint {
 
 
     /**
@@ -61,6 +62,24 @@ public class UsersEntryPoint {
 
 
         return returnvalue ;
+    }
+
+    @POST
+    @Path("/login")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public PersonDTO login(LoginDTO loginDetails){
+        System.out.println("in method");
+      HomeController hc = new HomeController();
+        PersonDTO returnvalue = new PersonDTO();
+
+        try{
+            returnvalue = hc.AuthenticateUser(loginDetails);
+        }catch (ErrorHandling.AuthenticateUserException e){
+            //TO DO
+            System.out.println("USER REGISTER EXCEPTION.");
+        }
+        return returnvalue;
     }
 
     /**
