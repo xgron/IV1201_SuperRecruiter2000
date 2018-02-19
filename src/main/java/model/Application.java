@@ -77,7 +77,7 @@ public class Application {
             List<Person> person = portal.getPersonWithUserID(applicantID);
             if(applicantID.length() != 25 || recruiterID.length() != 25 || person.isEmpty() || portal.getPersonWithUserID(recruiterID).isEmpty())
                 throw new ErrorHandling.EvaluateApplicationException("Invalid UserID!");
-            else if(portal.getPersonWithUserID(recruiterID).get(0).getRole()!="recruiter")
+            else if(portal.getPersonWithUserID(recruiterID).get(0).getRole().getName()!="recruiter")
                 throw new ErrorHandling.EvaluateApplicationException("Unauthorized request!");
             else if(TransactionSynchronizationManager.isActualTransactionActive() && TransactionSynchronizationManager.getResource(person.get(0)).equals(person.get(0)))
                 throw new ErrorHandling.EvaluateApplicationException("This application is currently being evaluated by someone else!");
