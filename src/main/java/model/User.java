@@ -152,5 +152,14 @@ public class User {
         }
         return null;
     }
+
+    public String getRole(String userID){
+        try {
+            return portal.getPersonWithUserID(userID).get(0).getRole().getName();
+        }catch (Exception e) {
+            LOG.info("Exception in integration layer: " + e);
+        }
+        return null;
+    }
 }
 
