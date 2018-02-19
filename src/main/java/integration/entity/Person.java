@@ -6,8 +6,6 @@ import org.hibernate.validator.constraints.*;
 import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;

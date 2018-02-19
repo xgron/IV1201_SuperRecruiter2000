@@ -144,6 +144,11 @@ public class User {
 
     }
 
+    /**
+     * This method returns the userID of a specific username
+     * @param username is the username of the user
+     * @return returns the userID of that user
+     */
     public String getUserID(String username){
         try{
         return portal.getPersonWithUsername(username).get(0).getUserID();
