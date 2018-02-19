@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { NgForm, MinLengthValidator, MaxLengthValidator } from '@angular/forms';
 import { Response } from '@angular/http';
 
 import { UserService } from '../users/user.service';
