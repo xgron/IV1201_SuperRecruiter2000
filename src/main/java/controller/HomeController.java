@@ -24,9 +24,7 @@ public class HomeController {
      * @return  user    The Registered User.
      */
     public PersonDTO registerUser(PersonDTO person) throws ErrorHandling.RegisterUserException {
-
-        PersonDTO user = model.user.registerUser(person);
-        return user;
+        return model.user.registerUser(person);
     }
     /**
      *  This method is called from the View layer when a user is trying to register their job application.
@@ -38,8 +36,11 @@ public class HomeController {
      * @return  check    boolean, false if error.
      */
     public boolean registerApplication(ApplicationDTO application) throws ErrorHandling.RegisterApplicationException {
-            boolean check = model.application.registerApplication(application);
-        return check;
+        return model.application.registerApplication(application);
+    }
+
+    public boolean evaluateApplication(String applicantID, boolean evaluation, String recruiterID) throws ErrorHandling.EvaluateApplicationException{
+        return model.application.evaluateApplication(applicantID, evaluation, recruiterID);
     }
 
     //JAVADOC TO DO
