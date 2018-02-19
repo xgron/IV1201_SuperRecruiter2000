@@ -3,6 +3,8 @@ package model;
 import integration.DBPortal;
 import integration.entity.*;
 import integration.entity.Person;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
@@ -10,6 +12,7 @@ import shared.LoginDTO;
 import shared.PersonDTO;
 import shared.PublicApplicationDTO;
 
+import java.io.UnsupportedEncodingException;
 import java.sql.Date;
 import java.util.Calendar;
 import javax.transaction.Transactional;
@@ -50,7 +53,8 @@ public class User {
      */
     @Transactional
      public PersonDTO registerUser (PersonDTO personDTO)throws ErrorHandling.RegisterUserException {
-         try {
+
+        try {
              if (!portal.getPersonWithSSN(Integer.parseInt(personDTO.getSsn())).isEmpty()) {
                  throw new ErrorHandling.RegisterUserException("SSN already exists");
              } else if (!portal.getPersonWithUsername(personDTO.getUserName()).isEmpty()) {
@@ -120,7 +124,7 @@ public class User {
                 throw new ErrorHandling.AuthenticateUserException("Invalid username!");
             else if (BCrypt.checkpw(loginDTO.getPassword(), personList.get(0).getPassword())) {
                 PersonDTO authenticatedUser = new PersonDTO();
-                BeanUtils.copyProperties(personList.get(0), authenticatedUser);
+
                 LOG.log(Level.INFO, "User " + authenticatedUser.getFirstName() + " " + authenticatedUser.getSurname() + " authenticated.");
                 return authenticatedUser;
             } else
@@ -165,6 +169,23 @@ public class User {
             LOG.info("Exception in integration layer: " + e);
         }
         return null;
+    }
+
+    //JAVADOC TO DO
+    private String jwtBuilder(String userID){
+        try {
+            return Jwts.builder()
+                    .setSubject("users/" + userID)
+                    .setExpiration(new Date(2030119380))
+                    .signWith(
+                            SignatureAlgorithm.HS256,
+                            "secret".getBytes("UTF-8")
+                    )
+                    .compact();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    return null;
     }
 }
 
