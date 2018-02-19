@@ -1,5 +1,7 @@
 package integration.entity;
 
+import org.hibernate.validator.constraints.Range;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,6 +14,7 @@ public class Experience {
     private int id;
 
     @Column
+    @Range(min=0, max=120)
     private double years;
 
     @OneToOne

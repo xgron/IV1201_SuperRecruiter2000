@@ -20,17 +20,17 @@ public class Model {
 
     public Model() {
         //logging
-        String logPath = "./logs/";
+       /* String logPath = "./logs/";
         SimpleDateFormat format = new SimpleDateFormat("M-d_HHmmss");
         try {
             fh = new FileHandler(logPath
                     + format.format(Calendar.getInstance().getTime()) + ".log");
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("Log could not be written to file...");
         }
 
         fh.setFormatter(new SimpleFormatter());
-        LOG.addHandler(fh);
+        LOG.addHandler(fh);*/
 
     }
 }

@@ -1,8 +1,5 @@
 package shared;
 
-import integration.entity.Availability;
-import integration.entity.Experience;
-
 import java.sql.Date;
 import java.util.List;
 
@@ -14,13 +11,13 @@ public class PublicApplicationDTO {
     private String email;
     private String hired;
     private java.sql.Date registrationdate;
-    private List<Experience> experiences;
-    private List<Availability> availabilities;
+    private List<ExperienceDTO> experiences;
+    private List<DateDTO> availabilities;
 
     public PublicApplicationDTO() {
     }
 
-    public PublicApplicationDTO(String userID, String name, String surname, int ssn, String email, String hired, Date registrationdate, List<Experience> experiences, List<Availability> availabilities) {
+    public PublicApplicationDTO(String userID, String name, String surname, int ssn, String email, String hired, Date registrationdate, List<ExperienceDTO> experiences, List<DateDTO> availabilities) {
         this.userID = userID;
         this.name = name;
         this.surname = surname;
@@ -88,19 +85,19 @@ public class PublicApplicationDTO {
         this.registrationdate = registrationdate;
     }
 
-    public List<Experience> getExperiences() {
+    public List<ExperienceDTO> getExperiences() {
         return experiences;
     }
 
-    public void setExperiences(List<Experience> experiences) {
+    public void setExperiences(List<ExperienceDTO> experiences) {
         this.experiences = experiences;
     }
 
-    public List<Availability> getAvailabilities() {
+    public List<DateDTO> getAvailabilities() {
         return availabilities;
     }
 
-    public void setAvailabilities(List<Availability> availabilities) {
+    public void setAvailabilities(List<DateDTO> availabilities) {
         this.availabilities = availabilities;
     }
 
