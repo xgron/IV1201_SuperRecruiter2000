@@ -11,6 +11,7 @@ import shared.DateDTO;
 import shared.ExperienceDTO;
 import shared.PublicApplicationDTO;
 
+import javax.transaction.Transactional;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,6 +48,7 @@ public class Application {
      * @param   application  An ApplicationDTO(Person Data Transfer Object), which contains all necessary data for an application.
      * @return  boolean  Exception if error, true if successful registration of application
      */
+    @Transactional
     public boolean registerApplication(ApplicationDTO application) throws ErrorHandling.RegisterApplicationException {
         try{
             if(!userIDExist(application.getUserID()))
@@ -81,19 +83,19 @@ public class Application {
                 throw new ErrorHandling.EvaluateApplicationException("Invalid UserID!");
             else if(portal.getPersonWithUserID(recruiterID).get(0).getRole().getName()!="recruiter")
                 throw new ErrorHandling.EvaluateApplicationException("Unauthorized request!");
-            else if(TransactionSynchronizationManager.isActualTransactionActive() && TransactionSynchronizationManager.getCurrentTransactionName()==applicantID)
-                throw new ErrorHandling.EvaluateApplicationException("This application is currently being evaluated by someone else!");
+            /*else if(TransactionSynchronizationManager.isActualTransactionActive() && TransactionSynchronizationManager.getCurrentTransactionName()==applicantID)
+                throw new ErrorHandling.EvaluateApplicationException("This application is currently being evaluated by someone else!");*/
             else{
                 Person applicant = person.get(0);
 
-                TransactionSynchronizationManager.initSynchronization();
+                /*TransactionSynchronizationManager.initSynchronization();
                 TransactionSynchronizationManager.setCurrentTransactionName(applicant.getUserID());
-                TransactionSynchronizationManager.setActualTransactionActive(true);
+                TransactionSynchronizationManager.setActualTransactionActive(true);*/
 
                 applicant.setHired(evaluation);
                 portal.updatePerson(applicant);
                 LOG.info("The application for user " + applicant.getName() + " " + applicant.getSurname() + " was evaluated by: " + portal.getPersonWithUserID(recruiterID).get(0).getName() + " " + portal.getPersonWithUserID(recruiterID).get(0).getSurname());
-                TransactionSynchronizationManager.clear();
+                //TransactionSynchronizationManager.clear();
                 return true;
                 }
         }catch (Exception e) {
