@@ -8,6 +8,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
+import shared.ErrorMessages;
 import shared.LoginDTO;
 import shared.PersonDTO;
 import shared.PublicApplicationDTO;
@@ -52,13 +53,13 @@ public class User {
      * @return  personDTO  A PersonDTO(Person Data Transfer Object), now with encrypted password and a UserID.
      */
     @Transactional
-     public PersonDTO registerUser (PersonDTO personDTO)throws ErrorHandling.RegisterUserException {
+     public PersonDTO registerUser (PersonDTO personDTO)throws ErrorHandling.CommonException {
 
         try {
              if (!portal.getPersonWithSSN(Integer.parseInt(personDTO.getSsn())).isEmpty()) {
-                 throw new ErrorHandling.RegisterUserException("SSN already exists");
+                 throw new ErrorHandling.CommonException(ErrorMessages.EXISTING_SSN_MESSAGE.getErrorMessage());
              } else if (!portal.getPersonWithUsername(personDTO.getUserName()).isEmpty()) {
-                 throw new ErrorHandling.RegisterUserException("Username already exists");
+                 throw new ErrorHandling.CommonException(ErrorMessages.EXISTING_USERNAME_MESSAGE.getErrorMessage());
              }/* else if (TransactionSynchronizationManager.isActualTransactionActive() && TransactionSynchronizationManager.getCurrentTransactionName()==personDTO.getUserName())
                  throw new ErrorHandling.RegisterUserException("Registration Error! Please try again.");*/
              else {
@@ -117,18 +118,18 @@ public class User {
      * @param   loginDTO  A LoginDTO(Login Data Transfer Object), which contains a username and password.
      * @return  personDTO  A PersonDTO(Person Data Transfer Object), now with encrypted password and a UserID.
      */
-    public PersonDTO authenticateUser(LoginDTO loginDTO) throws ErrorHandling.AuthenticateUserException {
+    public PersonDTO authenticateUser(LoginDTO loginDTO) throws ErrorHandling.CommonException {
         try {
             List<Person> personList = portal.getPersonWithUsername(loginDTO.getUsername());
             if (personList.isEmpty())
-                throw new ErrorHandling.AuthenticateUserException("Invalid username!");
+                throw new ErrorHandling.CommonException(ErrorMessages.INVALID_USERNAME_MESSAGE.getErrorMessage());
             else if (BCrypt.checkpw(loginDTO.getPassword(), personList.get(0).getPassword())) {
                 PersonDTO authenticatedUser = new PersonDTO();
 
                 LOG.log(Level.INFO, "User " + authenticatedUser.getFirstName() + " " + authenticatedUser.getSurname() + " authenticated.");
                 return authenticatedUser;
             } else
-                throw new ErrorHandling.AuthenticateUserException("Invalid password!");
+                throw new ErrorHandling.CommonException(ErrorMessages.INVALID_PASSWORD_MESSAGE.getErrorMessage());
         }catch (Exception e) {
             LOG.info("Exception in integration layer: " + e);
         }

@@ -5,16 +5,9 @@ import integration.entity.Availability;
 import integration.entity.Competence;
 import integration.entity.Experience;
 import integration.entity.Person;
-import org.springframework.transaction.support.TransactionSynchronizationManager;
-import shared.ApplicationDTO;
-import shared.DateDTO;
-import shared.ExperienceDTO;
-import shared.PublicApplicationDTO;
-
+import shared.*;
 import javax.transaction.Transactional;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.logging.*;
 
@@ -49,19 +42,19 @@ public class Application {
      * @return  boolean  Exception if error, true if successful registration of application
      */
     @Transactional
-    public boolean registerApplication(ApplicationDTO application) throws ErrorHandling.RegisterApplicationException {
+    public boolean registerApplication(ApplicationDTO application) throws ErrorHandling.CommonException {
         try{
             if(!userIDExist(application.getUserID()))
-                throw new ErrorHandling.RegisterApplicationException("Invalid UserID!");
+                throw new ErrorHandling.CommonException(ErrorMessages.INVALID_USERID_MESSAGE.getErrorMessage());
             for(ExperienceDTO to : application.getExperience()){
                 if (!competenceExist(to.getName()))
-                        throw new ErrorHandling.RegisterApplicationException("This competence does not exist!");
+                        throw new ErrorHandling.CommonException(ErrorMessages.INVALID_COMPETENCE_MESSAGE.getErrorMessage());
             }
             int i = 1;
             for (DateDTO to : application.getAvailabilities()){
                 for (DateDTO to1 : application.getAvailabilities().subList(i,application.getAvailabilities().size())){
                     if(to1.getStart().equals(to.getStart()))
-                        throw new ErrorHandling.RegisterApplicationException("Invalid Availabilities!");
+                        throw new ErrorHandling.CommonException(ErrorMessages.INVALID_AVAILABILITY_MESSAGE.getErrorMessage());
                 }
                 i++;
             }
@@ -82,15 +75,16 @@ public class Application {
      * @param evaluation true or false, if the user is accepted or not
      * @param recruiterID the userID of the recruiter
      * @return returns true if the evaluation was successful
-     * @throws ErrorHandling.EvaluateApplicationException
+     * @throws ErrorHandling.CommonException
      */
-    public boolean evaluateApplication(String applicantID, boolean evaluation, String recruiterID) throws ErrorHandling.EvaluateApplicationException {
+    @Transactional
+    public boolean evaluateApplication(String applicantID, boolean evaluation, String recruiterID) throws ErrorHandling.CommonException {
         try{
             List<Person> person = portal.getPersonWithUserID(applicantID);
             if(applicantID.length() != 25 || recruiterID.length() != 25 || person.isEmpty() || portal.getPersonWithUserID(recruiterID).isEmpty())
-                throw new ErrorHandling.EvaluateApplicationException("Invalid UserID!");
+                throw new ErrorHandling.CommonException(ErrorMessages.INVALID_USERID_MESSAGE.getErrorMessage());
             else if(portal.getPersonWithUserID(recruiterID).get(0).getRole().getName()!="recruiter")
-                throw new ErrorHandling.EvaluateApplicationException("Unauthorized request!");
+                throw new ErrorHandling.CommonException(ErrorMessages.AUTHORIZATION_MESSAGE.getErrorMessage());
             /*else if(TransactionSynchronizationManager.isActualTransactionActive() && TransactionSynchronizationManager.getCurrentTransactionName()==applicantID)
                 throw new ErrorHandling.EvaluateApplicationException("This application is currently being evaluated by someone else!");*/
             else{
