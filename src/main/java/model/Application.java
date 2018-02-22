@@ -76,6 +76,7 @@ public class Application {
         return false;
     }
 
+    @Transactional
     public boolean evaluateApplication(String applicantID, boolean evaluation, String recruiterID) throws ErrorHandling.EvaluateApplicationException {
         try{
             List<Person> person = portal.getPersonWithUserID(applicantID);
