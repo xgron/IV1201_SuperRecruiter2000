@@ -23,7 +23,7 @@ public class HomeController {
      * @param   person  A PersonDTO(Person Data Transfer Object), which contains all necessary data for a person.
      * @return  user    The Registered User.
      */
-    public PersonDTO registerUser(PersonDTO person) throws ErrorHandling.RegisterUserException {
+    public PersonDTO registerUser(PersonDTO person) throws ErrorHandling.CommonException {
         return model.user.registerUser(person);
     }
     /**
@@ -35,11 +35,11 @@ public class HomeController {
      * @param   application  An ApplicationDTO(Person Data Transfer Object), which contains all necessary data for an application.
      * @return  check    boolean, false if error.
      */
-    public boolean registerApplication(ApplicationDTO application) throws ErrorHandling.RegisterApplicationException {
+    public boolean registerApplication(ApplicationDTO application) throws ErrorHandling.CommonException {
         return model.application.registerApplication(application);
     }
 
-    public boolean evaluateApplication(String applicantID, boolean evaluation, String recruiterID) throws ErrorHandling.EvaluateApplicationException{
+    public boolean evaluateApplication(String applicantID, boolean evaluation, String recruiterID) throws ErrorHandling.CommonException{
         return model.application.evaluateApplication(applicantID, evaluation, recruiterID);
     }
 
@@ -57,7 +57,7 @@ public class HomeController {
     }
 
 
-    public PersonDTO AuthenticateUser(LoginDTO loginDTO) throws ErrorHandling.AuthenticateUserException{
+    public PersonDTO AuthenticateUser(LoginDTO loginDTO) throws ErrorHandling.CommonException{
         PersonDTO authenticatedUser = model.user.authenticateUser(loginDTO);
         return authenticatedUser;
     }
