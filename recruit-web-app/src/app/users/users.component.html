@@ -1,21 +1,45 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
-      <hr>
+
       <div class="media" *ngFor="let user of users">
-      <ul class="list-group">
-       
-        <li class="list-group-item">{{ user.name }} {{user.surname}} </li>
-        <li class="list-group-item">{{ user.hired }} {{user.registrationdate}} </li>
-        <ul *ngFor="let exp of user.experience">
-        <li>{{ exp.name }} :  {{exp.years }} years</li>
-          </ul>
-          <p>Available between</p> 
-          <ul *ngFor="let avail of user.availabilities">
-              <li>{{ avail.start }} and {{ avail.end }} </li>
-                </ul> 
-     
-      <hr>
+      <ul class="list-group-item considering">
+          
+          <h3>{{ user.name }} {{user.surname}}</h3>
+
+          <hr>
+
+          <p>Application status: {{ user.hired }} </p>
+          <p>Date of registration: {{user.registrationdate}} </p>
+
+          <br>
+
+          <div class="row">
+          
+            <div class="col-xs-6">
+              <h4>Experiences:</h4>
+              <ul *ngFor="let exp of user.experience">
+              <li>{{ exp.name }} :  {{exp.years }} years</li>  
+              </ul>
+            </div>
+
+            <div class="col-xs-6">
+              <h4>Available:</h4>
+              <ul *ngFor="let avail of user.availabilities">
+                  {{ avail.start }} to {{ avail.end }}
+              </ul>
+            </div>
+            
+          </div>
+
+          <hr>
+
+          <div class="buttons">
+            <button type="button" class="btn btn-success">Approve</button>
+            <button type="button" class="btn btn-danger">Deny</button>
+          </div>
+
+
       </ul>
     </div>
   </div>
