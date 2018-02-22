@@ -26,6 +26,10 @@ public class ApplicationsToPDF {
             Font p1 = FontFactory.getFont(FontFactory.COURIER, 12, BaseColor.BLACK);
 
             for(PublicApplicationDTO application : applications){
+                if(application.getAvailabilities().isEmpty() || application.getExperiences().isEmpty()){
+                    continue;
+                }
+
                 Paragraph header = new Paragraph("Application for: " + application.getName() + " " + application.getSurname(), h1);
                 document.add(header);
 

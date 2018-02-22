@@ -12,7 +12,8 @@
           </div>
           <div class="form-group">
               <label for="email">Email:</label>
-              <input type="text" class="form-control" name="email" ngModel required>
+              <input type="text" class="form-control" name="email" ngModel required
+              email>
             </div>
         <div class="form-group">
           <label for="pwd">Password:</label>
@@ -24,7 +25,7 @@
         </div>
         <div class="form-group">
             <label for="ssn">Social Security number:</label>
-            <input type="text" class="form-control" name="ssn" ngModel required>
+            <input type="text" pattern="^[1-9]+[0-9]*$" minlength="6" maxlength="6" class="form-control" name="ssn" ngModel required>
           </div>
         <button class="btn btn-default" [disabled]="!f.valid">Submit</button>
       </form>
