@@ -282,12 +282,13 @@ public class Application {
                     }else{
                         hired = "Declined";
                     }
-                }else{
-                    if(swedish){
+                }else {
+                    if (swedish) {
                         hired = "Accepterad";
-                    }else{
+                    } else {
                         hired = "Accepted";
                     }
+                }
 
 
                 List<ExperienceDTO> experienceDTOList = new ArrayList<ExperienceDTO>();
@@ -321,7 +322,7 @@ public class Application {
                         experienceDTOList,
                         availabilities
                 );
-            }
+            
             LOG.log(Level.INFO, "Applicant: " + p.getName() + " " + p.getSurname() +" fetched.");
             return applicant;
 
