@@ -148,44 +148,6 @@ public class User {
         return userid;
 
     }
-
-    public ApplicationDTO getUser(String userID){
-        try{
-            Person person = portal.getPersonWithUserID(userID).get(0);
-            return new PublicApplicationDTO(
-                    person.getUserID(),
-                    person.getName(),
-                    person.getSurname(),
-                    person.getSsn(),
-                    person.getEmail(),
-                    person.getHired().toString(),
-                    person.getRegistrationdate(),
-                    person.getExperiences(),
-                    person.getAvailabilities());
-            List<ExperienceDTO> experienceDTOList = new ArrayList<ExperienceDTO>();
-            for(Experience experience : p.getExperiences()){
-                String competenceName;
-                if(swedish){
-                    competenceName = experience.getCompetence().getNameSv();
-                }else {
-                    competenceName = experience.getCompetence().getName();
-                }
-                ExperienceDTO experienceDTO = new ExperienceDTO(competenceName,
-                        experience.getYears());
-                experienceDTOList.add(experienceDTO);
-            }
-
-            List<DateDTO> availabilities = new ArrayList<DateDTO>();
-            for(Availability availability : p.getAvailabilities()){
-                DateDTO dateDTO = new DateDTO(availability.getStartDate().toString(),
-                        availability.getEndDate().toString());
-                availabilities.add(dateDTO);
-            }
-        }catch (Exception e) {
-            LOG.info("Exception in integration layer: " + e);
-        }
-        return null;
-    }
     /**
      * This method returns the userID of a specific username
      * @param username is the username of the user
