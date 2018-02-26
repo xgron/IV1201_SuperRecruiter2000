@@ -264,5 +264,72 @@ public class Application {
         return null;
     }
 
+    public PublicApplicationDTO getApplicant(String userID){
+        try{
+            PublicApplicationDTO applicant = new PublicApplicationDTO();
+            Person p = portal.getPersonWithUserID(userID).get(0);
+
+                String hired;
+                if(p.getHired() == null){
+                    if(swedish){
+                        hired = "Under övervägande";
+                    }else{
+                        hired = "Under consideration";
+                    }
+                }else if(p.getHired() == false){
+                    if(swedish){
+                        hired = "Avböjd";
+                    }else{
+                        hired = "Declined";
+                    }
+                }else{
+                    if(swedish){
+                        hired = "Accepterad";
+                    }else{
+                        hired = "Accepted";
+                    }
+
+
+                List<ExperienceDTO> experienceDTOList = new ArrayList<ExperienceDTO>();
+                for(Experience experience : p.getExperiences()){
+                    String competenceName;
+                    if(swedish){
+                        competenceName = experience.getCompetence().getNameSv();
+                    }else {
+                        competenceName = experience.getCompetence().getName();
+                    }
+                    ExperienceDTO experienceDTO = new ExperienceDTO(competenceName,
+                            experience.getYears());
+                    experienceDTOList.add(experienceDTO);
+                }
+
+                List<DateDTO> availabilities = new ArrayList<DateDTO>();
+                for(Availability availability : p.getAvailabilities()){
+                    DateDTO dateDTO = new DateDTO(availability.getStartDate().toString(),
+                            availability.getEndDate().toString());
+                    availabilities.add(dateDTO);
+                }
+
+                 applicant = new PublicApplicationDTO(
+                        p.getUserID(),
+                        p.getName(),
+                        p.getSurname(),
+                        p.getSsn(),
+                        p.getEmail(),
+                        hired,
+                        p.getRegistrationdate(),
+                        experienceDTOList,
+                        availabilities
+                );
+            }
+            LOG.log(Level.INFO, "Applicant: " + p.getName() + " " + p.getSurname() +" fetched.");
+            return applicant;
+
+        }catch (Exception e) {
+            LOG.info("Exception in integration layer: " + e);
+        }
+        return null;
+    }
+
 
 }
