@@ -56,6 +56,8 @@ public class HomeController {
         return model.application.getApplicants();
     }
 
+    public PublicApplicationDTO getApplicant(String userID) { return model.application.getApplicant(userID); }
+
 
     public PersonDTO AuthenticateUser(LoginDTO loginDTO) throws ErrorHandling.CommonException{
         PersonDTO authenticatedUser = model.user.authenticateUser(loginDTO);
