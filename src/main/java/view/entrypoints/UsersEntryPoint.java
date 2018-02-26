@@ -2,19 +2,30 @@ package view.entrypoints;
 
 
 import controller.HomeController;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.impl.crypto.MacProvider;
 import model.ErrorHandling;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import shared.*;
 import sun.rmi.runtime.Log;
 import view.ConversionService;
+import view.Secured;
 import view.response.AppRest;
 import view.response.UserRest;
 
+import javax.print.attribute.standard.Media;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import java.io.UnsupportedEncodingException;
+import java.security.Key;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
+
+import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
 
 /**
  * Created by enfet on 2018-01-29.
@@ -24,6 +35,8 @@ import java.util.List;
 
 @Path("/users")
 public class    UsersEntryPoint {
+    private static final String SIGNING_KEY = "secretsigningkey";
+
 
 
     /**
@@ -34,13 +47,9 @@ public class    UsersEntryPoint {
      * In case the username is not availabe an appropriate error message will
      * be sent
      *
-     * @param  username  the requested username
-     * @param  password the desired password for the user
-     * @param  email the email of the user
-     * @param surname the surname of the user
-     * @param firstname the first name of the user
-     * @param ssn the user's social security number
-     * @return a Json object with the corresponding userID or an error message
+     * @param UserRest PersonDTO containing the relevant information related to the user
+     *
+     * * @return a Json object with the corresponding userID or an error message
      */
 
     @POST
@@ -61,6 +70,7 @@ public class    UsersEntryPoint {
         }
 
 
+
         return returnvalue ;
     }
 
@@ -68,8 +78,8 @@ public class    UsersEntryPoint {
     @Path("/login")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public PersonDTO login(LoginDTO loginDetails){
-        System.out.println("in method");
+    public Response login(LoginDTO loginDetails){
+
       HomeController hc = new HomeController();
         PersonDTO returnvalue = new PersonDTO();
 
@@ -79,7 +89,8 @@ public class    UsersEntryPoint {
             //TO DO
             System.out.println("USER REGISTER EXCEPTION.");
         }
-        return returnvalue;
+        String token = jwtBuilder(returnvalue.getUserId());
+        return Response.ok().header(AUTHORIZATION, "Bearer " + token).entity(returnvalue).build();
     }
 
     /**
@@ -94,14 +105,24 @@ public class    UsersEntryPoint {
      */
 
     @GET
+    @Secured
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    public UserRest getUserProfile(@PathParam("id") String id) {
-        UserRest returnvalue =  new UserRest();
+    public Response getUserProfile(@PathParam("id") String id) {
+        PersonDTO ptry = new PersonDTO();
+        ptry.setFirstName("Bo");
+        return Response.ok().entity(ptry).build();
+    }
 
-        returnvalue.setFirstName("Billy bob");
-
-        return returnvalue;
+    @PUT
+    @Path("/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response changeApplicationStatus(EvaluationDTO evaluationDTO, @PathParam("id") String id) {
+        System.out.println(id);
+        System.out.println(evaluationDTO.getRecruiterID());
+        System.out.println(evaluationDTO.isEvaluation());
+        HomeController hc = new HomeController();
+        return Response.ok().build();
     }
 
     /**
@@ -157,4 +178,39 @@ public class    UsersEntryPoint {
         return requestObject;
     }
 
+    @POST
+    @Path("/jwtout")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response jwtTry(PersonDTO person) {
+        PersonDTO ptry = new PersonDTO();
+        ptry.setFirstName("Bo");
+        System.out.println(person.getFirstName());
+        String token = jwtBuilder(person.getFirstName());
+        return Response.ok().header(AUTHORIZATION, "Bearer " + token).entity(ptry).build();
+    }
+
+    @POST
+    @Path("/jwt")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Secured
+    public Response jwt(LoginDTO lgn) {
+        PersonDTO ptry = new PersonDTO();
+        ptry.setFirstName("Bo");
+        return Response.ok().entity(ptry).build();
+    }
+
+    //JAVADOC TO DO
+    private String jwtBuilder(String userID) {
+
+        String compactJws = Jwts.builder()
+                .setSubject(userID)
+                .signWith(SignatureAlgorithm.HS512, SIGNING_KEY)
+                .compact();
+        return compactJws;
+    }
+
 }
+
+
+
