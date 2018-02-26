@@ -201,6 +201,9 @@ public class Application {
         List<PublicApplicationDTO> applicationList = new ArrayList<PublicApplicationDTO>();
         List<Person> personList = portal.getPersonWithRole("applicant");
         for(Person p : personList){
+            if(p.getAvailabilities().isEmpty() || p.getExperiences().isEmpty()){
+                continue;
+            }
             String hired;
             if(p.getHired() == null){
                 if(swedish){

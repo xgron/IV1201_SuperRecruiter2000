@@ -125,7 +125,12 @@ public class User {
                 throw new ErrorHandling.CommonException(ErrorMessages.INVALID_USERNAME_MESSAGE.getErrorMessage());
             else if (BCrypt.checkpw(loginDTO.getPassword(), personList.get(0).getPassword())) {
                 PersonDTO authenticatedUser = new PersonDTO();
-
+                authenticatedUser.setFirstName(personList.get(0).getName());
+                authenticatedUser.setSurname(personList.get(0).getSurname());
+                authenticatedUser.setEmail(personList.get(0).getEmail());
+                authenticatedUser.setRole(personList.get(0).getRole().getName());
+                // authenticatedUser.setSsn(Integer.parseInt(personList.get(0).getSsn()));
+                authenticatedUser.setUserId(personList.get(0).getUserID());
                 LOG.log(Level.INFO, "User " + authenticatedUser.getFirstName() + " " + authenticatedUser.getSurname() + " authenticated.");
                 return authenticatedUser;
             } else

@@ -28,7 +28,7 @@ public class TESTER_View {
 
         try{
             hc.registerUser(personDTO);
-        }catch(ErrorHandling.RegisterUserException userExeption){
+        }catch(ErrorHandling.CommonException userExeption){
             System.out.println(userExeption.getMessage());
         }
 
@@ -45,7 +45,7 @@ public class TESTER_View {
         ApplicationDTO application = new ApplicationDTO(dates, experiences, userID);
         try{
             hc.registerApplication(application);
-        }catch(ErrorHandling.RegisterApplicationException rue){
+        }catch(ErrorHandling.CommonException rue){
             System.out.println(rue.getMessage());
         }
         // END OF PERSON 1 --------------------------------------
@@ -61,7 +61,7 @@ public class TESTER_View {
 
         try{
             hc.registerUser(personDTO);
-        }catch(ErrorHandling.RegisterUserException userExeption){
+        }catch(ErrorHandling.CommonException userExeption){
             System.out.println(userExeption.getMessage());
         }
 
@@ -78,7 +78,7 @@ public class TESTER_View {
         application = new ApplicationDTO(dates, experiences, userID);
         try{
             hc.registerApplication(application);
-        }catch(ErrorHandling.RegisterApplicationException rue){
+        }catch(ErrorHandling.CommonException rue){
             System.out.println(rue.getMessage());
         }
         // END OF PERSON 2 --------------------------------------
@@ -94,7 +94,7 @@ public class TESTER_View {
 
         try{
             hc.registerUser(personDTO);
-        }catch(ErrorHandling.RegisterUserException userExeption){
+        }catch(ErrorHandling.CommonException userExeption){
             System.out.println(userExeption.getMessage());
         }
 
@@ -111,7 +111,7 @@ public class TESTER_View {
         application = new ApplicationDTO(dates, experiences, userID);
         try{
             hc.registerApplication(application);
-        }catch(ErrorHandling.RegisterApplicationException rue){
+        }catch(ErrorHandling.CommonException rue){
             System.out.println(rue.getMessage());
         }
         // END OF PERSON 3 --------------------------------------
