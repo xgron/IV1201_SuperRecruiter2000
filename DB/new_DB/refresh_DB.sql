@@ -142,3 +142,8 @@ INSERT INTO competence (name, name_sv)
 VALUES ("Bingo caller", "Bingoutropare");
 INSERT INTO competence (name, name_sv)
 VALUES ("Lottery seller", "Lotteriförsäljare");
+
+
+-- RECRUITER
+INSERT INTO person (user_id, name, surname, ssn, email, password, username, hired, registration_date, Role_name)
+VALUES ("recruiter", "admin", "admin", "999999", "admin@sr.se", "password", "recruiter", "1", "2018-02-19", "recruit");
