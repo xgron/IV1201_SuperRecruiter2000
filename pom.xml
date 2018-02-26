@@ -91,6 +91,11 @@
       <version>7.0.21</version>
       <scope>provided</scope>
     </dependency>
+      <dependency>
+          <groupId>org.json</groupId>
+          <artifactId>json</artifactId>
+          <version>20160810</version>
+      </dependency>
     <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
     <dependency>
     <groupId>org.seleniumhq.selenium</groupId>
