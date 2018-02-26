@@ -44,7 +44,7 @@ public class standalone {
 
     }
 
-    public static void printApplicants(String ip) throws Exception {
+    private static void printApplicants(String ip) throws Exception {
         StringBuilder result = new StringBuilder();
         URL url = new URL("http://" + ip + ":8080/api/users");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
