@@ -3,18 +3,18 @@ package model;
 import integration.DBPortal;
 import integration.entity.*;
 import integration.entity.Person;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
-import shared.ErrorMessages;
-import shared.LoginDTO;
-import shared.PersonDTO;
-import shared.PublicApplicationDTO;
+import shared.*;
 
 import java.io.UnsupportedEncodingException;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.Calendar;
 import javax.transaction.Transactional;
 
@@ -149,6 +149,43 @@ public class User {
 
     }
 
+    public ApplicationDTO getUser(String userID){
+        try{
+            Person person = portal.getPersonWithUserID(userID).get(0);
+            return new PublicApplicationDTO(
+                    person.getUserID(),
+                    person.getName(),
+                    person.getSurname(),
+                    person.getSsn(),
+                    person.getEmail(),
+                    person.getHired().toString(),
+                    person.getRegistrationdate(),
+                    person.getExperiences(),
+                    person.getAvailabilities());
+            List<ExperienceDTO> experienceDTOList = new ArrayList<ExperienceDTO>();
+            for(Experience experience : p.getExperiences()){
+                String competenceName;
+                if(swedish){
+                    competenceName = experience.getCompetence().getNameSv();
+                }else {
+                    competenceName = experience.getCompetence().getName();
+                }
+                ExperienceDTO experienceDTO = new ExperienceDTO(competenceName,
+                        experience.getYears());
+                experienceDTOList.add(experienceDTO);
+            }
+
+            List<DateDTO> availabilities = new ArrayList<DateDTO>();
+            for(Availability availability : p.getAvailabilities()){
+                DateDTO dateDTO = new DateDTO(availability.getStartDate().toString(),
+                        availability.getEndDate().toString());
+                availabilities.add(dateDTO);
+            }
+        }catch (Exception e) {
+            LOG.info("Exception in integration layer: " + e);
+        }
+        return null;
+    }
     /**
      * This method returns the userID of a specific username
      * @param username is the username of the user
