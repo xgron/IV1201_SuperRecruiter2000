@@ -40,19 +40,20 @@ public class AuthenticationFilter implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-
+        /*
         ContainerRequest cr = (ContainerRequest) requestContext;
         cr.bufferEntity();
         LoginDTO ad = cr.readEntity(LoginDTO.class);
 
-
         System.out.println(ad.getUsername() + " " + ad.getPassword());
-
+*/
+        String id = requestContext.getUriInfo().getPath().substring(USER_CUT_OFF.length());
 
         // Get the Authorization header from the request
         String authorizationHeader =
                 requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 
+        System.out.println(authorizationHeader);
         // Validate the Authorization header
         if (!isTokenBasedAuthentication(authorizationHeader)) {
             abortWithUnauthorized(requestContext);
@@ -63,7 +64,7 @@ public class AuthenticationFilter implements ContainerRequestFilter {
         String token = authorizationHeader
                 .substring(AUTHENTICATION_SCHEME.length()).trim();
 
-        if(validateToken(token, ad.getUsername())) {
+        if(validateToken(token, id)) {
             System.out.println("Correct token");
         }
         else {
@@ -94,8 +95,8 @@ public class AuthenticationFilter implements ContainerRequestFilter {
     private boolean validateToken(String token, String user) {
         // Check if the token was issued by the server and if it's not expired
         // Throw an Exception if the token is invalid
-        System.out.println(user);
-        System.out.println(token);
+        System.out.println("Userid is: " + user);
+        System.out.println("The token is " + token);
        return user.equals(Jwts.parser().setSigningKey(SIGNING_KEY).parseClaimsJws(token).getBody().getSubject());
 
     }

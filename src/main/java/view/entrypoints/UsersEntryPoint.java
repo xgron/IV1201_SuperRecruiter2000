@@ -109,9 +109,11 @@ public class    UsersEntryPoint {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUserProfile(@PathParam("id") String id) {
-        PersonDTO ptry = new PersonDTO();
-        ptry.setFirstName("Bo");
-        return Response.ok().entity(ptry).build();
+        System.out.println(id);
+        HomeController hc = new HomeController();
+        PublicApplicationDTO po = hc.getApplicant(id);
+        po.toString();
+        return Response.ok().entity(po).build();
     }
 
     @PUT

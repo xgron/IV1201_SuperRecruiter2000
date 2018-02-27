@@ -8,7 +8,10 @@
           </div>
           <div class="form-group">
             <label for="lastname">Password:</label>
-                <input type="text" class="form-control" name="password" ngModel required>
+                <input type="password" class="form-control" name="password" ngModel required>
+          </div>
+          <div class="form-group">
+            <p>{{ Error }}</p>
           </div>
           <button class="btn btn-default" [disabled]="!f.valid">Submit</button>
       </form>
