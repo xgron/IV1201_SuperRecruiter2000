@@ -112,19 +112,33 @@ public class Application {
      */
     public void competenceListToDB(String userID, List<ExperienceDTO> experiences){
         try{
-        Person person = portal.getPersonWithUserID(userID).get(0);
-        for(ExperienceDTO eDTO : experiences){
-            Competence competence = new Competence(eDTO.getName());
-            Experience experience = new Experience(roundToOneDecimal(eDTO.getYears(), 1),
-                                                    competence);
-            person.addExperience(experience);
-            portal.saveExperience(experience);
-        }
-        portal.updatePerson(person);
-        LOG.log(Level.INFO, "The list of competences for user " + person.getName() + " " + person.getSurname() + " was updated.");
+            Person person = portal.getPersonWithUserID(userID).get(0);
+            for(ExperienceDTO eDTO : experiences){
+                Competence competence = new Competence(eDTO.getName());
+                Experience experience = new Experience(roundToOneDecimal(eDTO.getYears(), 1),
+                                                        competence);
+                person.addExperience(experience);
+                portal.saveExperience(experience);
+            }
+            portal.updatePerson(person);
+            LOG.log(Level.INFO, "The list of competences for user " + person.getName() + " " + person.getSurname() + " was updated.");
         }catch (Exception e) {
             LOG.info("Exception in integration layer: " + e);
         }
+    }
+
+    public List<String> getPossibleCompetences(){
+        List<String> competenceList = new ArrayList<String>();
+        try{
+            for(Competence c : portal.getAllCompetences()){
+                competenceList.add(c.getName());
+            }
+        }catch (Exception e){
+            LOG.info("Exception in integration layer: " + e);
+        }finally {
+            return competenceList;
+        }
+
     }
 
     /**
