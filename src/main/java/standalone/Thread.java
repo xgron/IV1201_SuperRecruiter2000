@@ -1,8 +1,6 @@
 package standalone;
 
 import net.bytebuddy.utility.RandomString;
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -13,15 +11,30 @@ import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
-public class stress {
-    public static void main(String[] args) {
-        // http://www.shodor.org/interactivate/activities/SimplePlot/
-        String ip = "130.229.159.24";
+class Thread extends java.lang.Thread {
 
-        testApplicants(1000, ip);
+    public String threadName = "";
+
+
+    Thread(String name) {
+        threadName = name;
+        //System.out.println("Creating " +  threadName );
     }
 
-    private static void testApplicants(int runs, String ip){
+    public void run() {
+        //System.out.println("Running " +  threadName );
+        try {
+            String ip = "130.229.136.157";
+
+            testApplicants(5, ip);
+            testRegister(5, ip);
+        }catch (Exception e) {
+            System.out.println("Something went wrong... " + e.getMessage());
+        }
+        //System.out.println("Thread " +  threadName + " exiting.");
+    }
+
+    public void testApplicants(int runs, String ip) throws Exception{
         long startTime = System.currentTimeMillis();
         long stopTime;
         long elapsedTime;
@@ -29,39 +42,17 @@ public class stress {
         for(int i = 0; i < runs; i++){
             try{
                 getApplicants(ip);
-                if((i%10) == 0 ){
-                    stopTime = System.currentTimeMillis();
-                    elapsedTime = stopTime - startTime;
-                    System.out.print(i + "," + elapsedTime + ",\n");
-                }
             }catch (Exception e){
-                e.printStackTrace();
+                throw e;
             }
 
         }
-
         stopTime = System.currentTimeMillis();
         elapsedTime = stopTime - startTime;
-        //System.out.print(runs + "," + elapsedTime + "\n");
-        //System.out.println(elapsedTime + " ms to fetch applications " + runs + " times");
+        System.out.println(threadName + " -> " + elapsedTime + " ms to fetch applications " + runs + " time(s)");
     }
 
-    private static void getApplicants(String ip) throws Exception {
-        StringBuilder result = new StringBuilder();
-        URL url = new URL("http://" + ip + ":8080/api/users");
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        String line;
-        while ((line = rd.readLine()) != null) {
-            result.append(line);
-        }
-        rd.close();
-        String json = result.toString();
-        //System.out.println(json);
-    }
-
-    private static void testRegister(int runs, String ip){
+    private void testRegister(int runs, String ip) throws Exception{
         RandomString rs = new RandomString();
         Random rnd = new Random();
         long startTime = System.currentTimeMillis();
@@ -76,14 +67,29 @@ public class stress {
                 String ssn = Integer.toString(100000 + rnd.nextInt(900000));
                 registerUser(ip, firstname, surname, email, password, userName, ssn);
             }catch (Exception e){
-                e.printStackTrace();
+                throw e;
             }
 
         }
 
         long stopTime = System.currentTimeMillis();
         long elapsedTime = stopTime - startTime;
-        System.out.println(elapsedTime + "," + runs + ",\n");
+        System.out.println(threadName + " -> " + elapsedTime + " ms to register " + runs + " user(s)");
+    }
+
+    private static void getApplicants(String ip) throws Exception {
+
+        StringBuilder result = new StringBuilder();
+        URL url = new URL("http://" + ip + ":8080/api/users");
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestMethod("GET");
+        BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        String line;
+        while ((line = rd.readLine()) != null) {
+            result.append(line);
+        }
+        rd.close();
+        String json = result.toString();
     }
 
     private static void registerUser(String ip, String firstname, String surname, String email, String password, String userName, String ssn) throws Exception{
