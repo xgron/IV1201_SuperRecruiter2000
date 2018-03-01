@@ -16,6 +16,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AuthenticationService } from './authentication.service';
 import { LoginComponent } from './login/login.component';
 import { UserPageComponent } from './user-page/user-page.component';
+import { ApplicationComponent } from './application/application.component';
+import { ApplicationService } from './application/application.service';
 
 
 @NgModule({
@@ -27,7 +29,8 @@ import { UserPageComponent } from './user-page/user-page.component';
     HomepageComponent,
     RegisteruserComponent,
     LoginComponent,
-    UserPageComponent
+    UserPageComponent,
+    ApplicationComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +39,8 @@ import { UserPageComponent } from './user-page/user-page.component';
     AppRoutingModule,
     ReactiveFormsModule
   ],
-  providers: [UserService, AuthenticationService],
+  providers: [UserService, AuthenticationService,
+     ApplicationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

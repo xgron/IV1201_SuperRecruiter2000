@@ -202,6 +202,7 @@ public class    UsersEntryPoint {
         return Response.ok().entity(ptry).build();
     }
 
+
     //JAVADOC TO DO
     private String jwtBuilder(String userID) {
 
