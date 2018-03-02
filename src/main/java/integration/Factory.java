@@ -26,8 +26,6 @@ public class Factory {
 
     public static ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
 
-    public static Validator validator = validatorFactory.getValidator();
-
     public static void setFactory(SessionFactory factory) {
         Factory.factory = factory;
     }

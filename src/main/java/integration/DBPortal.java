@@ -25,7 +25,8 @@ public class DBPortal {
      * @param experience is an object of Experience
      */
     public void saveExperience(Experience experience){
-        factoryObj.validator.validate(experience);
+        Validator validator = factoryObj.validatorFactory.getValidator();
+        validator.validate(experience);
         session = factory.getCurrentSession();
         session.beginTransaction();
         session.save(experience);
@@ -37,7 +38,8 @@ public class DBPortal {
      * @param person is a Person object
      */
     public void savePerson(Person person){
-        factoryObj.validator.validate(person);
+        Validator validator = factoryObj.validatorFactory.getValidator();
+        validator.validate(person);
         session = factory.getCurrentSession();
         session.beginTransaction();
         session.save(person);
@@ -49,10 +51,24 @@ public class DBPortal {
      * @param person is a Person object
      */
     public void updatePerson(Person person){
-        factoryObj.validator.validate(person);
+        Validator validator = factoryObj.validatorFactory.getValidator();
+        validator.validate(person);
         session = factory.getCurrentSession();
         session.beginTransaction();
         session.update(person);
+        session.getTransaction().commit();
+    }
+
+    /**
+     * This method creates an entry to the "availability"-table in the DB.
+     * @param  availability  is of the entity object "Availability" and is the object that will be created in the DB.
+     */
+    public void createAvailability(Availability availability){
+        Validator validator = factoryObj.validatorFactory.getValidator();
+        validator.validate(availability);
+        Session session = factory.getCurrentSession();
+        session.beginTransaction();
+        session.save(availability);
         session.getTransaction().commit();
     }
 
@@ -133,17 +149,6 @@ public class DBPortal {
         return competenceList;
     }
 
-    /**
-     * This method creates an entry to the "availability"-table in the DB.
-     * @param  availability  is of the entity object "Availability" and is the object that will be created in the DB.
-     */
-    public void createAvailability(Availability availability){
-        factoryObj.validator.validate(availability);
-        Session session = factory.getCurrentSession();
-        session.beginTransaction();
-        session.save(availability);
-        session.getTransaction().commit();
-    }
 
     /**
      * This method searches in the DB for a "Person"-entry with a specific SSN.

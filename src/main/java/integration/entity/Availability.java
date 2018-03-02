@@ -14,11 +14,9 @@ public class Availability{
     private int id;
 
     @Column(name="start_date")
-    @Future
     private java.sql.Date startDate;
 
     @Column(name="end_date")
-    @Future
     private java.sql.Date endDate;
 
     @ManyToOne(cascade = CascadeType.ALL)
