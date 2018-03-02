@@ -167,6 +167,13 @@ public class User {
         return null;
     }
 
+    /**
+     *  This method is to get the role of a user
+     *
+     * @param   userID  current user
+     *
+     * @return  role    a string with the role
+     */
     public String getRole(String userID){
         try {
             return portal.getPersonWithUserID(userID).get(0).getRole().getName();
@@ -175,8 +182,6 @@ public class User {
         }
         return null;
     }
-
-    //JAVADOC TO DO
     private String jwtBuilder(String userID){
         try {
             return Jwts.builder()
