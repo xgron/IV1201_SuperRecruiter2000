@@ -5,14 +5,11 @@ package shared;
  */
 public class EvaluationDTO {
     private String recruiterID;
-    private boolean evaluation;
+    private String eval;
 
     public EvaluationDTO() {}
 
-    public EvaluationDTO(String recruiterID, boolean evaluation) {
-        this.recruiterID = recruiterID;
-        this.evaluation = evaluation;
-    }
+
 
     public String getRecruiterID() {
         return recruiterID;
@@ -22,11 +19,11 @@ public class EvaluationDTO {
         this.recruiterID = recruiterID;
     }
 
-    public boolean isEvaluation() {
-        return evaluation;
+    public String getEval() {
+        return eval;
     }
 
-    public void setEvaluation(boolean evaluation) {
-        this.evaluation = evaluation;
+    public void setEval(String eval) {
+        this.eval = eval;
     }
 }

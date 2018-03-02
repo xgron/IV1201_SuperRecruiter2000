@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from './user.service';
+import { Response } from '@angular/http';
 import * as jsPDF from 'jspdf'
 
 @Component({
@@ -31,7 +32,28 @@ export class UsersComponent implements OnInit {
 
 acceptApplicant(user) {
     console.log(user.userID);
+    this.userService.evaluateApplicant(user.userID, "true")
+    .subscribe(
+      (response: Response) => console.log(response),
+      (error) => console.log(error)
+    );
+    this.refresh();
 }
+
+denyApplicant(user) {
+  this.userService.evaluateApplicant(user.userID, "false")
+  .subscribe(
+    (response: Response) => console.log(response),
+    (error) => console.log(error)
+  );
+  this.refresh();
+}
+
+refresh(): void {
+  window.location.reload();
+}
+
+
 
   public download(user) {
 

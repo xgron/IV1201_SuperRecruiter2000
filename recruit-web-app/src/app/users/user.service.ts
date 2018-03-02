@@ -53,4 +53,15 @@ export class UserService {
       registerUser(user: string) {
          return this.http.post("http://localhost:8080/api/users", user);
       }
+
+      evaluateApplicant(userID: string, evals: string) {
+        var headers = new Headers();
+        headers.append("Accept", 'application/json');
+        headers.append("Content-Type", 'application/json');
+        let options = new RequestOptions({ headers: headers });
+          let recruiter = JSON.parse(localStorage.getItem('currentUser'));
+          console.log("http://localhost:8080/api/users/" + userID);
+          console.log( JSON.stringify({recruiterID: recruiter.userId, evaluation: evals }));
+            return this.http.put("http://localhost:8080/api/users/" + userID, JSON.stringify({recruiterID: recruiter.userId, eval: evals }), options)
+      }
 }

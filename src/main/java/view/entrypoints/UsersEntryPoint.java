@@ -122,15 +122,17 @@ public class    UsersEntryPoint {
     public Response changeApplicationStatus(EvaluationDTO evaluationDTO, @PathParam("id") String id) {
         System.out.println(id);
         System.out.println(evaluationDTO.getRecruiterID());
-        System.out.println(evaluationDTO.isEvaluation());
+        boolean evaluation = Boolean.parseBoolean(evaluationDTO.getEval());
+        System.out.println("This is the evaluation " + evaluation);
+        System.out.println(evaluationDTO.getEval());
         HomeController hc = new HomeController();
         try {
-            Boolean result = hc.evaluateApplication(id, evaluationDTO.isEvaluation(), evaluationDTO.getRecruiterID());
+            Boolean result = hc.evaluateApplication(id, evaluation, evaluationDTO.getRecruiterID());
             System.out.println(result);
         }
         catch (ErrorHandling.CommonException e){
             System.out.println("I error handling");
-            return Response.serverError().entity(e).build();
+            return Response.serverError().entity(e.getMessage()).build();
         }
 
         return Response.ok().build();

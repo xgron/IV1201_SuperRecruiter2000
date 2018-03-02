@@ -9,7 +9,7 @@
 
           <hr>
 
-          <p>Application status: {{ user.hired }} </p>
+          <p>Application status: <strong>{{ user.hired }} </strong></p>
           <p>Date of registration: {{user.registrationdate}} </p>
 
           <br>
@@ -35,8 +35,8 @@
           <hr>
 
           <div class="buttons" >
-            <button type="button" class="btn btn-success" (click)="acceptApplicant(user)">Approve</button>
-            <button type="button" class="btn btn-danger">Deny</button>
+            <button type="button" class="btn btn-success" (click)="acceptApplicant(user)">Accept</button>
+            <button type="button" class="btn btn-danger" (click)="denyApplicant(user)">Decline</button>
             <button type="button" class="btn btn-info" (click)="download(user)">Download as PDF</button>
           </div>
 
