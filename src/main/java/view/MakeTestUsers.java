@@ -114,7 +114,5 @@ public class MakeTestUsers {
         }
         // END OF PERSON 3 --------------------------------------
 
-        System.out.println("ALL APPLICANTS: ");
-        System.out.println(hc.getApplicants());
     }
 }

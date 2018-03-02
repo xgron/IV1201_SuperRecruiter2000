@@ -83,8 +83,10 @@ public class Application {
             List<Person> person = portal.getPersonWithUserID(applicantID);
             if(applicantID.length() != 25 || recruiterID.length() != 25 || person.isEmpty() || portal.getPersonWithUserID(recruiterID).isEmpty())
                 throw new ErrorHandling.CommonException(ErrorMessages.INVALID_USERID_MESSAGE.getErrorMessage());
-            else if(portal.getPersonWithUserID(recruiterID).get(0).getRole().getName()!="recruiter")
+            else if(!portal.getPersonWithUserID(recruiterID).get(0).getRole().getName().equals("recruit")){
                 throw new ErrorHandling.CommonException(ErrorMessages.AUTHORIZATION_MESSAGE.getErrorMessage());
+            }
+
             /*else if(TransactionSynchronizationManager.isActualTransactionActive() && TransactionSynchronizationManager.getCurrentTransactionName()==applicantID)
                 throw new ErrorHandling.EvaluateApplicationException("This application is currently being evaluated by someone else!");*/
             else{
