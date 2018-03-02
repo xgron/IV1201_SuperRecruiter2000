@@ -63,10 +63,10 @@ public class Application {
             LOG.log(Level.INFO, "The application for user " + portal.getPersonWithUserID(application.getUserID()).get(0).getName() + " " + portal.getPersonWithUserID(application.getUserID()).get(0).getSurname() + " was updated.");
             return true;
 
-        }catch (Exception e) {
-            LOG.info("Exception in integration layer: " + e);
+        }catch (ErrorHandling.CommonException e) {
+            LOG.info("" + e);
+            throw e;
         }
-        return false;
     }
 
     /**

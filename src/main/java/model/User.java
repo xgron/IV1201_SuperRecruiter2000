@@ -104,10 +104,10 @@ public class User {
                  //TransactionSynchronizationManager.clear();
                  return personDTO;
              }
-         }catch (Exception e) {
-             LOG.info("Exception in integration layer: " + e);
-         }
-        return null;
+         }catch (ErrorHandling.CommonException e) {
+            LOG.info("" + e);
+            throw e;
+        }
     }
 
     /**
@@ -135,10 +135,10 @@ public class User {
                 return authenticatedUser;
             } else
                 throw new ErrorHandling.CommonException(ErrorMessages.INVALID_PASSWORD_MESSAGE.getErrorMessage());
-        }catch (Exception e) {
-            LOG.info("Exception in integration layer: " + e);
+        }catch (ErrorHandling.CommonException e) {
+            LOG.info("" + e);
+            throw e;
         }
-        return null;
     }
 
     private static String generateUserID(){
