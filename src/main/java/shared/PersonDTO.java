@@ -12,6 +12,7 @@ public class PersonDTO {
     private String ssn;
     private String userId;
     private String role;
+    private String token;
 
     public String getUserId() {
         return userId;
@@ -76,6 +77,14 @@ public class PersonDTO {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Override

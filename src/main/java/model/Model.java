@@ -20,7 +20,7 @@ public class Model {
 
     public Model() {
         //logging
-       /* String logPath = "./logs/";
+        String logPath = "./logs/";
         SimpleDateFormat format = new SimpleDateFormat("M-d_HHmmss");
         try {
             fh = new FileHandler(logPath
@@ -29,8 +29,8 @@ public class Model {
             System.out.println("Log could not be written to file...");
         }
 
-        fh.setFormatter(new SimpleFormatter());
-        LOG.addHandler(fh);*/
+        //fh.setFormatter(new SimpleFormatter());
+        //LOG.addHandler(fh);
 
     }
 }

@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
-
+      
       <div class="media" *ngFor="let user of users">
       <ul class="list-group-item considering">
           
@@ -34,13 +34,15 @@
 
           <hr>
 
-          <div class="buttons">
+          <div class="buttons" >
             <button type="button" class="btn btn-success">Approve</button>
             <button type="button" class="btn btn-danger">Deny</button>
+            <button type="button" class="btn btn-info" (click)="download(user)">Download as PDF</button>
           </div>
 
 
       </ul>
     </div>
+  
   </div>
 </div>

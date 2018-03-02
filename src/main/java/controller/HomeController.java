@@ -97,4 +97,8 @@ public class HomeController {
         PersonDTO authenticatedUser = model.user.authenticateUser(loginDTO);
         return authenticatedUser;
     }
+
+    public List<String> getPossibleCompetences(){
+        return model.application.getPossibleCompetences();
+    }
 }

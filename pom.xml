@@ -28,14 +28,25 @@
     </dependency>
 
       <dependency>
+          <groupId>org.glassfish</groupId>
+          <artifactId>javax.el</artifactId>
+          <version>3.0.1-b08</version>
+      </dependency>
+
+      <dependency>
           <groupId>org.hibernate</groupId>
           <artifactId>hibernate-core</artifactId>
           <version>5.2.8.Final</version>
       </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+      <version>6.0.7.Final</version>
+    </dependency>
       <dependency>
           <groupId>org.hibernate</groupId>
-          <artifactId>hibernate-validator</artifactId>
-          <version>5.4.0.Final</version>
+          <artifactId>hibernate-validator-cdi</artifactId>
+          <version>6.0.7.Final</version>
       </dependency>
 
     <dependency>
@@ -91,6 +102,11 @@
       <version>7.0.21</version>
       <scope>provided</scope>
     </dependency>
+      <dependency>
+          <groupId>org.json</groupId>
+          <artifactId>json</artifactId>
+          <version>20160810</version>
+      </dependency>
     <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
     <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-htmlunit-driver -->
     <dependency>
