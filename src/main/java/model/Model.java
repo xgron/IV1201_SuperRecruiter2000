@@ -29,8 +29,8 @@ public class Model {
             System.out.println("Log could not be written to file...");
         }
 
-        fh.setFormatter(new SimpleFormatter());
-        LOG.addHandler(fh);
+        //fh.setFormatter(new SimpleFormatter());
+        //LOG.addHandler(fh);
 
     }
 }

@@ -29,6 +29,10 @@ export class UsersComponent implements OnInit {
     );
   }
 
+acceptApplicant(user) {
+    console.log(user.userID);
+}
+
   public download(user) {
 
     var doc = new jsPDF();

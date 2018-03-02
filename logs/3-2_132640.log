@@ -1,0 +1,24 @@
+mar 02, 2018 1:26:40 EM model.User registerUser
+INFO: User Bruce Banner registered.
+mar 02, 2018 1:26:40 EM model.Application competenceListToDB
+INFO: The list of competences for user Bruce Banner was updated.
+mar 02, 2018 1:26:40 EM model.Application availabilityListToDB
+INFO: The list of availabilities for user Bruce Banner was updated.
+mar 02, 2018 1:26:40 EM model.Application registerApplication
+INFO: The application for user Bruce Banner was updated.
+mar 02, 2018 1:26:40 EM model.User registerUser
+INFO: User Tony Stark registered.
+mar 02, 2018 1:26:40 EM model.Application competenceListToDB
+INFO: The list of competences for user Tony Stark was updated.
+mar 02, 2018 1:26:40 EM model.Application availabilityListToDB
+INFO: The list of availabilities for user Tony Stark was updated.
+mar 02, 2018 1:26:40 EM model.Application registerApplication
+INFO: The application for user Tony Stark was updated.
+mar 02, 2018 1:26:41 EM model.User registerUser
+INFO: User Thor Odinson registered.
+mar 02, 2018 1:26:41 EM model.Application competenceListToDB
+INFO: The list of competences for user Thor Odinson was updated.
+mar 02, 2018 1:26:41 EM model.Application availabilityListToDB
+INFO: The list of availabilities for user Thor Odinson was updated.
+mar 02, 2018 1:26:41 EM model.Application registerApplication
+INFO: The application for user Thor Odinson was updated.

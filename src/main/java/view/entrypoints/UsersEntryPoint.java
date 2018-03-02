@@ -124,6 +124,15 @@ public class    UsersEntryPoint {
         System.out.println(evaluationDTO.getRecruiterID());
         System.out.println(evaluationDTO.isEvaluation());
         HomeController hc = new HomeController();
+        try {
+            Boolean result = hc.evaluateApplication(id, evaluationDTO.isEvaluation(), evaluationDTO.getRecruiterID());
+            System.out.println(result);
+        }
+        catch (ErrorHandling.CommonException e){
+            System.out.println("I error handling");
+            return Response.serverError().entity(e).build();
+        }
+
         return Response.ok().build();
     }
 
@@ -141,8 +150,10 @@ public class    UsersEntryPoint {
     @Produces(MediaType.APPLICATION_JSON)
     public List<AppRest> getApplicants(@DefaultValue("0") @QueryParam("start") int start,
                                                  @DefaultValue("1000")@QueryParam("limit") int limit) {
+        System.out.println("Börjar hämta..");
         HomeController hc = new HomeController();
         List<PublicApplicationDTO> paDTO = hc.getApplicants();
+        System.out.println("Hämtat applkationer");
         ConversionService cconversion = new ConversionService();
         List<AppRest> returnValue = cconversion.convertApplication(paDTO);
         return returnValue;
