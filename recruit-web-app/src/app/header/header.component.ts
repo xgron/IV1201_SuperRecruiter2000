@@ -12,4 +12,8 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  get user(): any {
+    return JSON.parse(localStorage.getItem('currentUser'));
+}
+
 }

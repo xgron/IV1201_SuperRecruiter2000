@@ -2,8 +2,12 @@ package integration.entity;
 
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
-import org.hibernate.validator.constraints.*;
-import org.springframework.format.annotation.NumberFormat;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
+
+import javax.validation.constraints.*;
+
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -18,18 +22,17 @@ public class Person {
     @Column(name = "user_id")
     private String userID;
 
+    @NotNull
+    @Size(min = 2, max = 30)
     @Column
-    @Length(min=2, max=30)
-    @NotEmpty
     private String name;
 
     @Column
-    @Length(min=2, max=30)
-    @NotEmpty
+    @Size(min = 2, max = 30)
     private String surname;
 
     @Column
-    @Range(min=000000, max=1000000)
+    @Range(min=100000, max=999999)
     private int ssn;
 
     @Column

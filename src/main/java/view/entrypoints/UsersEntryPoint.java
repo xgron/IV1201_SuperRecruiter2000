@@ -64,7 +64,7 @@ public class    UsersEntryPoint {
         PersonDTO returnvalue = new PersonDTO();
         try{
             returnvalue = userController.registerUser(personDTO);
-        }catch (ErrorHandling.RegisterUserException rue){
+        }catch (ErrorHandling.CommonException rue){
             //TO DO
             System.out.println("USER REGISTER EXCEPTION.");
         }
@@ -79,17 +79,17 @@ public class    UsersEntryPoint {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response login(LoginDTO loginDetails){
-
       HomeController hc = new HomeController();
         PersonDTO returnvalue = new PersonDTO();
-
         try{
             returnvalue = hc.AuthenticateUser(loginDetails);
-        }catch (ErrorHandling.AuthenticateUserException e){
+        }catch (ErrorHandling.CommonException e){
             //TO DO
             System.out.println("USER REGISTER EXCEPTION.");
+            return Response.serverError().entity(e.getMessage()).build();
         }
         String token = jwtBuilder(returnvalue.getUserId());
+        returnvalue.setToken(token);
         return Response.ok().header(AUTHORIZATION, "Bearer " + token).entity(returnvalue).build();
     }
 
@@ -109,9 +109,11 @@ public class    UsersEntryPoint {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUserProfile(@PathParam("id") String id) {
-        PersonDTO ptry = new PersonDTO();
-        ptry.setFirstName("Bo");
-        return Response.ok().entity(ptry).build();
+        System.out.println(id);
+        HomeController hc = new HomeController();
+        PublicApplicationDTO po = hc.getApplicant(id);
+        po.toString();
+        return Response.ok().entity(po).build();
     }
 
     @PUT
@@ -167,7 +169,7 @@ public class    UsersEntryPoint {
        try{
 
            hc.registerApplication(requestObject);
-        }catch (ErrorHandling.RegisterApplicationException rae){
+        }catch (ErrorHandling.CommonException rae){
             //TO DO
             System.out.println("RU EXCEPTION");
         }
@@ -199,6 +201,8 @@ public class    UsersEntryPoint {
         ptry.setFirstName("Bo");
         return Response.ok().entity(ptry).build();
     }
+
+
 
     //JAVADOC TO DO
     private String jwtBuilder(String userID) {

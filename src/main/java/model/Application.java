@@ -83,8 +83,10 @@ public class Application {
             List<Person> person = portal.getPersonWithUserID(applicantID);
             if(applicantID.length() != 25 || recruiterID.length() != 25 || person.isEmpty() || portal.getPersonWithUserID(recruiterID).isEmpty())
                 throw new ErrorHandling.CommonException(ErrorMessages.INVALID_USERID_MESSAGE.getErrorMessage());
-            else if(portal.getPersonWithUserID(recruiterID).get(0).getRole().getName()!="recruiter")
+            else if(!portal.getPersonWithUserID(recruiterID).get(0).getRole().getName().equals("recruit")){
                 throw new ErrorHandling.CommonException(ErrorMessages.AUTHORIZATION_MESSAGE.getErrorMessage());
+            }
+
             /*else if(TransactionSynchronizationManager.isActualTransactionActive() && TransactionSynchronizationManager.getCurrentTransactionName()==applicantID)
                 throw new ErrorHandling.EvaluateApplicationException("This application is currently being evaluated by someone else!");*/
             else{
@@ -120,19 +122,33 @@ public class Application {
      */
     public void competenceListToDB(String userID, List<ExperienceDTO> experiences){
         try{
-        Person person = portal.getPersonWithUserID(userID).get(0);
-        for(ExperienceDTO eDTO : experiences){
-            Competence competence = new Competence(eDTO.getName());
-            Experience experience = new Experience(roundToOneDecimal(eDTO.getYears(), 1),
-                                                    competence);
-            person.addExperience(experience);
-            portal.saveExperience(experience);
-        }
-        portal.updatePerson(person);
-        LOG.log(Level.INFO, "The list of competences for user " + person.getName() + " " + person.getSurname() + " was updated.");
+            Person person = portal.getPersonWithUserID(userID).get(0);
+            for(ExperienceDTO eDTO : experiences){
+                Competence competence = new Competence(eDTO.getName());
+                Experience experience = new Experience(roundToOneDecimal(eDTO.getYears(), 1),
+                                                        competence);
+                person.addExperience(experience);
+                portal.saveExperience(experience);
+            }
+            portal.updatePerson(person);
+            LOG.log(Level.INFO, "The list of competences for user " + person.getName() + " " + person.getSurname() + " was updated.");
         }catch (Exception e) {
             LOG.info("Exception in integration layer: " + e);
         }
+    }
+
+    public List<String> getPossibleCompetences(){
+        List<String> competenceList = new ArrayList<String>();
+        try{
+            for(Competence c : portal.getAllCompetences()){
+                competenceList.add(c.getName());
+            }
+        }catch (Exception e){
+            LOG.info("Exception in integration layer: " + e);
+        }finally {
+            return competenceList;
+        }
+
     }
 
     /**
@@ -209,6 +225,9 @@ public class Application {
         List<PublicApplicationDTO> applicationList = new ArrayList<PublicApplicationDTO>();
         List<Person> personList = portal.getPersonWithRole("applicant");
         for(Person p : personList){
+            if(p.getAvailabilities().isEmpty() || p.getExperiences().isEmpty()){
+                continue;
+            }
             String hired;
             if(p.getHired() == null){
                 if(swedish){

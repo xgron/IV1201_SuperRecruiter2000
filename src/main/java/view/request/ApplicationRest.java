@@ -17,9 +17,8 @@ public class ApplicationRest {
     private List<DateRest> availabilities;
     @XmlElement(name = "experiences")
     private List<ExperienceRest> experience;
-    private String userID;
 
-    public ApplicationRest(){
+    public ApplicationRest() {
         this.availabilities = new ArrayList<DateRest>();
         this.experience = new ArrayList<ExperienceRest>();
     }
@@ -30,7 +29,6 @@ public class ApplicationRest {
         return "ApplicationDTO{" +
                 "availabilities=" + availabilities +
                 ", experience=" + experience +
-                ", userID='" + userID + '\'' +
                 '}';
     }
 
@@ -49,12 +47,5 @@ public class ApplicationRest {
     public void setExperience(List<ExperienceRest> experience) {
         this.experience = experience;
     }
-
-    public String getUserID() {
-        return userID;
-    }
-
-    public void setUserID(String userID) {
-        this.userID = userID;
-    }
 }
+

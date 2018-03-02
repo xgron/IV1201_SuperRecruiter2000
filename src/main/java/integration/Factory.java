@@ -6,6 +6,9 @@ import org.hibernate.cfg.Configuration;
 
 
 import javax.inject.Singleton;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 
 @Singleton
 public class Factory {
@@ -20,6 +23,10 @@ public class Factory {
     public static SessionFactory getFactory() {
         return factory;
     }
+
+    public static ValidatorFactory validatorFactory = Validation.buildDefaultValidatorFactory();
+
+    public static Validator validator = validatorFactory.getValidator();
 
     public static void setFactory(SessionFactory factory) {
         Factory.factory = factory;
