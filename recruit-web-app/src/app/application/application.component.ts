@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm} from '@angular/forms'
 import { ApplicationService } from './application.service';
 
 @Component({
@@ -18,6 +19,10 @@ export class ApplicationComponent implements OnInit {
       console.log(this.competencies)},
       (error) => console.log(error)
     );
+  }
+
+  onPostingApplication(form: NgForm) {
+      console.log(form.value);
   }
 
 }

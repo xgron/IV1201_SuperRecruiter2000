@@ -3,6 +3,7 @@ import { NgForm, MinLengthValidator, MaxLengthValidator } from '@angular/forms';
 import { Response } from '@angular/http';
 
 import { UserService } from '../users/user.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-registeruser',
@@ -12,7 +13,7 @@ import { UserService } from '../users/user.service';
 export class RegisteruserComponent implements OnInit {
 
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit() {
   }
@@ -22,7 +23,8 @@ export class RegisteruserComponent implements OnInit {
     console.log(value);
    this.userService.registerUser(value)
    .subscribe(
-    (response: Response) => console.log(response),
+    (response: Response) => {console.log(response)
+    this.router.navigate(['application'])},
 
     (error) => console.log(error)
   );

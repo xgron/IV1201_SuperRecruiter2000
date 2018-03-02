@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row">
       <form  (ngSubmit)="onPostingApplication(f)" #f="ngForm">
-        <select formControlName="comp1" id="comp1">
+        <select name="comp1" id="comp1">
             <option *ngFor="let comp of competencies"
               [value]="comp.name">
                 {{comp.name}}
@@ -11,7 +11,7 @@
           <label for="username">Years</label>
           <input type="text" class="form-control" name="userName" ngModel required>
         </div>
-        <select formControlName="comp1" id="comp1">
+        <select name="comp2" id="comp2" ngModel>
             <option *ngFor="let comp of competencies"
               [value]="comp.name">
                 {{comp.name}}
@@ -21,7 +21,7 @@
             <label for="username">Years:</label>
             <input type="text" class="form-control" name="userName" ngModel required>
           </div>
-        <select formControlName="comp1" id="comp1">
+        <select name="comp3" id="comp3">
             <option *ngFor="let comp of competencies"
               [value]="comp.name">
                 {{comp.name}}
@@ -43,17 +43,19 @@
               </div>
               <div class="form-group">
                   <label for="username">Start:</label>
-                  <input type="text" class="form-control" name="userName" ngModel required>
+                  <input type="text" class="form-control" name="userName" ngModel>
                 </div>
                 <div class="form-group">
                     <label for="username">End:</label>
-                    <input type="text" class="form-control" name="userName" ngModel required>
+                    <input type="text" class="form-control" name="userName" ngModel>
                   </div>
                   <div class="form-group">
                       <label for="username">Start:</label>
-                      <input type="text" class="form-control" name="userName" ngModel required>
+                      <input type="text" class="form-control" name="userName" ngModel>
                     </div>
                     <div class="form-group">
                         <label for="username">End:</label>
-                        <input type="text" class="form-control" name="userName" ngModel required>
+                        <input type="text" class="form-control" name="userName" ngModel>
                       </div>
+                      <button class="btn btn-default" [disabled]="!f.valid">Submit</button>
+                      </form>
