@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name="competence")
@@ -13,11 +14,11 @@ public class Competence {
 
     @Id
     @Column(name="name")
-    @NotEmpty
+    @NotNull
     private String name;
 
     @Column(name="name_sv")
-    @NotEmpty
+    @NotNull
     private String nameSv;
 
     public Competence() {

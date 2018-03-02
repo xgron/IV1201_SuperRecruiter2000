@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import shared.PersonDTO;
 import shared.PublicApplicationDTO;
 
+import javax.validation.Validator;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.List;
@@ -24,6 +25,7 @@ public class DBPortal {
      * @param experience is an object of Experience
      */
     public void saveExperience(Experience experience){
+        factoryObj.validator.validate(experience);
         session = factory.getCurrentSession();
         session.beginTransaction();
         session.save(experience);
@@ -35,6 +37,7 @@ public class DBPortal {
      * @param person is a Person object
      */
     public void savePerson(Person person){
+        factoryObj.validator.validate(person);
         session = factory.getCurrentSession();
         session.beginTransaction();
         session.save(person);
@@ -46,6 +49,7 @@ public class DBPortal {
      * @param person is a Person object
      */
     public void updatePerson(Person person){
+        factoryObj.validator.validate(person);
         session = factory.getCurrentSession();
         session.beginTransaction();
         session.update(person);
@@ -134,6 +138,7 @@ public class DBPortal {
      * @param  availability  is of the entity object "Availability" and is the object that will be created in the DB.
      */
     public void createAvailability(Availability availability){
+        factoryObj.validator.validate(availability);
         Session session = factory.getCurrentSession();
         session.beginTransaction();
         session.save(availability);

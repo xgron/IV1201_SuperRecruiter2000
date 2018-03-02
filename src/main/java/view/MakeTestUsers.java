@@ -10,10 +10,8 @@ import shared.PersonDTO;
 import java.util.Arrays;
 import java.util.List;
 
-public class TESTER_View {
+public class MakeTestUsers {
     public static void main(String[] args) {
-
-        System.out.println("Testing...");
         HomeController hc = new HomeController();
 
 
