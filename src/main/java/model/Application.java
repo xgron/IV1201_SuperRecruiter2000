@@ -80,8 +80,7 @@ public class Application {
     @Transactional
     public boolean evaluateApplication(String applicantID, boolean evaluation, String recruiterID) throws ErrorHandling.CommonException {
         try{
-            List<Person> person = portal.getPersonWithUserID(applicantID);
-            if(applicantID.length() != 25 || recruiterID.length() != 25 || person.isEmpty() || portal.getPersonWithUserID(recruiterID).isEmpty())
+            if(applicantID.length() != 25 || recruiterID.length() != 25 || portal.getPersonWithUserID(applicantID).isEmpty() || portal.getPersonWithUserID(recruiterID).isEmpty())
                 throw new ErrorHandling.CommonException(ErrorMessages.INVALID_USERID_MESSAGE.getErrorMessage());
             else if(!portal.getPersonWithUserID(recruiterID).get(0).getRole().getName().equals("recruit")){
                 throw new ErrorHandling.CommonException(ErrorMessages.AUTHORIZATION_MESSAGE.getErrorMessage());
@@ -90,6 +89,7 @@ public class Application {
             /*else if(TransactionSynchronizationManager.isActualTransactionActive() && TransactionSynchronizationManager.getCurrentTransactionName()==applicantID)
                 throw new ErrorHandling.EvaluateApplicationException("This application is currently being evaluated by someone else!");*/
             else{
+                List<Person> person = portal.getPersonWithUserID(applicantID);
                 Person applicant = person.get(0);
 
                 /*TransactionSynchronizationManager.initSynchronization();
@@ -102,10 +102,10 @@ public class Application {
                 //TransactionSynchronizationManager.clear();
                 return true;
                 }
-        }catch (Exception e) {
-            LOG.info("Exception in integration layer: " + e);
+        }catch (ErrorHandling.CommonException e) {
+            LOG.info("" + e);
+            throw e;
         }
-        return false;
     }
     /**
      * This method enters the entire ExperienceDTO-list into the availability table in the DB
