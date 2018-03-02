@@ -70,7 +70,7 @@ public class Application {
     }
 
     /**
-     * This method will set the status of a specific application to true or false.
+     * This method will set the status of a specific application to true or false(hired or declined).
      * @param applicantID the userID of the applicant
      * @param evaluation true or false, if the user is accepted or not
      * @param recruiterID the userID of the recruiter
@@ -109,6 +109,14 @@ public class Application {
      * This method enters the entire ExperienceDTO-list into the availability table in the DB
      * @param  userID     the current user
      * @param  experiences  a list with Experience DTO objects
+     */
+
+    /**
+     *  This method is called to update the competences of an application.
+     *
+     * @param   userID  userID of the owner of the application
+     * @param   experiences a list of experiences
+     *
      */
     public void competenceListToDB(String userID, List<ExperienceDTO> experiences){
         try{
@@ -322,7 +330,7 @@ public class Application {
                         experienceDTOList,
                         availabilities
                 );
-            
+
             LOG.log(Level.INFO, "Applicant: " + p.getName() + " " + p.getSurname() +" fetched.");
             return applicant;
 

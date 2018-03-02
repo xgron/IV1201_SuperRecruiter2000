@@ -26,7 +26,7 @@ public class TESTER_Model {
         System.out.println("Object created: " + application);
         try {
             model.application.registerApplication(application);
-        } catch (ErrorHandling.RegisterApplicationException rue) {
+        } catch (ErrorHandling.CommonException rue) {
             //TO DO
             System.out.print("Application failed to register. Cause: ");
             System.out.println(rue.getMessage());
