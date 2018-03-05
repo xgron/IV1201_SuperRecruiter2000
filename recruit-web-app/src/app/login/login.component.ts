@@ -26,7 +26,6 @@ export class LoginComponent implements OnInit {
    .subscribe(result => {
      if(result === true){
       let data = JSON.parse(localStorage.getItem('currentUser'));
-      console.log(data.role);
        if(data.role === "applicant") {
         this.router.navigate(["userpage"]);
       }else {
@@ -36,9 +35,9 @@ export class LoginComponent implements OnInit {
      }
      else {
        this.error = "Incorrect login detail";
-       console.log("wrong");
      }
-   });
+   },
+  (error: string) => this.error = error);
 }
 
 }

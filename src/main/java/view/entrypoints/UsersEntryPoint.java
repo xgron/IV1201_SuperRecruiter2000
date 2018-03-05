@@ -193,28 +193,7 @@ public class    UsersEntryPoint {
         return requestObject;
     }
 
-    @POST
-    @Path("/jwtout")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response jwtTry(PersonDTO person) {
-        PersonDTO ptry = new PersonDTO();
-        ptry.setFirstName("Bo");
-        System.out.println(person.getFirstName());
-        String token = jwtBuilder(person.getFirstName());
-        return Response.ok().header(AUTHORIZATION, "Bearer " + token).entity(ptry).build();
-    }
-
-    @POST
-    @Path("/jwt")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Secured
-    public Response jwt(LoginDTO lgn) {
-        PersonDTO ptry = new PersonDTO();
-        ptry.setFirstName("Bo");
-        return Response.ok().entity(ptry).build();
-    }
-
+    
 
 
     //JAVADOC TO DO
