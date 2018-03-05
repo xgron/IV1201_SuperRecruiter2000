@@ -1,2 +1,34 @@
-    <h3>{{ users.name }} </h3>
+<div class="container">
+    <div class="row">
+
+        <h2>Your application:</h2>
+        <div class="list-group-item considering col-xs-12 col-sm-10 col-md-8">
+            <h3>{{ users.name }} {{users.surname}}</h3>
+
+            <hr>
+
+            <p>Application status: {{ users.hired }} </p>
+            <p>Date of registration: {{users.registrationdate}} </p>
+
+            <br>
+
+            <div class="row">
+
+                <div class="col-xs-6">
+                    <h4>Experiences:</h4>
+                    <ul *ngFor="let exp of users.experiences">
+                        <li>{{ exp.name }} :  {{exp.years }} years</li>  
+                    </ul>
+                </div>
+
+                <div class="col-xs-6">
+                    <h4>Available:</h4>
+                    <ul *ngFor="let avail of users.availabilities">
+                        {{ avail.start }} to {{ avail.end }}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 

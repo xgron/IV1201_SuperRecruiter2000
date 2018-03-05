@@ -219,7 +219,10 @@ public class Application {
 
     }
 
-    //JAVADOC TO DO
+    /**
+     * Fetches a list of all the applicants from the DB.
+     * @return a list of PublicApplicationDTOs
+     */
     public List<PublicApplicationDTO> getApplicants(){
         try{
         List<PublicApplicationDTO> applicationList = new ArrayList<PublicApplicationDTO>();
@@ -291,6 +294,11 @@ public class Application {
         return null;
     }
 
+    /**
+     * Fetches a specific applicant from the DB using the userID
+     * @param userID the specicict applicants userID
+     * @return a PublicApplicationDTO of the user with the userID entered
+     */
     public PublicApplicationDTO getApplicant(String userID){
         try{
             PublicApplicationDTO applicant = new PublicApplicationDTO();
