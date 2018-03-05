@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { Http, Response } from '@angular/http';
+import { Observable } from 'rxjs/Rx'
 import 'rxjs/Rx';
 
 @Injectable()
@@ -35,6 +36,9 @@ export class AuthenticationService {
                  }else {
                      return false;
                  }
+        }).catch((error: any) => {
+            let body = error.text();
+            return Observable.throw(new Error(body));    
         });
 
     }
