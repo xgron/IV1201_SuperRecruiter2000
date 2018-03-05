@@ -67,6 +67,8 @@ public class    UsersEntryPoint {
         }catch (ErrorHandling.CommonException rue){
             //TO DO
             System.out.println("USER REGISTER EXCEPTION.");
+        }catch (Exception e){
+            System.out.println("Exception: " + e.getMessage());
         }
 
 
@@ -84,8 +86,6 @@ public class    UsersEntryPoint {
         try{
             returnvalue = hc.AuthenticateUser(loginDetails);
         }catch (ErrorHandling.CommonException e){
-            //TO DO
-            System.out.println("USER REGISTER EXCEPTION.");
             return Response.serverError().entity(e.getMessage()).build();
         }
         String token = jwtBuilder(returnvalue.getUserId());
@@ -120,18 +120,14 @@ public class    UsersEntryPoint {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response changeApplicationStatus(EvaluationDTO evaluationDTO, @PathParam("id") String id) {
-        System.out.println(id);
-        System.out.println(evaluationDTO.getRecruiterID());
         boolean evaluation = Boolean.parseBoolean(evaluationDTO.getEval());
-        System.out.println("This is the evaluation " + evaluation);
-        System.out.println(evaluationDTO.getEval());
         HomeController hc = new HomeController();
         try {
             Boolean result = hc.evaluateApplication(id, evaluation, evaluationDTO.getRecruiterID());
-            System.out.println(result);
         }
         catch (ErrorHandling.CommonException e){
-            System.out.println("I error handling");
+            return Response.serverError().entity(e.getMessage()).build();
+        }catch (Exception e){
             return Response.serverError().entity(e.getMessage()).build();
         }
 
@@ -182,13 +178,9 @@ public class    UsersEntryPoint {
        try{
 
            hc.registerApplication(requestObject);
-        }catch (ErrorHandling.CommonException rae){
-            //TO DO
-            System.out.println("RU EXCEPTION");
-        }
-
-
-        System.out.println(requestObject);
+       }catch (ErrorHandling.CommonException rae){
+           System.out.println(rae.getMessage());
+       }
 
         return requestObject;
     }
