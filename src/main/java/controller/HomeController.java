@@ -92,7 +92,13 @@ public class HomeController {
      * @return  PublicApplicationDTO List (Contains all the info of both the application and applicant)
      */
     public List<PublicApplicationDTO> getApplicants(String recruiterID) {
-        return model.application.getApplicants(recruiterID);
+        try {
+            return model.application.getApplicants(recruiterID);
+        }
+        catch (ErrorHandling.CommonException e) {
+
+        }
+        return null;
     }
 
     /**
