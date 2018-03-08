@@ -43,6 +43,15 @@ export class AuthenticationService {
 
     }
 
+    loggedInUser(){
+        if(JSON.parse(localStorage.getItem('currentUser')) != null){
+          return true;
+        }
+        else {
+          return false;
+        }
+      }
+
     logout(): void {
         // clear token remove user from local storage to log user out
         this.token = null;
