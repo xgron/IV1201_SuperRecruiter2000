@@ -223,74 +223,76 @@ public class Application {
      * Fetches a list of all the applicants from the DB.
      * @return a list of PublicApplicationDTOs
      */
-    public List<PublicApplicationDTO> getApplicants(){
+  public List<PublicApplicationDTO> getApplicants(String recruiterID) throws ErrorHandling.CommonException{
+        if(portal.getPersonWithUserID(recruiterID).get(0).getRole().getName().equals("recruit"))
         try{
-        List<PublicApplicationDTO> applicationList = new ArrayList<PublicApplicationDTO>();
-        List<Person> personList = portal.getPersonWithRole("applicant");
-        for(Person p : personList){
-            if(p.getAvailabilities().isEmpty() || p.getExperiences().isEmpty()){
-                continue;
-            }
-            String hired;
-            if(p.getHired() == null){
-                if(swedish){
-                    hired = "Under övervägande";
-                }else{
-                    hired = "Under consideration";
-                }
-            }else if(p.getHired() == false){
-                if(swedish){
-                    hired = "Avböjd";
-                }else{
-                    hired = "Declined";
-                }
-            }else{
-                if(swedish){
-                    hired = "Accepterad";
-                }else{
-                    hired = "Accepted";
-                }
-            }
+                List<PublicApplicationDTO> applicationList = new ArrayList<PublicApplicationDTO>();
+                List<Person> personList = portal.getPersonWithRole("applicant");
+                for (Person p : personList) {
+                    if (p.getAvailabilities().isEmpty() || p.getExperiences().isEmpty()) {
+                        continue;
+                    }
+                    String hired;
+                    if (p.getHired() == null) {
+                        if (swedish) {
+                            hired = "Under övervägande";
+                        } else {
+                            hired = "Under consideration";
+                        }
+                    } else if (p.getHired() == false) {
+                        if (swedish) {
+                            hired = "Avböjd";
+                        } else {
+                            hired = "Declined";
+                        }
+                    } else {
+                        if (swedish) {
+                            hired = "Accepterad";
+                        } else {
+                            hired = "Accepted";
+                        }
+                    }
 
-            List<ExperienceDTO> experienceDTOList = new ArrayList<ExperienceDTO>();
-            for(Experience experience : p.getExperiences()){
-                String competenceName;
-                if(swedish){
-                    competenceName = experience.getCompetence().getNameSv();
-                }else {
-                    competenceName = experience.getCompetence().getName();
+                    List<ExperienceDTO> experienceDTOList = new ArrayList<ExperienceDTO>();
+                    for (Experience experience : p.getExperiences()) {
+                        String competenceName;
+                        if (swedish) {
+                            competenceName = experience.getCompetence().getNameSv();
+                        } else {
+                            competenceName = experience.getCompetence().getName();
+                        }
+                        ExperienceDTO experienceDTO = new ExperienceDTO(competenceName,
+                                experience.getYears());
+                        experienceDTOList.add(experienceDTO);
+                    }
+
+                    List<DateDTO> availabilities = new ArrayList<DateDTO>();
+                    for (Availability availability : p.getAvailabilities()) {
+                        DateDTO dateDTO = new DateDTO(availability.getStartDate().toString(),
+                                availability.getEndDate().toString());
+                        availabilities.add(dateDTO);
+                    }
+
+                    PublicApplicationDTO tempPA = new PublicApplicationDTO(
+                            p.getUserID(),
+                            p.getName(),
+                            p.getSurname(),
+                            p.getSsn(),
+                            p.getEmail(),
+                            hired,
+                            p.getRegistrationdate(),
+                            experienceDTOList,
+                            availabilities
+                    );
+                    applicationList.add(tempPA);
                 }
-                ExperienceDTO experienceDTO = new ExperienceDTO(competenceName,
-                        experience.getYears());
-                experienceDTOList.add(experienceDTO);
-            }
-
-            List<DateDTO> availabilities = new ArrayList<DateDTO>();
-            for(Availability availability : p.getAvailabilities()){
-                DateDTO dateDTO = new DateDTO(availability.getStartDate().toString(),
-                        availability.getEndDate().toString());
-                availabilities.add(dateDTO);
-            }
-
-            PublicApplicationDTO tempPA = new PublicApplicationDTO(
-                    p.getUserID(),
-                    p.getName(),
-                    p.getSurname(),
-                    p.getSsn(),
-                    p.getEmail(),
-                    hired,
-                    p.getRegistrationdate(),
-                    experienceDTOList,
-                    availabilities
-            );
-            applicationList.add(tempPA);
-        }
-        LOG.log(Level.INFO, "All applicants fetched.");
-        return applicationList;
-
+                LOG.log(Level.INFO, "All applicants fetched.");
+                return applicationList;
         }catch (Exception e) {
             LOG.info("Exception in integration layer: " + e);
         }
+        else
+            throw new ErrorHandling.CommonException(ErrorMessages.AUTHORIZATION_MESSAGE.getErrorMessage());
         return null;
     }
 
