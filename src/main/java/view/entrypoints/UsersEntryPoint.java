@@ -67,6 +67,8 @@ public class    UsersEntryPoint {
         }catch (ErrorHandling.CommonException rue){
             //TO DO
             System.out.println("USER REGISTER EXCEPTION.");
+        }catch (Exception e){
+            System.out.println("Exception: " + e.getMessage());
         }
 
 
@@ -84,8 +86,6 @@ public class    UsersEntryPoint {
         try{
             returnvalue = hc.AuthenticateUser(loginDetails);
         }catch (ErrorHandling.CommonException e){
-            //TO DO
-            System.out.println("USER REGISTER EXCEPTION.");
             return Response.serverError().entity(e.getMessage()).build();
         }
         String token = jwtBuilder(returnvalue.getUserId());
@@ -120,10 +120,17 @@ public class    UsersEntryPoint {
     @Path("/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     public Response changeApplicationStatus(EvaluationDTO evaluationDTO, @PathParam("id") String id) {
-        System.out.println(id);
-        System.out.println(evaluationDTO.getRecruiterID());
-        System.out.println(evaluationDTO.isEvaluation());
+        boolean evaluation = Boolean.parseBoolean(evaluationDTO.getEval());
         HomeController hc = new HomeController();
+        try {
+            Boolean result = hc.evaluateApplication(id, evaluation, evaluationDTO.getRecruiterID());
+        }
+        catch (ErrorHandling.CommonException e){
+            return Response.serverError().entity(e.getMessage()).build();
+        }catch (Exception e){
+            return Response.serverError().entity(e.getMessage()).build();
+        }
+
         return Response.ok().build();
     }
 
@@ -141,8 +148,10 @@ public class    UsersEntryPoint {
     @Produces(MediaType.APPLICATION_JSON)
     public List<AppRest> getApplicants(@DefaultValue("0") @QueryParam("start") int start,
                                                  @DefaultValue("1000")@QueryParam("limit") int limit) {
+        System.out.println("Börjar hämta..");
         HomeController hc = new HomeController();
         List<PublicApplicationDTO> paDTO = hc.getApplicants();
+        System.out.println("Hämtat applkationer");
         ConversionService cconversion = new ConversionService();
         List<AppRest> returnValue = cconversion.convertApplication(paDTO);
         return returnValue;
@@ -169,39 +178,14 @@ public class    UsersEntryPoint {
        try{
 
            hc.registerApplication(requestObject);
-        }catch (ErrorHandling.CommonException rae){
-            //TO DO
-            System.out.println("RU EXCEPTION");
-        }
-
-
-        System.out.println(requestObject);
+       }catch (ErrorHandling.CommonException rae){
+           System.out.println(rae.getMessage());
+       }
 
         return requestObject;
     }
 
-    @POST
-    @Path("/jwtout")
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response jwtTry(PersonDTO person) {
-        PersonDTO ptry = new PersonDTO();
-        ptry.setFirstName("Bo");
-        System.out.println(person.getFirstName());
-        String token = jwtBuilder(person.getFirstName());
-        return Response.ok().header(AUTHORIZATION, "Bearer " + token).entity(ptry).build();
-    }
-
-    @POST
-    @Path("/jwt")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Secured
-    public Response jwt(LoginDTO lgn) {
-        PersonDTO ptry = new PersonDTO();
-        ptry.setFirstName("Bo");
-        return Response.ok().entity(ptry).build();
-    }
-
+    
 
 
     //JAVADOC TO DO

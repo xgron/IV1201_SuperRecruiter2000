@@ -8,7 +8,8 @@ public enum ErrorMessages {
     INVALID_PASSWORD_MESSAGE("Invalid password!"),
     EXISTING_SSN_MESSAGE("SSN already exists!"),
     EXISTING_USERNAME_MESSAGE("Username already exists!"),
-    AUTHORIZATION_MESSAGE("Unauthorized Request!");
+    AUTHORIZATION_MESSAGE("Unauthorized Request!"),
+    OTHER_MESSAGE("Something went wrong. Please try again");
 
 
 

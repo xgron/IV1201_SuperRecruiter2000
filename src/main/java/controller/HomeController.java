@@ -3,16 +3,16 @@ package controller;
 
 import model.ErrorHandling;
 import org.springframework.stereotype.Controller;
-import shared.ApplicationDTO;
-import shared.LoginDTO;
-import shared.PersonDTO;
-import shared.PublicApplicationDTO;
+import shared.*;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 @Controller
 public class HomeController {
     public model.Model model = new model.Model();
+
+    private final static Logger LOG = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
 
     /**
      *  This method is called from the View layer when someone is trying to register a new user.
@@ -24,7 +24,12 @@ public class HomeController {
      * @return  user    The Registered User.
      */
     public PersonDTO registerUser(PersonDTO person) throws ErrorHandling.CommonException {
-        return model.user.registerUser(person);
+        try {
+            return model.user.registerUser(person);
+        }catch (Exception e) {
+            LOG.info("" + e);
+            throw new ErrorHandling.CommonException(ErrorMessages.OTHER_MESSAGE.getErrorMessage());
+        }
     }
     /**
      *  This method is called from the View layer when a user is trying to register their job application.
@@ -36,7 +41,13 @@ public class HomeController {
      * @return  check    boolean, It throws an exception if error
      */
     public boolean registerApplication(ApplicationDTO application) throws ErrorHandling.CommonException {
-        return model.application.registerApplication(application);
+        try{
+            return model.application.registerApplication(application);
+        }catch (Exception e) {
+            LOG.info("" + e);
+            throw new ErrorHandling.CommonException(ErrorMessages.OTHER_MESSAGE.getErrorMessage());
+        }
+
     }
 
     /**
@@ -49,7 +60,12 @@ public class HomeController {
      * @return  userID    the UserID.
      */
     public boolean evaluateApplication(String applicantID, boolean evaluation, String recruiterID) throws ErrorHandling.CommonException{
-        return model.application.evaluateApplication(applicantID, evaluation, recruiterID);
+        try {
+            return model.application.evaluateApplication(applicantID, evaluation, recruiterID);
+        }catch (Exception e) {
+            LOG.info("" + e);
+            throw new ErrorHandling.CommonException(ErrorMessages.OTHER_MESSAGE.getErrorMessage());
+        }
     }
 
     /**

@@ -11,12 +11,12 @@ import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.Random;
 
-class Thread extends java.lang.Thread {
+class StressThread extends java.lang.Thread {
 
     public String threadName = "";
 
 
-    Thread(String name) {
+    StressThread(String name) {
         threadName = name;
         //System.out.println("Creating " +  threadName );
     }
@@ -31,7 +31,7 @@ class Thread extends java.lang.Thread {
         }catch (Exception e) {
             System.out.println("Something went wrong... " + e.getMessage());
         }
-        //System.out.println("Thread " +  threadName + " exiting.");
+        //System.out.println("StressThread " +  threadName + " exiting.");
     }
 
     public void testApplicants(int runs, String ip) throws Exception{

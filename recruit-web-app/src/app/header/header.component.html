@@ -20,7 +20,9 @@
         
         <ul class="nav navbar-nav navbar-right">
             <li><a routerLink="/home">Home </a></li>
-          <li><a routerLink="/login">Login</a></li>
+          <li><a *ngIf="!loggedInUser()" routerLink="/login">Login</a></li>
+          <li *ngIf="loggedInUser()" (click)="logOutUser()"><a (click)="logOutUser()">Log out</a></li>
+          
          
         </ul>
       </div><!-- /.navbar-collapse -->
