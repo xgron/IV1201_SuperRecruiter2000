@@ -69,11 +69,8 @@ public class User {
 
                  personDTO.setPassword(BCrypt.hashpw(personDTO.getPassword(), BCrypt.gensalt()));
 
-                 // FOR TESTING BELOW IS REPLACED WITH "ABCDEFGHIJKLM"
                  personDTO.setUserId(generateUserID());
-
-                 //portal.registerUser(person);
-                 // REPLACED BY:
+                 
                  int ssn = Integer.parseInt(personDTO.getSsn());
                  String name = personDTO.getFirstName();
                  String surname = personDTO.getSurname();
