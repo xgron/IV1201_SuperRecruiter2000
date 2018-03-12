@@ -13,7 +13,7 @@ import java.io.FileOutputStream;
 import java.util.List;
 
 public class ApplicationsToPDF {
-    public static void main(String[] args) {
+ /*   public static void main(String[] args) {
         HomeController hc = new HomeController();
 
         Document document = new Document();
@@ -67,4 +67,5 @@ public class ApplicationsToPDF {
             e.printStackTrace();
         }
     }
+    */
 }

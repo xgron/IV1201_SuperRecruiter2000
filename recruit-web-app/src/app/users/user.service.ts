@@ -9,7 +9,12 @@ export class UserService {
     baseurl: "http://localhost:8080/api/users/";
 
     getUsers() {
-        return this.http.get('http://localhost:8080/api/users')
+        let headers = new Headers();
+            headers.append('Content-Type', 'application/json');
+            let data = JSON.parse(localStorage.getItem('currentUser'));
+            headers.append('AUTHORIZATION', `Bearer ` + data.token);
+            let options = new RequestOptions({ headers: headers });
+        return this.http.get('http://localhost:8080/api/users', options)
         .map(
             (response: Response)=> {
                 const data = response.json();

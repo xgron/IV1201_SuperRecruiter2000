@@ -49,6 +49,8 @@ public class standalone {
         URL url = new URL("http://" + ip + ":8080/api/users");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
+        conn.setRequestProperty ("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwdHRoenN5bXVoc2xxc3BnZW95Z3ljaGVuIn0.5zLmmLYZUVYVm1_-5Xn-Hs_8BqgTVuTi_grr90faGzN-Posfhp7odJY1DHgsy5DUXNibVFPlaKuNqUI3rX-ZyQ");
+
         BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String line;
         while ((line = rd.readLine()) != null) {

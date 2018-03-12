@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.Random;
 
 class StressThread extends java.lang.Thread {
@@ -24,10 +25,23 @@ class StressThread extends java.lang.Thread {
     public void run() {
         //System.out.println("Running " +  threadName );
         try {
-            String ip = "130.229.136.157";
+            String ip = "192.168.1.185";
 
             testApplicants(5, ip);
+            testApplicants(25, ip);
+            testApplicants(50, ip);
+            testApplicants(75, ip);
+            testApplicants(100, ip);
+            testApplicants(150, ip);
+            testApplicants(200, ip);
+
             testRegister(5, ip);
+            testRegister(25, ip);
+            testRegister(50, ip);
+            testRegister(75, ip);
+            testRegister(100, ip);
+            testRegister(150, ip);
+            testRegister(200, ip);
         }catch (Exception e) {
             System.out.println("Something went wrong... " + e.getMessage());
         }
@@ -35,46 +49,67 @@ class StressThread extends java.lang.Thread {
     }
 
     public void testApplicants(int runs, String ip) throws Exception{
-        long startTime = System.currentTimeMillis();
-        long stopTime;
-        long elapsedTime;
+        long[] time = new long[runs];
 
         for(int i = 0; i < runs; i++){
             try{
+                long startTime = System.currentTimeMillis();
+                long stopTime;
+                long elapsedTime;
                 getApplicants(ip);
+                stopTime = System.currentTimeMillis();
+                elapsedTime = stopTime - startTime;
+                time[i] = elapsedTime;
             }catch (Exception e){
                 throw e;
             }
-
         }
-        stopTime = System.currentTimeMillis();
-        elapsedTime = stopTime - startTime;
-        System.out.println(threadName + " -> " + elapsedTime + " ms to fetch applications " + runs + " time(s)");
+        System.out.print(threadName + "->fetch: ");
+        printArrayInfo(time);
     }
 
     private void testRegister(int runs, String ip) throws Exception{
-        RandomString rs = new RandomString();
-        Random rnd = new Random();
-        long startTime = System.currentTimeMillis();
+        long[] time = new long[runs];
 
         for(int i = 0; i < runs; i++){
             try{
+                RandomString rs = new RandomString();
+                Random rnd = new Random();
                 String firstname = rs.nextString();
                 String surname = rs.nextString();
                 String email = rs.nextString()+ "@mail.com";
                 String password = rs.nextString();
                 String userName = rs.nextString();
                 String ssn = Integer.toString(100000 + rnd.nextInt(900000));
+
+
+                long startTime = System.currentTimeMillis();
                 registerUser(ip, firstname, surname, email, password, userName, ssn);
+                long stopTime = System.currentTimeMillis();
+                long elapsedTime = stopTime - startTime;
+                time[i] = elapsedTime;
+
             }catch (Exception e){
                 throw e;
             }
-
         }
+        System.out.print(threadName + "->register: ");
+        printArrayInfo(time);
+    }
 
-        long stopTime = System.currentTimeMillis();
-        long elapsedTime = stopTime - startTime;
-        System.out.println(threadName + " -> " + elapsedTime + " ms to register " + runs + " user(s)");
+    private static void printArrayInfo(long[] array){
+        long max = array[0];
+        long min = array[0];
+        long tot = 0;
+        for(int i = 0; i < array.length; i++){
+            long current = array[i];
+            tot = tot + current;
+            if(min > current)   min = current;
+            if(max < current)   max = current;
+        }
+        long avg = tot / array.length;
+
+        System.out.println("runs#: " + array.length + ", min: " + min + ", max: " + max + ", total: " + tot + ", average: " + avg);
     }
 
     private static void getApplicants(String ip) throws Exception {
@@ -83,6 +118,8 @@ class StressThread extends java.lang.Thread {
         URL url = new URL("http://" + ip + ":8080/api/users");
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("GET");
+        conn.setRequestProperty ("Authorization", "Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJwdHRoenN5bXVoc2xxc3BnZW95Z3ljaGVuIn0.5zLmmLYZUVYVm1_-5Xn-Hs_8BqgTVuTi_grr90faGzN-Posfhp7odJY1DHgsy5DUXNibVFPlaKuNqUI3rX-ZyQ");
+
         BufferedReader rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
         String line;
         while ((line = rd.readLine()) != null) {
@@ -121,7 +158,6 @@ class StressThread extends java.lang.Thread {
             StringBuilder sb = new StringBuilder();
             String line;
             while ((line = reader.readLine()) != null) {
-                //System.out.println("Response: " + line);
                 sb.append(line);
             }
             String getResponseString = "";

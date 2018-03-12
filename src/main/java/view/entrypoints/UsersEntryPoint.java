@@ -36,6 +36,7 @@ import static javax.ws.rs.core.HttpHeaders.AUTHORIZATION;
 @Path("/users")
 public class    UsersEntryPoint {
     private static final String SIGNING_KEY = "secretsigningkey";
+    private static final String AUTHENTICATION_SCHEME = "Bearer";
 
 
 
@@ -146,11 +147,12 @@ public class    UsersEntryPoint {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<AppRest> getApplicants(@DefaultValue("0") @QueryParam("start") int start,
+    public List<AppRest> getApplicants(@HeaderParam("AUTHORIZATION") String token,
+                                       @DefaultValue("0") @QueryParam("start") int start,
                                                  @DefaultValue("1000")@QueryParam("limit") int limit) {
-        System.out.println("Börjar hämta..");
         HomeController hc = new HomeController();
-        List<PublicApplicationDTO> paDTO = hc.getApplicants();
+        String recruiterID = extractUserId(token);
+        List<PublicApplicationDTO> paDTO = hc.getApplicants(recruiterID);
         System.out.println("Hämtat applkationer");
         ConversionService cconversion = new ConversionService();
         List<AppRest> returnValue = cconversion.convertApplication(paDTO);
@@ -185,7 +187,12 @@ public class    UsersEntryPoint {
         return requestObject;
     }
 
-    
+    private String extractUserId(String token) {
+        token = token
+                .substring(AUTHENTICATION_SCHEME.length()).trim();
+        String userID = Jwts.parser().setSigningKey(SIGNING_KEY).parseClaimsJws(token).getBody().getSubject();
+        return userID;
+    }
 
 
     //JAVADOC TO DO
